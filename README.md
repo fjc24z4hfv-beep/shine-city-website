@@ -5,7 +5,6 @@ Static site for Shine City Paver Sealing & Exterior Cleaning, published with Git
 - `/` — short placeholder while the full website is in progress
 - `/review/` — landing page that sends visitors to leave a Google review
 
-Expected live URLs once Pages is serving this branch:
+Live URL: https://shinecitypaversealing.com/review/
 
-- https://fjc24z4hfv-beep.github.io/shine-city-website/
-- https://fjc24z4hfv-beep.github.io/shine-city-website/review/
+The custom domain `shinecitypaversealing.com` is set in the root `CNAME` file. GitHub Pages also serves the site at https://fjc24z4hfv-beep.github.io/shine-city-website/.
