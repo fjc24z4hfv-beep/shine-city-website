@@ -24,15 +24,22 @@ The visible price lines in the HTML are a no-JavaScript fallback. If the rates c
 
 ## Pages
 
-- `/` home
-- `/paver-sealing/` paver sealing and the square-foot estimate
+- `/` home, with paver sealing prices in the hero
+- `/paver-sealing/` prices, the square-foot estimate, First Seal, and stripping
+- `/gallery/` cleaning photos (prep for sealing, not sealed finishes)
 - `/first-seal/` First Seal Program
 - `/sealer-stripping/` stripping and resealing
-- `/pressure-washing/` house washing and pressure washing
+- `/pressure-washing/` also offered: house washing and pressure washing
 - `/service-area/` Orange County and Brevard County
 - `/about/`
 - `/contact/` free quote
 - `/review/` Google review landing page (leave its review link as it is)
 - `404.html` unknown URLs
+
+Job photos live in `images/gallery/` with `manifest.json`. The gallery opens on paver, walkway, and pool deck cleaning. House washing and other cleaning are behind the later filters. Captions may name Orlando, East Orlando, or Titusville. Do not add street names or house numbers.
+
+There are no sealed before/after photos yet. The “Coming soon: before / after cleaning / after sealing” frames on the paver sealing page and the gallery are the drop-in for the next job: three images, in that order. Do not label a cleaning photo as sealer.
+
+About has a hidden spot for a photo of Nick or the truck, and a hidden spot for a short video. Leave both hidden until the real file or URL exists. Do not add stock photos or sample reviews.
 
 `sitemap.xml`, `robots.txt`, `CNAME`, and `.nojekyll` stay at the repo root.
