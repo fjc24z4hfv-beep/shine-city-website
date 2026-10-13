@@ -29,14 +29,17 @@ The visible price lines in the HTML are a no-JavaScript fallback. If the rates c
 - `/gallery/` cleaning photos (prep for sealing, not sealed finishes)
 - `/first-seal/` First Seal Program
 - `/sealer-stripping/` stripping and resealing
-- `/pressure-washing/` also offered: house washing and pressure washing
+- `/soft-washing/` soft washing for stucco, siding, and stone veneer
+- `/pressure-washing/` pressure washing for concrete and screen enclosures
 - `/service-area/` Orange County and Brevard County
 - `/about/`
 - `/contact/` free quote
 - `/review/` Google review landing page (leave its review link as it is)
 - `404.html` unknown URLs
 
-Job photos live in `images/gallery/` with `manifest.json`. The gallery opens on paver, walkway, and pool deck cleaning. House washing and other cleaning are behind the later filters. Captions may name Orlando, East Orlando, or Titusville. Do not add street names or house numbers.
+Job photos live in `images/gallery/` with `manifest.json`. The gallery opens on paver, walkway, and pool deck cleaning. Soft washing and pressure washing have their own filters. Captions may name Orlando, East Orlando, or Titusville. Do not add street names or house numbers.
+
+The homepage video under the pricing hero stays a placeholder until `processVideo.src` (or `processVideo.youtubeId`) is set in `js/site-config.js`. Do not invent a video file.
 
 There are no sealed before/after photos yet. The “Coming soon: before / after cleaning / after sealing” frames on the paver sealing page and the gallery are the drop-in for the next job: three images, in that order. Do not label a cleaning photo as sealer.
 

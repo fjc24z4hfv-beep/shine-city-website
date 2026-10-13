@@ -24,13 +24,28 @@
     { id: "paver/driveway cleaning", label: "Driveways" },
     { id: "walkway/sidewalk", label: "Walkways" },
     { id: "pool deck", label: "Pool decks" },
+    { id: "soft", label: "Soft washing" },
+    { id: "pressure", label: "Pressure washing" },
     { id: "all", label: "All photos" },
-    { id: "_later", label: "Other cleaning" },
     { id: "screen enclosure", label: "Screen enclosures" },
-    { id: "house soft wash", label: "House washing" },
     { id: "stone veneer", label: "Stone veneer" },
     { id: "patio furniture", label: "Patio furniture" }
   ];
+  var SOFT_SERVICES = { "house soft wash": true, "stone veneer": true };
+  var PRESSURE_SERVICES = { "screen enclosure": true };
+  var PRESSURE_JOBS = {
+    "driveway-surface-cleaner": true,
+    "east-orlando-driveway-2": true,
+    "east-orlando-driveway-cleaning": true,
+    "orlando-circular-driveway": true,
+    "orlando-driveway-3": true,
+    "orlando-curved-walkway": true,
+    "orlando-front-walk-garden": true,
+    "orlando-sidewalk-half-cleaned": true,
+    "orlando-sidewalk-surface-cleaner": true,
+    "titusville-driveway-4": true,
+    "titusville-long-driveway": true
+  };
   var SERVICE_RANK = {
     "paver/driveway cleaning": 1,
     "walkway/sidewalk": 2,
@@ -79,11 +94,7 @@
   }
 
   function caption(group) {
-    var city = group.city ? group.city + ". " : "";
-    if (PAVER_SURFACES[group.service]) {
-      return city + "Cleaning before the seal. Not a sealed finish.";
-    }
-    return city + "Cleaning result. Not sealed, and not a paver sealing photo.";
+    return group.city ? group.city + "." : "";
   }
 
   function shotButton(item) {
@@ -130,6 +141,7 @@
         before: before,
         after: after,
         service: list[0].service,
+        job: list[0].job || "",
         city: city
       };
     }).sort(function (a, b) {
@@ -146,7 +158,7 @@
     var cap = esc(caption(group));
     if (before && after && !useSplit(group.id, before, after)) {
       var maxw = Math.min(before.width, after.width, 600);
-      return '<figure class="pair pair--slider" data-service="' + esc(group.service) + '">' +
+      return '<figure class="pair pair--slider" data-service="' + esc(group.service) + '" data-job="' + esc(group.job) + '">' +
         '<div class="compare" style="--pos:50%;--w:' + after.width + ";--h:" + after.height +
         ";max-width:min(100%," + maxw + 'px)">' +
         '<img class="compare__after" src="' + esc(BASE + after.thumbnail) + '" alt="' + esc(after.alt) +
@@ -164,30 +176,35 @@
       ? " Shown side by side because the angles differ."
       : "";
     var native = group.service === "pool deck" ? " pair--native" : "";
-    return '<figure class="pair pair--split' + native + '" data-service="' + esc(group.service) + '">' +
+    return '<figure class="pair pair--split' + native + '" data-service="' + esc(group.service) + '" data-job="' + esc(group.job) + '">' +
       '<div class="pair__grid">' + buttons + "</div><figcaption>" + cap + esc(angle) + "</figcaption></figure>";
   }
 
-  function matches(service) {
+  function matches(service, job) {
     if (activeFilter === "all") return true;
     if (activeFilter === "pavers") return !!PAVER_SURFACES[service];
+    if (activeFilter === "soft") return !!SOFT_SERVICES[service];
+    if (activeFilter === "pressure") return !!PRESSURE_SERVICES[service] || !!PRESSURE_JOBS[job];
     return service === activeFilter;
   }
 
   function applyFilter(root, status) {
     var shown = 0;
     Array.prototype.forEach.call(root.querySelectorAll(".pair"), function (pair) {
-      var on = matches(pair.getAttribute("data-service"));
+      var on = matches(pair.getAttribute("data-service"), pair.getAttribute("data-job"));
       pair.hidden = !on;
       if (on) shown += 1;
     });
     if (status) {
-      var label = "these photos";
+      var label = "photos";
       FILTERS.forEach(function (filter) {
         if (filter.id === activeFilter) label = filter.label.toLowerCase();
       });
+      var phrase = activeFilter === "pavers"
+        ? "paver, walkway, and pool deck photos"
+        : (activeFilter === "soft" || activeFilter === "pressure" ? label + " photos" : label);
       status.textContent = shown
-        ? "Showing " + shown + " " + (activeFilter === "pavers" ? "paver, walkway, and pool deck photos" : label) + ". Cleaning only. Not sealed."
+        ? "Showing " + shown + " " + phrase + ". Cleaning step, before sealing."
         : "No photos in this filter.";
     }
   }

@@ -29,6 +29,19 @@ var SHINE_CITY = {
   regionPhrase: "Orlando & the Space Coast",
   reviewUrl: "https://search.google.com/local/writereview?placeid=ChIJhw8ynC9JzigRu_68uv9DBQM",
 
+  /* Homepage video, directly under the pricing hero.
+     Drop in a self-hosted file by setting src, for example:
+     "/videos/sealing-process.mp4"
+     poster is optional (an image path). Leave src "" until the file exists.
+     To use YouTube instead, leave src "" and set youtubeId to the video id.
+     If src is set, it is used and youtubeId is ignored.
+     Empty src and youtubeId show the "Video coming soon" placeholder. */
+  processVideo: {
+    src: "",
+    poster: "",
+    youtubeId: ""
+  },
+
   /* ONE-LINE SWITCH for the quote form.
      Leave "" to open a prefilled email (the form also offers a text).
      Set a Formspree-style URL to POST the form instead, for example:

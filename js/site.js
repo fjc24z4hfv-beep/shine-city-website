@@ -319,8 +319,30 @@
     compactRateText: compactRateText
   };
 
+  function renderProcessVideo() {
+    var video = cfg.processVideo || {};
+    var mount = document.querySelector("[data-video-mount]");
+    if (!mount) return;
+    var src = String(video.src || "").trim();
+    var poster = String(video.poster || "").trim();
+    var youtubeId = String(video.youtubeId || "").trim();
+    if (src) {
+      mount.innerHTML = '<video controls muted playsinline preload="none"' +
+        (poster ? ' poster="' + escapeHtml(poster) + '"' : "") + ">" +
+        '<source src="' + escapeHtml(src) + '" type="video/mp4">' +
+        "</video>";
+      return;
+    }
+    if (/^[A-Za-z0-9_-]{6,}$/.test(youtubeId)) {
+      mount.innerHTML = '<iframe title="See the sealing process" loading="lazy" ' +
+        'src="https://www.youtube-nocookie.com/embed/' + encodeURIComponent(youtubeId) + '" ' +
+        'allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
+    }
+  }
+
   function init() {
     document.querySelectorAll("[data-pricing-tiers]").forEach(renderTiers);
+    renderProcessVideo();
     document.querySelectorAll("[data-price-compact]").forEach(function (el) {
       el.textContent = compactRateText();
     });
