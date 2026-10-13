@@ -42,11 +42,19 @@ var SHINE_CITY = {
     youtubeId: ""
   },
 
-  /* ONE-LINE SWITCH for the quote form.
-     Leave "" to open a prefilled email (the form also offers a text).
-     Set a Formspree-style URL to POST the form instead, for example:
-     "https://formspree.io/f/xxxxxxxx" */
-  FORM_ENDPOINT: "",
+  /* Quote form delivery. Photos are sent with the request.
+     FORM_ENDPOINT is the FormSubmit address that accepts file attachments
+     (a normal multipart post, not the /ajax/ address). The script posts
+     the form there, including compressed photos, and shows a thank-you
+     on this page. If that post fails, the form opens a prefilled email
+     and offers a text. Photos cannot ride along in that fallback.
+     Leave "" to use only the email and text fallback.
+     The same address is the form's action, so a browser without
+     JavaScript still posts the form and its photos.
+     The first real submission emails reviveexterior@gmail.com a
+     FormSubmit activation link. Until that link is opened, submissions
+     are not delivered. Do not send a test entry. */
+  FORM_ENDPOINT: "https://formsubmit.co/reviveexterior@gmail.com",
 
   pricing: {
     paverSealing: {

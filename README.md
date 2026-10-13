@@ -17,7 +17,7 @@ Then open http://127.0.0.1:8000/ and http://127.0.0.1:8000/review/.
 Paver sealing rates, the 800 sq ft breakpoint, the city list, and quote-form delivery live in `js/site-config.js`.
 
 - `pricing.paverSealing.breakpointSqFt`, `rateUpTo`, and `rateOver` drive the price cards, the estimate calculator, and the price structured data.
-- `FORM_ENDPOINT` is blank, so the quote form opens a prefilled email (and offers a text). Set it to a Formspree-style URL to POST the form instead. That is a one-line change.
+- `FORM_ENDPOINT` is the FormSubmit address that receives the quote form and its photos. Leave it blank to use only the prefilled email and text backup. The first real submission sends FormSubmit's activation email to reviveexterior@gmail.com. Open that link once so later submissions are delivered. Do not send a test just to trigger it.
 - `serviceArea` is the city list. Counties are Orange and Brevard. If you change cities, also update the sentences on `service-area/index.html` and the meta descriptions that name cities.
 
 The visible price lines in the HTML are a no-JavaScript fallback. If the rates change, update those sentences and the meta descriptions on the home page and the paver sealing page so they match the config.

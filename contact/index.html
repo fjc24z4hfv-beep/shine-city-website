@@ -274,17 +274,17 @@
       <div class="container">
         <nav class="crumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li><span aria-current="page">Free quote</span></li></ol></nav>
         <h1>Free quote</h1>
-        <p class="lede">Call or text 321-795-0313. Email reviveexterior@gmail.com. Or send the form and we'll get it in email or as a text. No obligation.</p>
+        <p class="lede">Call or text 321-795-0313. Email reviveexterior@gmail.com. Or send the form, with photos of the job if you have them. No obligation.</p>
       </div>
     </header>
     <section class="section">
       <div class="container" style="max-width:46rem">
         <p>Paver sealing prices are on the <a href="/paver-sealing/#pricing">paver sealing page</a>: $2.00 per sq ft up to 800 sq ft, and $1.75 per sq ft over 800. The final number is confirmed after a free on-site look. Stripping and washing are quoted separately.</p>
-        <p>We work in <a href="/service-area/">Orange County and Brevard County</a>. The street address on the form is the job site. It is not published.</p>
+        <p>We work in <a href="/service-area/">Orange County and Brevard County</a>. City and ZIP tell us the job site. A street address is optional and is not published.</p>
         
-      <form class="form-card" id="quote" data-quote-form action="mailto:reviveexterior@gmail.com" method="post" enctype="text/plain">
+      <form class="form-card" id="quote" data-quote-form action="https://formsubmit.co/reviveexterior@gmail.com" method="post" enctype="multipart/form-data">
         <h2 id="quote-heading">Request a free quote</h2>
-        <p>Tell us about the pavers. A free on-site look confirms the price. No obligation.</p>
+        <p data-form-lead>Tell us about the job and add photos if you have them. No obligation.</p>
         <div class="form-grid">
           <div class="field">
             <label for="name">Name <span class="req">(required)</span></label>
@@ -295,59 +295,91 @@
             <input id="phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" required minlength="7">
           </div>
           <div class="field">
-            <label for="email">Email</label>
-            <input id="email" name="email" type="email" autocomplete="email" inputmode="email">
+            <label for="email">Email <span class="req">(required)</span></label>
+            <input id="email" name="email" type="email" autocomplete="email" inputmode="email" required>
+          </div>
+          <div class="field">
+            <label for="city">City <span class="req">(required)</span></label>
+            <input id="city" name="city" type="text" autocomplete="address-level2" required minlength="2">
           </div>
           <div class="field">
             <label for="zip">ZIP code <span class="req">(required)</span></label>
             <input id="zip" name="zip" type="text" inputmode="numeric" autocomplete="postal-code" required pattern="[0-9]{5}" title="5-digit ZIP code">
           </div>
-          <div class="field full">
-            <label for="street">Street address of the pavers <span class="req">(required)</span></label>
-            <input id="street" name="street_address" type="text" autocomplete="street-address" required minlength="4">
-          </div>
           <div class="field">
+            <label for="street">Street address <span class="optional">(optional)</span></label>
+            <input id="street" name="property_address" type="text" autocomplete="street-address">
+          </div>
+          <div class="field full">
             <label for="service">Service <span class="req">(required)</span></label>
             <select id="service" name="service" required>
               <option value="" selected disabled>Select one</option>
               <option>Paver sealing</option>
-              <option>First Seal Program (new build)</option>
-              <option>Sealer stripping and resealing</option>
-              <option>Soft washing</option>
-              <option>Pressure washing</option>
-              <option>Street or neighbor group</option>
-              <option>Not sure</option>
+              <option>Paver cleaning</option>
+              <option>Driveway/concrete cleaning</option>
+              <option>Soft-wash house</option>
+              <option>Screen enclosure</option>
+              <option>Other</option>
             </select>
           </div>
-          <div class="field">
-            <label for="paver-age">Paver age <span class="req">(required)</span></label>
-            <select id="paver-age" name="paver_age" required>
-              <option value="" selected disabled>Select one</option>
-              <option>New build, under 1 year</option>
-              <option>1–3 years</option>
-              <option>3+ years</option>
-              <option>Not sure</option>
-            </select>
+          <div class="field full">
+            <label for="description">Short description <span class="req">(required)</span></label>
+            <textarea id="description" name="description" required minlength="4" maxlength="1000" rows="4"></textarea>
+          </div>
+          <fieldset class="field full size-field">
+            <legend>Rough size <span class="optional">(optional)</span></legend>
+            <p class="form-note">Length and width, or square feet. If you enter square feet, that measurement is used.</p>
+            <div class="size-grid">
+              <div class="field">
+                <label for="length">Length (feet)</label>
+                <input id="length" name="length_ft" type="number" inputmode="decimal" min="0" step="any">
+              </div>
+              <div class="field">
+                <label for="width">Width (feet)</label>
+                <input id="width" name="width_ft" type="number" inputmode="decimal" min="0" step="any">
+              </div>
+              <div class="field">
+                <label for="sqft">Square feet</label>
+                <input id="sqft" name="square_feet" type="number" inputmode="decimal" min="0" step="any">
+              </div>
+            </div>
+            <p class="estimate-live" data-size-estimate hidden></p>
+            <input type="hidden" name="rough_estimate" value="">
+          </fieldset>
+          <div class="field full">
+            <label for="photos">Photos <span class="optional">(optional)</span></label>
+            <input id="photos" data-photos name="attachment" type="file" accept="image/*" multiple>
+            <p class="form-note">Several photos are fine. Large images are reduced in your browser before they are sent.</p>
+            <div class="photo-preview" data-photo-preview></div>
+            <p class="form-note" data-photo-status role="status"></p>
           </div>
           <div class="full">
             <p class="hp" aria-hidden="true">
               <label for="company">Company</label>
-              <input id="company" name="_gotcha" type="text" tabindex="-1" autocomplete="off">
+              <input id="company" name="_honey" type="text" tabindex="-1" autocomplete="off">
             </p>
             <input type="hidden" name="_subject" value="Shine City quote request">
+            <input type="hidden" name="_template" value="table">
+            <input type="hidden" name="_captcha" value="false">
+            <input type="hidden" name="_next" value="https://shinecitypaversealing.com/contact/?thanks=1#quote">
             <button class="btn" type="submit">Send quote request</button>
             <p class="form-note" data-form-note>Sending opens an email to reviveexterior@gmail.com. You can text the same request instead. This website does not store the form.</p>
           </div>
         </div>
+        <div class="form-result" data-form-thanks hidden>
+          <h3>Thanks, we have your quote request</h3>
+          <p>We'll look at the details and any photos you sent, then reply by phone or email. Nothing is stored on this website.</p>
+        </div>
         <div class="form-result" data-form-result hidden>
-          <h3>Your quote request is ready to send</h3>
-          <p>Your email app should open with this note addressed to reviveexterior@gmail.com. If it does not, use the buttons below. Nothing is stored on this website.</p>
+          <h3>We could not deliver the form from the website</h3>
+          <p>Your email app should open with the details addressed to reviveexterior@gmail.com. Photos were not attached this way. Please text photos of the job to 321-795-0313. Nothing is stored on this website.</p>
           <div class="cluster">
             <a class="btn" data-mailto-link href="mailto:reviveexterior@gmail.com">Open the email</a>
             <a class="btn btn--outline" data-sms-link href="sms:+13217950313">Text it instead</a>
           </div>
         </div>
       </form>
+      <p class="form-confirm">We'll confirm the exact square footage from satellite imagery or on-site before your final quote.</p>
 
       </div>
     </section>
