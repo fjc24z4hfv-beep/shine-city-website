@@ -289,6 +289,7 @@ a:hover { color: var(--blue-dark); }
 .hero { padding: 2.4rem 0 4.6rem; }
 .page-hero { padding: 1.8rem 0 2.4rem; }
 .hero .lede, .page-hero .lede { color: #E7F0FA; }
+.hero__pop { color: var(--brand); font-weight: 800; }
 .hero__rates {
   display: inline-block;
   margin: 0 0 1.2rem;
