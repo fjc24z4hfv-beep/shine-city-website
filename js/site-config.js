@@ -8,7 +8,9 @@
    A 1,000 sq ft job is the first 800 at $2.00 ($1,600) plus 200 at $1.75 ($350), which is $1,950.
    The rate is for paver sealing: clean, re-sand joints, and seal.
    No job minimum is set. Do not add one.
-   Stripping/resealing and house or pressure washing have no published price.
+   Sealer stripping is a separate published rate: strip only, re-sand and reseal not included.
+   It is not used by the paver sealing calculator or the instant quote.
+   House washing and pressure washing have no published price.
    The door-hanger flat special is not a website price. Do not add it here.
 
    Visible tier cards, the estimate calculator, and the price fields in
@@ -70,6 +72,11 @@ var SHINE_CITY = {
       breakpointSqFt: 800,
       rateUpTo: 2.0,
       rateOver: 1.75
+    },
+    /* Strip only. Do not fold this into paverSealing or the instant quote. */
+    sealerStripping: {
+      name: "Sealer stripping",
+      rate: 2.25
     }
   },
 
