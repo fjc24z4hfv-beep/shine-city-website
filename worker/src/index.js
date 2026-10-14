@@ -233,9 +233,12 @@ async function askOpenAI(env, satellite, photos) {
       response_format: { type: "json_object" },
       messages: [{ role: "user", content: content }]
     }),
-    signal: AbortSignal.timeout(20000)
+    signal: AbortSignal.timeout(30000)
   });
-  if (!response.ok) throw new Error("openai");
+  if (!response.ok) {
+    console.log("openai status " + response.status + ": " + (await response.text()).slice(0,300));
+    throw new Error("openai");
+  }
   var data = await response.json();
   var text = data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content;
   return parseVisionJson(text);
@@ -331,6 +334,7 @@ export default {
         satelliteLink: mapsLink(place.latitude, place.longitude)
       });
     } catch (err) {
+      console.log("quote error: " + (err && err.message));
       return jsonResponse(origin, 502, { ok: false });
     }
   }

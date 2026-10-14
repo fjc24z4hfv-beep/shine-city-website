@@ -56,12 +56,11 @@ var SHINE_CITY = {
      are not delivered. Do not send a test entry. */
   FORM_ENDPOINT: "https://formsubmit.co/reviveexterior@gmail.com",
 
-  /* Instant estimate. Paste the deployed Cloudflare Worker URL here,
-     with no trailing path, after Nick deploys worker/ (see worker/README.md).
-     Leave "" until then. An empty value, or a Worker that fails, still
-     emails the quote and tells the customer we'll review and send it.
+  /* Instant estimate. The deployed Cloudflare Worker (see worker/README.md).
+     An empty value, or a Worker that fails, still emails the quote and
+     tells the customer we'll review and send it.
      API keys stay in the Worker. Do not put them in this file. */
-  INSTANT_QUOTE_API: "",
+  INSTANT_QUOTE_API: "https://shine-city-quote.shinecity.workers.dev",
 
   pricing: {
     paverSealing: {
