@@ -175,6 +175,7 @@
         }
       };
     }
+    var strip = cfg.pricing.sealerStripping;
     return [
       offer(
         "Paver sealing, first " + bp + " sq ft",
@@ -185,7 +186,26 @@
         "Paver sealing above " + bp + " sq ft",
         pricing.rateOver,
         "Only the square footage above " + bp + " is $" + pricing.rateOver.toFixed(2) + " per square foot. The first " + bp + " square feet stay at $" + pricing.rateUpTo.toFixed(2) + "."
-      )
+      ),
+      {
+        "@type": "Offer",
+        name: strip.name,
+        description: "Sealer stripping only, $" + strip.rate.toFixed(2) +
+          " per square foot. Re-sanding and resealing are not included and are priced separately. Final price is confirmed after a free on-site look.",
+        priceCurrency: "USD",
+        priceSpecification: {
+          "@type": "UnitPriceSpecification",
+          price: strip.rate.toFixed(2),
+          priceCurrency: "USD",
+          unitText: "sq ft",
+          referenceQuantity: {
+            "@type": "QuantitativeValue",
+            value: 1,
+            unitCode: "FTK",
+            unitText: "square foot"
+          }
+        }
+      }
     ];
   }
 

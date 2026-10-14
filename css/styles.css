@@ -372,6 +372,7 @@ a:hover { color: var(--blue-dark); }
 .card p { color: var(--muted); margin: 0; }
 
 .tiers { align-items: stretch; }
+.tiers.tiers--one { grid-template-columns: minmax(0, 24rem); }
 .tier { padding: 1.25rem 1.3rem 1.35rem; border-top: 4px solid var(--brand); }
 .tier__rate {
   margin: 0.2rem 0 0.45rem;

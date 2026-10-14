@@ -30,7 +30,7 @@ The visible price lines in the HTML are a no-JavaScript fallback. If the rates c
 - `/paver-sealing/` prices, the square-foot estimate, and stripping
 - `/gallery/` cleaning photos (prep for sealing, not sealed finishes)
 - `/first-seal/` and `/new-pavers/` redirect to `/paver-sealing/`
-- `/sealer-stripping/` stripping and resealing
+- `/sealer-stripping/` strip only at $2.25 per sq ft. Re-sand and reseal are priced separately. Not used by the instant quote.
 - `/soft-washing/` soft washing for stucco, siding, and stone veneer
 - `/pressure-washing/` pressure washing for concrete and screen enclosures
 - `/service-area/` Orange County and Brevard County
