@@ -8,24 +8,17 @@ The Worker:
 
 1. Accepts a POST only from `https://shinecitypaversealing.com` or `https://www.shinecitypaversealing.com`.
 2. Limits each IP to 8 requests an hour.
-3. Geocodes the address with the Google Geocoding API and keeps Orange County and Brevard County, Florida.
-4. Downloads a Google Maps Static satellite image at zoom 20, centered on that point.
+3. Geocodes the address with the ArcGIS World Geocoding service (`findAddressCandidates`, no key) and keeps Orange County and Brevard County, Florida.
+4. Downloads an Esri World Imagery satellite image at zoom 20, about 640 pixels on a side, centered on that point. No key.
 5. Sends that image plus the customer's photos to a vision model.
 6. Prices the returned square footage on the server: $2.00 per sq ft up to 800 sq ft, and $1.75 per sq ft for the whole job over 800.
-7. Returns the square footage, price in cents, and confidence. It does not return a flat promotional price.
+7. Returns the square footage, price in cents, confidence, and a Google Maps satellite link. That link is only a URL. It does not use a Google key.
 
-Secrets stay in the Worker. They are never written into the website.
+If `GOOGLE_MAPS_KEY` is set, steps 3 and 4 use Google Geocoding and the Google Maps Static API instead of ArcGIS and Esri. Leave that secret unset unless you want Google.
 
-## 1. Google key
+Secrets stay in the Worker. They are never written into the website. The only required secret is `OPENAI_API_KEY`.
 
-1. Open [Google Cloud Console](https://console.cloud.google.com/) and create or choose a project.
-2. Enable **Geocoding API** and **Maps Static API**. Billing must be on. These calls are not free after the monthly credit.
-3. Create an API key: APIs & Services → Credentials → Create credentials → API key.
-4. Edit the key. Under API restrictions, restrict it to Geocoding API and Maps Static API only.
-5. Do not use an HTTP referrer restriction. The Worker calls Google from Cloudflare, not from the browser, and Worker egress IPs are not a fixed list. The key's protection is that it lives only in the Worker secret and can call only those two APIs.
-6. Copy the key. You will paste it into Wrangler in step 4. Do not commit it and do not put it in `js/site-config.js`.
-
-## 2. Vision model key
+## 1. Vision model key
 
 Use one provider. OpenAI is the default (`VISION_PROVIDER = "openai"` in `wrangler.toml`).
 
@@ -41,7 +34,7 @@ Use one provider. OpenAI is the default (`VISION_PROVIDER = "openai"` in `wrangl
 2. In `wrangler.toml`, set `VISION_PROVIDER = "gemini"` before deploy. The default model is `gemini-2.5-flash` (`GEMINI_MODEL`).
 3. You do not need an OpenAI key if Gemini is the provider.
 
-## 3. Install Wrangler and sign in
+## 2. Install Wrangler and sign in
 
 From this `worker` directory, on your own computer:
 
@@ -51,16 +44,15 @@ npx wrangler login
 
 Node.js 20 or newer is required. `npx` downloads Wrangler for the command. You do not add Wrangler to the website.
 
-## 4. Store the secrets
+## 3. Store the secret
 
-Still inside `worker`:
+Still inside `worker`. This is the only secret you need:
 
 ```bash
-npx wrangler secret put GOOGLE_MAPS_KEY
 npx wrangler secret put OPENAI_API_KEY
 ```
 
-Paste each key when prompted. If you chose Gemini:
+Paste the key when prompted. If you chose Gemini instead, skip the OpenAI secret and run:
 
 ```bash
 npx wrangler secret put GEMINI_API_KEY
@@ -72,7 +64,19 @@ Confirm the names with:
 npx wrangler secret list
 ```
 
-## 5. Deploy
+### Optional: Google instead of Esri
+
+You do not need a Google key. ArcGIS geocodes the address and Esri supplies the satellite image.
+
+To use Google for both the lookup and the image, create a key in [Google Cloud Console](https://console.cloud.google.com/) with Geocoding API and Maps Static API enabled, restrict the key to those two APIs, and do not add an HTTP referrer restriction (the Worker calls Google from Cloudflare). Then:
+
+```bash
+npx wrangler secret put GOOGLE_MAPS_KEY
+```
+
+Do not commit the key and do not put it in `js/site-config.js`. The email's Google Maps link is sent either way, and that link does not need a key.
+
+## 4. Deploy
 
 ```bash
 npx wrangler deploy
@@ -82,7 +86,7 @@ Wrangler prints a URL like `https://shine-city-quote.<account>.workers.dev`.
 
 Optional custom domain: Cloudflare dashboard → Workers → shine-city-quote → Settings → Domains. A custom domain is not required.
 
-## 6. Point the website at the Worker
+## 5. Point the website at the Worker
 
 In `js/site-config.js` set:
 

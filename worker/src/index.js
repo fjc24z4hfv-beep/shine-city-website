@@ -54,6 +54,15 @@ async function rateLimit(request, env) {
   return true;
 }
 
+var USER_AGENT = "ShineCityQuote/1.0 (+https://shinecitypaversealing.com)";
+
+function countyMatch(state, county) {
+  var region = String(state || "").toLowerCase();
+  if (region && region !== "fl" && region !== "florida") return false;
+  var name = String(county || "").toLowerCase();
+  return name.indexOf("orange") !== -1 || name.indexOf("brevard") !== -1;
+}
+
 function inServiceCounty(result) {
   var components = result.address_components || [];
   var county = "";
@@ -63,12 +72,10 @@ function inServiceCounty(result) {
     if (types.indexOf("administrative_area_level_2") !== -1) county = component.long_name || "";
     if (types.indexOf("administrative_area_level_1") !== -1) state = component.short_name || "";
   });
-  if (state && state.toUpperCase() !== "FL") return false;
-  var name = county.toLowerCase();
-  return name.indexOf("orange") !== -1 || name.indexOf("brevard") !== -1;
+  return countyMatch(state, county);
 }
 
-async function geocode(address, apiKey) {
+async function geocodeGoogle(address, apiKey) {
   var url = new URL("https://maps.googleapis.com/maps/api/geocode/json");
   url.searchParams.set("address", address);
   url.searchParams.set("components", "country:US");
@@ -91,7 +98,52 @@ async function geocode(address, apiKey) {
   return null;
 }
 
-async function satelliteImage(latitude, longitude, apiKey) {
+/* Keyless. ArcGIS World Geocoding does not need a token for this lookup. */
+async function geocodeArcgis(address) {
+  var url = new URL("https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates");
+  url.searchParams.set("SingleLine", address);
+  url.searchParams.set("f", "json");
+  url.searchParams.set("outSR", "4326");
+  url.searchParams.set("maxLocations", "5");
+  url.searchParams.set("countryCode", "USA");
+  url.searchParams.set("outFields", "Match_addr,Addr_type,City,Region,Subregion,Postal");
+  url.searchParams.set("searchExtent", "-81.70,27.84,-80.40,28.86");
+  var response = await fetch(url, {
+    headers: { "User-Agent": USER_AGENT, Accept: "application/json" },
+    signal: AbortSignal.timeout(12000)
+  });
+  if (!response.ok) throw new Error("geocode");
+  var data = await response.json();
+  if (data.error) throw new Error("geocode");
+  var candidates = data.candidates || [];
+  for (var i = 0; i < candidates.length; i++) {
+    var candidate = candidates[i];
+    var attributes = candidate.attributes || {};
+    if (!countyMatch(attributes.Region, attributes.Subregion)) continue;
+    if (Number(candidate.score) < 80) continue;
+    var location = candidate.location || {};
+    var latitude = Number(location.y);
+    var longitude = Number(location.x);
+    if (!isFinite(latitude) || !isFinite(longitude)) continue;
+    return {
+      latitude: latitude,
+      longitude: longitude,
+      formattedAddress: candidate.address || attributes.Match_addr || address
+    };
+  }
+  return null;
+}
+
+async function readImage(response, errorCode) {
+  if (!response.ok) throw new Error(errorCode);
+  var type = response.headers.get("content-type") || "";
+  if (type.indexOf("image/") !== 0) throw new Error(errorCode);
+  var bytes = new Uint8Array(await response.arrayBuffer());
+  if (!bytes.length) throw new Error(errorCode);
+  return { bytes: bytes, mime: type.split(";")[0] };
+}
+
+async function satelliteGoogle(latitude, longitude, apiKey) {
   var url = new URL("https://maps.googleapis.com/maps/api/staticmap");
   url.searchParams.set("center", latitude + "," + longitude);
   url.searchParams.set("zoom", "20");
@@ -100,13 +152,31 @@ async function satelliteImage(latitude, longitude, apiKey) {
   url.searchParams.set("maptype", "satellite");
   url.searchParams.set("format", "jpg");
   url.searchParams.set("key", apiKey);
-  var response = await fetch(url, { signal: AbortSignal.timeout(12000) });
-  if (!response.ok) throw new Error("staticmap");
-  var type = response.headers.get("content-type") || "";
-  if (type.indexOf("image/") !== 0) throw new Error("staticmap");
-  var bytes = new Uint8Array(await response.arrayBuffer());
-  if (!bytes.length) throw new Error("staticmap");
-  return { bytes: bytes, mime: type.split(";")[0] };
+  return readImage(await fetch(url, { signal: AbortSignal.timeout(12000) }), "staticmap");
+}
+
+/* Zoom 20 in Web Mercator, 640px on a side. Esri World Imagery, no key. */
+async function satelliteEsri(latitude, longitude) {
+  var origin = 20037508.342789244;
+  var x = longitude * origin / 180;
+  var rad = latitude * Math.PI / 180;
+  var y = Math.log(Math.tan(Math.PI / 4 + rad / 2)) * origin / Math.PI;
+  var half = 320 * (156543.03392804097 / Math.pow(2, 20));
+  var url = new URL("https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/export");
+  url.searchParams.set("bbox", (x - half) + "," + (y - half) + "," + (x + half) + "," + (y + half));
+  url.searchParams.set("bboxSR", "3857");
+  url.searchParams.set("imageSR", "3857");
+  url.searchParams.set("size", "640,640");
+  url.searchParams.set("format", "jpg");
+  url.searchParams.set("f", "image");
+  return readImage(await fetch(url, {
+    headers: { "User-Agent": USER_AGENT },
+    signal: AbortSignal.timeout(12000)
+  }), "imagery");
+}
+
+function mapsLink(latitude, longitude) {
+  return "https://www.google.com/maps?q=" + latitude + "," + longitude + "&t=k&z=20";
 }
 
 function visionProvider(env) {
@@ -227,7 +297,7 @@ export default {
     }
     if (request.method !== "POST") return jsonResponse(origin, 405, { ok: false });
     if (!allowedOrigin(origin)) return jsonResponse(origin, 403, { ok: false });
-    if (!env.GOOGLE_MAPS_KEY || !visionProvider(env)) return jsonResponse(origin, 503, { ok: false });
+    if (!visionProvider(env)) return jsonResponse(origin, 503, { ok: false });
 
     try {
       if (!(await rateLimit(request, env))) return jsonResponse(origin, 429, { ok: false });
@@ -237,9 +307,13 @@ export default {
       var photos = await readPhotos(form);
       if (!photos.length) return jsonResponse(origin, 400, { ok: false });
 
-      var place = await geocode(address, env.GOOGLE_MAPS_KEY);
+      var place = env.GOOGLE_MAPS_KEY
+        ? await geocodeGoogle(address, env.GOOGLE_MAPS_KEY)
+        : await geocodeArcgis(address);
       if (!place) return jsonResponse(origin, 422, { ok: false });
-      var satellite = await satelliteImage(place.latitude, place.longitude, env.GOOGLE_MAPS_KEY);
+      var satellite = env.GOOGLE_MAPS_KEY
+        ? await satelliteGoogle(place.latitude, place.longitude, env.GOOGLE_MAPS_KEY)
+        : await satelliteEsri(place.latitude, place.longitude);
       var vision = visionProvider(env) === "gemini"
         ? await askGemini(env, satellite, photos)
         : await askOpenAI(env, satellite, photos);
@@ -254,7 +328,7 @@ export default {
         latitude: place.latitude,
         longitude: place.longitude,
         formattedAddress: place.formattedAddress,
-        satelliteLink: "https://www.google.com/maps?q=" + place.latitude + "," + place.longitude + "&t=k&z=20"
+        satelliteLink: mapsLink(place.latitude, place.longitude)
       });
     } catch (err) {
       return jsonResponse(origin, 502, { ok: false });
