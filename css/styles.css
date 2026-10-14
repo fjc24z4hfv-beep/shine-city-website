@@ -544,6 +544,40 @@ a:hover { color: var(--blue-dark); }
 .why { padding: 1.15rem 1.2rem; }
 .why h3:last-child { margin-bottom: 0; }
 .why p { margin: 0; color: var(--muted); }
+.why-reviews {
+  grid-column: 1 / -1;
+  padding: 1.15rem 1.2rem 1.25rem;
+  background: var(--white);
+  border-radius: 18px;
+  box-shadow: var(--shadow);
+}
+.why-reviews h3 { margin-bottom: 0.45rem; }
+.why-reviews p { margin: 0 0 0.85rem; color: var(--muted); max-width: 40rem; }
+.why-reviews p.why-reviews__score {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.45rem 0.65rem;
+  margin-bottom: 0.55rem;
+  color: var(--ink);
+  font-weight: 700;
+}
+.why-reviews__stars {
+  color: #D9A014;
+  letter-spacing: 0.08em;
+  font-size: 1.15rem;
+  line-height: 1;
+}
+.why-reviews__quotes {
+  list-style: none;
+  margin: 0 0 0.9rem;
+  padding: 0;
+  display: grid;
+  gap: 0.75rem;
+}
+.why-reviews__quotes blockquote { margin: 0; color: var(--ink); font-weight: 600; }
+.why-reviews__who { margin: 0.25rem 0 0; font-size: 0.92rem; }
+.why-reviews .cluster { margin: 0; }
 
 .faq { border-top: 1px solid var(--line); }
 .faq:last-of-type { border-bottom: 1px solid var(--line); }
