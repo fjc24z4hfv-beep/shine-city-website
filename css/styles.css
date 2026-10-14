@@ -805,7 +805,11 @@ a:hover { color: var(--blue-dark); }
   gap: 0.5rem;
   align-items: start;
 }
-.pair__grid:has(> :only-child) { grid-template-columns: minmax(0, 22rem); }
+.pair__grid:has(> :only-child),
+.pair--solo .pair__grid {
+  grid-template-columns: minmax(0, 22rem);
+  justify-content: center;
+}
 .shot {
   display: block;
   position: relative;
@@ -827,6 +831,11 @@ a:hover { color: var(--blue-dark); }
   max-width: 100%;
   height: auto;
 }
+.pair--solo .shot,
+.pair__grid:has(> :only-child) .shot { width: 100%; }
+.pair--solo .shot img,
+.pair__grid:has(> :only-child) .shot img { width: 100%; height: auto; }
+.wash-section .pair--solo { max-width: 22rem; margin-inline: auto; }
 .pair--native .shot { max-width: 798px; }
 .shot__tag {
   position: absolute;

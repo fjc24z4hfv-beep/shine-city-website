@@ -27,9 +27,9 @@ The visible price lines in the HTML are a no-JavaScript fallback. If the rates c
 ## Pages
 
 - `/` home, with paver sealing prices in the hero
-- `/paver-sealing/` prices, the square-foot estimate, First Seal, and stripping
+- `/paver-sealing/` prices, the square-foot estimate, why new pavers wait, and stripping
 - `/gallery/` cleaning photos (prep for sealing, not sealed finishes)
-- `/first-seal/` First Seal Program
+- `/first-seal/` and `/new-pavers/` redirect to `/paver-sealing/`
 - `/sealer-stripping/` stripping and resealing
 - `/soft-washing/` soft washing for stucco, siding, and stone veneer
 - `/pressure-washing/` pressure washing for concrete and screen enclosures
