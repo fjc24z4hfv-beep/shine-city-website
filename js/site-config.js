@@ -3,8 +3,9 @@
    city list, and how the quote form is delivered.
 
    PAVER SEALING RATES — confirmed by the owner.
-   Jobs at or under breakpointSqFt use rateUpTo for every square foot.
-   Jobs over breakpointSqFt use rateOver for every square foot (not a blend).
+   The first breakpointSqFt are priced at rateUpTo.
+   Only the square footage above breakpointSqFt is priced at rateOver.
+   A 1,000 sq ft job is the first 800 at $2.00 ($1,600) plus 200 at $1.75 ($350), which is $1,950.
    The rate is for paver sealing: clean, re-sand joints, and seal.
    No job minimum is set. Do not add one.
    Stripping/resealing and house or pressure washing have no published price.
