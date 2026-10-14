@@ -29,6 +29,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap">
   <link rel="stylesheet" href="/css/styles.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
 
   <script type="application/ld+json" id="business-jsonld">
 {
@@ -274,16 +275,114 @@
       <div class="container">
         <nav class="crumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li><span aria-current="page">Free quote</span></li></ol></nav>
         <h1>Free quote</h1>
-        <p class="lede">Call or text 321-795-0313. Email reviveexterior@gmail.com. Or send the form, with photos of the job if you have them. No obligation.</p>
+        <p class="lede">Enter the address, confirm the satellite view, and pick a driveway size for an instant paver sealing range. Photos are required. Call or text 321-795-0313. No obligation.</p>
       </div>
     </header>
-    <section class="section">
+    <section class="section" id="quote">
       <div class="container" style="max-width:46rem">
         <p>Paver sealing prices are on the <a href="/paver-sealing/#pricing">paver sealing page</a>: $2.00 per sq ft up to 800 sq ft, and $1.75 per sq ft over 800. The final number is confirmed after a free on-site look. Stripping and washing are quoted separately.</p>
-        <p>We work in <a href="/service-area/">Orange County and Brevard County</a>. City and ZIP tell us the job site. A street address is optional and is not published.</p>
+        <p>We work in <a href="/service-area/">Orange County and Brevard County</a>. The address is used to show the house. It is not published.</p>
         
-      <form class="form-card" id="quote" data-quote-form action="https://formsubmit.co/reviveexterior@gmail.com" method="post" enctype="multipart/form-data">
-        <h2 id="quote-heading">Request a free quote</h2>
+      <div class="instant card" data-instant-quote>
+        <h2 id="quote-heading">Instant paver sealing estimate</h2>
+        <p class="step-label" data-step-label>Step 1 of 4. Property address.</p>
+        <div data-step="address">
+          <h3 tabindex="-1">Find the house</h3>
+          <p>Enter the property address. We'll show a satellite view so you can confirm it's your house.</p>
+          <div class="field">
+            <label for="iq-address">Property address <span class="req">(required)</span></label>
+            <input id="iq-address" data-address type="text" autocomplete="street-address" placeholder="Street, city, ZIP">
+          </div>
+          <button class="btn" type="button" data-find>Find my house</button>
+          <p class="form-note" data-geo-status role="status"></p>
+          <div class="choice-list" data-choices hidden></div>
+        </div>
+        <div data-step="map" hidden>
+          <h3 tabindex="-1">Is this your house?</h3>
+          <p data-place-name></p>
+          <div class="instant-map" data-map role="img" aria-label="Satellite view of the address"></div>
+          <p class="form-note">Satellite imagery &copy; Esri. Address search &copy; OpenStreetMap contributors.</p>
+          <div class="cluster">
+            <button class="btn" type="button" data-confirm>Yes, this is my house</button>
+            <button class="btn btn--outline" type="button" data-back-address>Try a different address</button>
+          </div>
+        </div>
+        <div data-step="size" hidden>
+          <h3 tabindex="-1">About how big is the driveway?</h3>
+          <div data-size-choices></div>
+          <p class="form-note" data-range-note></p>
+          <div class="cluster">
+            <button class="btn" type="button" data-to-photos disabled>Continue</button>
+            <button class="btn btn--outline" type="button" data-back-size>Back to the map</button>
+          </div>
+        </div>
+        <form id="instant-quote" data-step="details" data-quote-form data-photos-required hidden action="https://formsubmit.co/reviveexterior@gmail.com" method="post" enctype="multipart/form-data">
+          <h3 tabindex="-1">Photos and how to reach you</h3>
+          <p data-form-lead data-summary></p>
+          <div class="form-grid">
+            <div class="field">
+              <label for="iq-name">Name <span class="req">(required)</span></label>
+              <input id="iq-name" name="name" type="text" autocomplete="name" required minlength="2">
+            </div>
+            <div class="field">
+              <label for="iq-phone">Phone <span class="req">(required)</span></label>
+              <input id="iq-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" required minlength="7">
+            </div>
+            <div class="field">
+              <label for="iq-email">Email <span class="req">(required)</span></label>
+              <input id="iq-email" name="email" type="email" autocomplete="email" inputmode="email" required>
+            </div>
+            <div class="field full">
+              <label for="iq-note">Short note <span class="req">(required)</span></label>
+              <textarea id="iq-note" name="note" required minlength="4" maxlength="1000" rows="3"></textarea>
+            </div>
+            <div class="field full">
+              <label for="iq-photos">Photos of the driveway <span class="req">(required)</span></label>
+              <input id="iq-photos" data-photos name="attachment" type="file" accept="image/*" multiple required>
+              <p class="form-note">At least one photo, up to six. Large images are reduced in your browser before they are sent.</p>
+              <div class="photo-preview" data-photo-preview></div>
+              <p class="form-note" data-photo-status role="status"></p>
+            </div>
+            <div class="full">
+              <p class="hp" aria-hidden="true">
+                <label for="iq-company">Company</label>
+                <input id="iq-company" name="_honey" type="text" tabindex="-1" autocomplete="off">
+              </p>
+              <input type="hidden" name="full_address" value="">
+              <input type="hidden" name="latitude" value="">
+              <input type="hidden" name="longitude" value="">
+              <input type="hidden" name="satellite_link" value="">
+              <input type="hidden" name="driveway_size" value="">
+              <input type="hidden" name="size_sqft" value="">
+              <input type="hidden" name="instant_estimate" value="">
+              <input type="hidden" name="service" value="Paver sealing">
+              <input type="hidden" name="_subject" value="Shine City instant quote">
+              <input type="hidden" name="_template" value="table">
+              <input type="hidden" name="_captcha" value="false">
+              <input type="hidden" name="_next" value="https://shinecitypaversealing.com/contact/?thanks=1#quote">
+              <button class="btn" type="submit">Send quote request</button>
+              <button class="btn btn--outline" type="button" data-back-details>Back to driveway size</button>
+              <p class="form-note" data-form-note>Sending opens an email to reviveexterior@gmail.com. You can text the same request instead. This website does not store the form.</p>
+            </div>
+          </div>
+          <div class="form-result" data-form-thanks hidden>
+            <h3>Thanks, we have your quote request</h3>
+            <p>We'll look at the address, the driveway size, and the photos, then reply by phone or email. Nothing is stored on this website.</p>
+          </div>
+          <div class="form-result" data-form-result hidden>
+            <h3>We could not deliver the form from the website</h3>
+            <p>Your email app should open with the details addressed to reviveexterior@gmail.com. Photos were not attached this way. Please text photos of the job to 321-795-0313. Nothing is stored on this website.</p>
+            <div class="cluster">
+              <a class="btn" data-mailto-link href="mailto:reviveexterior@gmail.com">Open the email</a>
+              <a class="btn btn--outline" data-sms-link href="sms:+13217950313">Text it instead</a>
+            </div>
+          </div>
+        </form>
+      </div>
+      <details class="manual-quote">
+        <summary>Can't find your house? Enter size manually</summary>
+      <form class="form-card" id="quote-manual" data-quote-form action="https://formsubmit.co/reviveexterior@gmail.com" method="post" enctype="multipart/form-data">
+        <h2>Enter the details yourself</h2>
         <p data-form-lead>Tell us about the job and add photos if you have them. No obligation.</p>
         <div class="form-grid">
           <div class="field">
@@ -379,6 +478,7 @@
           </div>
         </div>
       </form>
+      </details>
       <p class="form-confirm">We'll confirm the exact square footage from satellite imagery or on-site before your final quote.</p>
 
       </div>
@@ -432,6 +532,7 @@
     <a href="tel:+13217950313">Call 321-795-0313</a>
     <a href="sms:+13217950313">Text</a>
   </div>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
   <script src="/js/site-config.js"></script>
   <script src="/js/site.js"></script>
 

@@ -268,26 +268,36 @@
   }
 
   function quoteBody(form) {
-    var description = fieldValue(form, "description");
+    var description = fieldValue(form, "description") || fieldValue(form, "note");
     if (description.length > 700) description = description.slice(0, 700) + "…";
-    return [
-      "Shine City quote request",
-      "",
-      "Name: " + fieldValue(form, "name"),
-      "Phone: " + fieldValue(form, "phone"),
-      "Email: " + (fieldValue(form, "email") || "(none)"),
-      "City: " + fieldValue(form, "city"),
-      "ZIP: " + fieldValue(form, "zip"),
-      "Street address: " + (fieldValue(form, "property_address") || "(none)"),
-      "Service: " + fieldValue(form, "service"),
-      "Description: " + description,
-      "Length (ft): " + (fieldValue(form, "length_ft") || "(none)"),
-      "Width (ft): " + (fieldValue(form, "width_ft") || "(none)"),
-      "Square feet: " + (fieldValue(form, "square_feet") || "(none)"),
-      "Rough estimate: " + (fieldValue(form, "rough_estimate") || "(none)"),
-      "",
-      "Photos were not attached. Please text photos of the job to " + cfg.phoneDisplay + "."
-    ].join("\n");
+    var lines = ["Shine City quote request", ""];
+    function add(label, name, fallback) {
+      var value = fieldValue(form, name);
+      if (!value && fallback == null) return;
+      lines.push(label + ": " + (value || fallback));
+    }
+    add("Name", "name");
+    add("Phone", "phone");
+    add("Email", "email", "(none)");
+    add("Address", "full_address");
+    add("City", "city");
+    add("ZIP", "zip");
+    add("Street address", "property_address");
+    add("Latitude", "latitude");
+    add("Longitude", "longitude");
+    add("Satellite", "satellite_link");
+    add("Driveway size", "driveway_size");
+    add("Size", "size_sqft");
+    add("Instant estimate", "instant_estimate");
+    add("Service", "service");
+    lines.push("Description: " + (description || "(none)"));
+    add("Length (ft)", "length_ft");
+    add("Width (ft)", "width_ft");
+    add("Square feet", "square_feet");
+    add("Rough estimate", "rough_estimate");
+    lines.push("");
+    lines.push("Photos were not attached. Please text photos of the job to " + cfg.phoneDisplay + ".");
+    return lines.join("\n");
   }
 
   function showThanks(form) {
@@ -299,6 +309,13 @@
     if (lead) lead.hidden = true;
     if (panel) panel.hidden = true;
     if (thanks) thanks.hidden = false;
+    var wizard = form.closest("[data-instant-quote]");
+    if (!wizard) return;
+    wizard.querySelectorAll("[data-step]").forEach(function (step) {
+      if (step !== form) step.hidden = true;
+    });
+    var label = wizard.querySelector("[data-step-label]");
+    if (label) label.hidden = true;
   }
 
   function showFallback(form) {
@@ -392,9 +409,12 @@
     });
   }
 
-  function preparePhotos(fileList) {
+  function preparePhotos(fileList, minCount) {
     var files = Array.prototype.slice.call(fileList || []);
-    if (!files.length) return Promise.resolve([]);
+    if (!files.length) {
+      if (minCount > 0) return Promise.reject(new Error("Please add at least one photo of the driveway."));
+      return Promise.resolve([]);
+    }
     if (files.length > MAX_PHOTOS) {
       return Promise.reject(new Error("Please choose " + MAX_PHOTOS + " photos or fewer."));
     }
@@ -562,7 +582,13 @@
       }
       if (status) status.textContent = "";
       var photos = form.querySelector("[data-photos]");
-      var pending = photos ? preparePhotos(photos.files) : Promise.resolve([]);
+      var minPhotos = form.hasAttribute("data-photos-required") ? 1 : 0;
+      if (minPhotos && (!fieldValue(form, "full_address") || !fieldValue(form, "driveway_size"))) {
+        setSending(form, false);
+        if (status) status.textContent = "Confirm the house and choose a driveway size before sending.";
+        return;
+      }
+      var pending = photos ? preparePhotos(photos.files, minPhotos) : preparePhotos([], minPhotos);
       setSending(form, true);
       pending.then(function (files) {
         if (!cfg.FORM_ENDPOINT) {
@@ -583,6 +609,264 @@
         showFallback(form);
       });
     });
+  }
+
+  var DRIVEWAYS = [
+    { id: "1-car", label: "1-car", sqft: "About 400 sq ft", low: 400, high: 400 },
+    { id: "2-car", label: "2-car", sqft: "About 600\u2013800 sq ft", low: 600, high: 800 },
+    { id: "3-car", label: "3-car or large", sqft: "About 900\u20131,200 sq ft", low: 900, high: 1200 },
+    { id: "xl", label: "Circular or extra large", sqft: "About 1,300 sq ft or more", low: 1300, high: null },
+    { id: "unsure", label: "Not sure", sqft: "We'll look at the photos", low: null, high: null }
+  ];
+
+  var lastGeoAt = 0;
+
+  function instantPrice(low, high) {
+    if (low == null) return "";
+    var lowResult = estimate(low);
+    if (!lowResult || lowResult.tooLarge) return "";
+    if (high == null) return moneyFromCents(lowResult.totalCents) + " and up";
+    var highResult = estimate(high);
+    if (!highResult || highResult.tooLarge) return moneyFromCents(lowResult.totalCents);
+    if (lowResult.totalCents === highResult.totalCents) return "About " + moneyFromCents(lowResult.totalCents);
+    return moneyFromCents(lowResult.totalCents) + "\u2013" + moneyFromCents(highResult.totalCents);
+  }
+
+  function drivewayById(id) {
+    var found = null;
+    DRIVEWAYS.forEach(function (item) {
+      if (item.id === id) found = item;
+    });
+    return found;
+  }
+
+  function inServiceCounty(item) {
+    var county = String((item.address && item.address.county) || "").toLowerCase();
+    return /\borange\b/.test(county) || county.indexOf("brevard") !== -1;
+  }
+
+  function showWizardStep(root, name) {
+    root.querySelectorAll("[data-step]").forEach(function (step) {
+      step.hidden = step.getAttribute("data-step") !== name;
+    });
+    var labels = {
+      address: "Step 1 of 4. Property address.",
+      map: "Step 2 of 4. Confirm the satellite view.",
+      size: "Step 3 of 4. Driveway size.",
+      details: "Step 4 of 4. Photos and contact."
+    };
+    var label = root.querySelector("[data-step-label]");
+    if (label) label.textContent = labels[name] || "";
+    var heading = root.querySelector("[data-step='" + name + "'] h3");
+    if (heading && name !== "address") heading.focus();
+  }
+
+  function satelliteUrl(lat, lon) {
+    return "https://www.google.com/maps?q=" + lat + "," + lon + "&t=k&z=19";
+  }
+
+  function ensureMap(root, lat, lon) {
+    var mount = root.querySelector("[data-map]");
+    if (!mount || !global.L) return false;
+    if (!root._map) {
+      root._map = global.L.map(mount, { scrollWheelZoom: false, zoomControl: true, attributionControl: true });
+      global.L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}", {
+        attribution: "Tiles &copy; Esri",
+        maxZoom: 19
+      }).addTo(root._map);
+      root._marker = global.L.circleMarker([lat, lon], {
+        radius: 9,
+        color: "#ffffff",
+        weight: 3,
+        fillColor: "#1565C0",
+        fillOpacity: 1
+      }).addTo(root._map);
+    }
+    root._map.setView([lat, lon], 19);
+    root._marker.setLatLng([lat, lon]);
+    global.setTimeout(function () {
+      root._map.invalidateSize();
+    }, 60);
+    return true;
+  }
+
+  function geocodeAddress(query) {
+    var key = "shine-geo:" + query.toLowerCase();
+    try {
+      var cached = sessionStorage.getItem(key);
+      if (cached) return Promise.resolve(JSON.parse(cached));
+    } catch (err) { /* Storage can be blocked. The lookup still runs. */ }
+    var wait = Math.max(0, 1100 - (Date.now() - lastGeoAt));
+    lastGeoAt = Date.now() + wait;
+    return new Promise(function (resolve) { global.setTimeout(resolve, wait); }).then(function () {
+      var params = new URLSearchParams({
+        format: "jsonv2",
+        addressdetails: "1",
+        limit: "5",
+        countrycodes: "us",
+        q: query,
+        viewbox: "-81.70,28.86,-80.40,27.84",
+        bounded: "0"
+      });
+      return fetch("https://nominatim.openstreetmap.org/search?" + params.toString(), {
+        headers: { Accept: "application/json" },
+        referrerPolicy: "strict-origin-when-cross-origin"
+      });
+    }).then(function (res) {
+      if (!res.ok) throw new Error("lookup");
+      return res.json();
+    }).then(function (rows) {
+      var matches = (rows || []).filter(inServiceCounty).map(function (item) {
+        return {
+          label: item.display_name,
+          lat: item.lat,
+          lon: item.lon,
+          county: (item.address && item.address.county) || ""
+        };
+      });
+      if (matches.length) {
+        try { sessionStorage.setItem(key, JSON.stringify(matches)); } catch (err) { /* Ignore quota errors. */ }
+      }
+      return matches;
+    });
+  }
+
+  function bindInstantQuote(root) {
+    var addressInput = root.querySelector("[data-address]");
+    var findButton = root.querySelector("[data-find]");
+    var status = root.querySelector("[data-geo-status]");
+    var choices = root.querySelector("[data-choices]");
+    var placeName = root.querySelector("[data-place-name]");
+    var sizeHost = root.querySelector("[data-size-choices]");
+    var rangeNote = root.querySelector("[data-range-note]");
+    var continueButton = root.querySelector("[data-to-photos]");
+    var summary = root.querySelector("[data-summary]");
+    var form = root.querySelector("[data-quote-form]");
+    var selected = null;
+    var pickedSize = null;
+
+    if (rangeNote) {
+      rangeNote.textContent = "Instant estimate for paver sealing (clean, re-sand joints, and seal). " +
+        compactRateText() + " Final price after we verify the size and your photos.";
+    }
+    if (sizeHost) {
+      sizeHost.innerHTML = DRIVEWAYS.map(function (item) {
+        var price = instantPrice(item.low, item.high);
+        return '<label class="size-choice">' +
+          '<input type="radio" name="driveway_pick" value="' + escapeHtml(item.id) + '">' +
+          '<span><strong>' + escapeHtml(item.label) + '</strong>' +
+          '<span class="size-choice__sqft">' + escapeHtml(item.sqft) + '</span>' +
+          (price ? '<span class="size-choice__price">' + escapeHtml(price) + '</span>' : '') +
+          '</span></label>';
+      }).join("");
+      sizeHost.addEventListener("change", function () {
+        var chosen = sizeHost.querySelector("input:checked");
+        pickedSize = chosen ? drivewayById(chosen.value) : null;
+        if (continueButton) continueButton.disabled = !pickedSize;
+      });
+    }
+
+    function setStatus(message) {
+      if (status) status.textContent = message || "";
+    }
+
+    function openMap(match) {
+      selected = match;
+      if (placeName) placeName.textContent = match.label;
+      showWizardStep(root, "map");
+      if (!ensureMap(root, parseFloat(match.lat), parseFloat(match.lon))) {
+        setStatus("The satellite view could not load. You can still enter the size manually below.");
+        showWizardStep(root, "address");
+      }
+    }
+
+    function lookup() {
+      var raw = addressInput ? addressInput.value.trim() : "";
+      if (raw.length < 5) {
+        setStatus("Enter the street, city, and ZIP.");
+        return;
+      }
+      var query = /\bflorida\b|\bfl\b/i.test(raw) ? raw : raw + ", Florida";
+      if (findButton) findButton.disabled = true;
+      setStatus("Looking up that address\u2026");
+      if (choices) {
+        choices.hidden = true;
+        choices.innerHTML = "";
+      }
+      geocodeAddress(query).then(function (matches) {
+        if (findButton) findButton.disabled = false;
+        if (!matches.length) {
+          setStatus("We couldn't find that address in Orange County or Brevard County. Check the street and ZIP, or enter the size manually below.");
+          return;
+        }
+        setStatus("");
+        if (matches.length === 1) {
+          openMap(matches[0]);
+          return;
+        }
+        if (!choices) {
+          openMap(matches[0]);
+          return;
+        }
+        choices.hidden = false;
+        choices.innerHTML = matches.map(function (match, index) {
+          return '<button type="button" data-choice="' + index + '">' + escapeHtml(match.label) + '</button>';
+        }).join("");
+        choices.onclick = function (event) {
+          var button = event.target.closest("[data-choice]");
+          if (!button) return;
+          openMap(matches[Number(button.getAttribute("data-choice"))]);
+        };
+      }).catch(function () {
+        if (findButton) findButton.disabled = false;
+        setStatus("The address search didn't respond. Try again in a moment, or enter the size manually below.");
+      });
+    }
+
+    if (findButton) findButton.addEventListener("click", lookup);
+    if (addressInput) {
+      addressInput.addEventListener("keydown", function (event) {
+        if (event.key === "Enter") {
+          event.preventDefault();
+          lookup();
+        }
+      });
+    }
+    var backAddress = root.querySelector("[data-back-address]");
+    if (backAddress) backAddress.addEventListener("click", function () { showWizardStep(root, "address"); });
+    var confirmHouse = root.querySelector("[data-confirm]");
+    if (confirmHouse) confirmHouse.addEventListener("click", function () { showWizardStep(root, "size"); });
+    var backSize = root.querySelector("[data-back-size]");
+    if (backSize) backSize.addEventListener("click", function () { showWizardStep(root, "map"); });
+    if (continueButton) {
+      continueButton.addEventListener("click", function () {
+        if (!pickedSize || !selected || !form) return;
+        var price = instantPrice(pickedSize.low, pickedSize.high);
+        var estimateText = price
+          ? price + " for " + pickedSize.sqft.toLowerCase() + ". Instant estimate for paver sealing. Final price after we verify the size and your photos."
+          : "Not sure of the size. No instant estimate until we see the photos.";
+        form.elements.full_address.value = selected.label;
+        form.elements.latitude.value = String(selected.lat);
+        form.elements.longitude.value = String(selected.lon);
+        form.elements.satellite_link.value = satelliteUrl(selected.lat, selected.lon);
+        form.elements.driveway_size.value = pickedSize.label;
+        form.elements.size_sqft.value = pickedSize.sqft;
+        form.elements.instant_estimate.value = estimateText;
+        if (summary) {
+          summary.textContent = selected.label + " \u00b7 " + pickedSize.label +
+            (price ? " \u00b7 " + price : "") + ". Instant estimate. Final price after we verify.";
+        }
+        showWizardStep(root, "details");
+      });
+    }
+    var backDetails = root.querySelector("[data-back-details]");
+    if (backDetails) backDetails.addEventListener("click", function () { showWizardStep(root, "size"); });
+
+    if (/[?&]thanks=1(?:&|$)/.test(global.location.search)) {
+      root.querySelectorAll("[data-step]").forEach(function (step) {
+        step.hidden = step.getAttribute("data-step") !== "details";
+      });
+    }
   }
 
   function bindNav() {
@@ -662,6 +946,7 @@
     refreshJsonLd();
     document.querySelectorAll("[data-calculator]").forEach(renderCalculator);
     document.querySelectorAll("[data-quote-form]").forEach(bindQuoteForm);
+    document.querySelectorAll("[data-instant-quote]").forEach(bindInstantQuote);
     bindNav();
   }
 
