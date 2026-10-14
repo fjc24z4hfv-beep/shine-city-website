@@ -716,7 +716,6 @@ a:hover { color: var(--blue-dark); }
 .site-footer ul { list-style: none; margin: 0; padding: 0; }
 .site-footer li { margin: 0.28rem 0; }
 .footer-name { color: var(--white); font-weight: 800; margin: 0.7rem 0 0.2rem; }
-.legal { font-size: 0.92rem; max-width: 28rem; }
 .brand--footer img { width: 108px; }
 
 .sticky-bar {
