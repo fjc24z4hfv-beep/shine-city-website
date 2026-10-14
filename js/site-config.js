@@ -16,7 +16,7 @@
    If the numbers change, also update the matching sentences in:
      - index.html (hero tier fallback, FAQ, meta description)
      - paver-sealing/index.html (tier fallback, meta description)
-     - first-seal/index.html, pressure-washing/index.html, and contact/index.html
+     - new-pavers/index.html, pressure-washing/index.html, and contact/index.html
      - the static makesOffer block in each page's business JSON-LD
 */
 var SHINE_CITY = {
