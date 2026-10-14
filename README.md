@@ -27,7 +27,7 @@ The visible price lines in the HTML are a no-JavaScript fallback. If the rates c
 ## Pages
 
 - `/` home, with paver sealing prices in the hero
-- `/paver-sealing/` prices, the square-foot estimate, why new pavers wait, and stripping
+- `/paver-sealing/` prices, the square-foot estimate, and stripping
 - `/gallery/` cleaning photos (prep for sealing, not sealed finishes)
 - `/first-seal/` and `/new-pavers/` redirect to `/paver-sealing/`
 - `/sealer-stripping/` stripping and resealing
