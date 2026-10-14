@@ -289,6 +289,7 @@ a:hover { color: var(--blue-dark); }
 .hero { padding: 2.4rem 0 4.6rem; }
 .page-hero { padding: 1.8rem 0 2.4rem; }
 .hero .lede, .page-hero .lede { color: #E7F0FA; }
+.hero__pop { color: var(--brand); font-weight: 800; }
 .hero__rates {
   display: inline-block;
   margin: 0 0 1.2rem;
@@ -675,7 +676,7 @@ a:hover { color: var(--blue-dark); }
 .sticky-bar a:last-child:hover { background: #E7F2FC; color: var(--navy); }
 
 @media (max-width: 699px) {
-  .hero { padding: 1.2rem 0 1.35rem; }
+  .hero { padding: 1.2rem 0 calc(1.35rem + 4.75rem + env(safe-area-inset-bottom)); }
   .hero h1 { font-size: 1.85rem; margin-bottom: 0.45rem; }
   .hero .lede { font-size: 1.02rem; margin-bottom: 0.75rem; }
   .hero__note { margin-top: 0.7rem; font-size: 0.92rem; }
@@ -737,6 +738,13 @@ a:hover { color: var(--blue-dark); }
   .sticky-bar { display: none; }
   .hero { padding: 3.2rem 0 4.8rem; }
   .trust { margin-top: -2.2rem; }
+}
+
+@media (max-width: 1099px) {
+  /* Room under the hero buttons so the fixed Call/Text bar does not cover them. */
+  .hero { padding-bottom: calc(1.35rem + 4.75rem + env(safe-area-inset-bottom)); }
+  .easy .btn,
+  .hero__actions { scroll-margin-bottom: calc(5rem + env(safe-area-inset-bottom)); }
 }
 
 @media (prefers-reduced-motion: reduce) {
