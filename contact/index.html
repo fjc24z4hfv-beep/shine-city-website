@@ -345,6 +345,10 @@
               <input type="hidden" name="latitude" value="">
               <input type="hidden" name="longitude" value="">
               <input type="hidden" name="satellite_link" value="">
+              <input type="hidden" name="measured_sqft" value="">
+              <input type="hidden" name="instant_price" value="">
+              <input type="hidden" name="estimate_confidence" value="">
+              <input type="hidden" name="instant_estimate" value="">
               <input type="hidden" name="service" value="Paver sealing">
               <input type="hidden" name="_subject" value="Shine City quote request">
               <input type="hidden" name="_template" value="table">
@@ -357,10 +361,12 @@
           </div>
           <div class="form-result" data-form-thanks hidden>
             <h3>Thanks, we have your quote request</h3>
-            <p>We'll review the address and photos and send the quote. Nothing is stored on this website.</p>
+            <p class="estimate-live" data-estimate-result>We'll review and send your quote.</p>
+            <p>Nothing is stored on this website.</p>
           </div>
           <div class="form-result" data-form-result hidden>
             <h3>We could not deliver the form from the website</h3>
+            <p class="estimate-live" data-estimate-result>We'll review and send your quote.</p>
             <p>Your email app should open with the details addressed to reviveexterior@gmail.com. Photos were not attached this way. Please text photos of the job to 321-795-0313. Nothing is stored on this website.</p>
             <div class="cluster">
               <a class="btn" data-mailto-link href="mailto:reviveexterior@gmail.com">Open the email</a>

@@ -24,6 +24,10 @@
 
 *, *::before, *::after { box-sizing: border-box; }
 
+/* Author display rules (the form grid, choice list) would otherwise
+   override the hidden attribute and leave those blocks on screen. */
+[hidden] { display: none !important; }
+
 html { scroll-behavior: smooth; }
 
 body {
@@ -541,6 +545,10 @@ a:hover { color: var(--blue-dark); }
   background: #E7F2FC;
   font-weight: 650;
 }
+.form-result .estimate-live {
+  margin-top: 0;
+  color: var(--ink);
+}
 .photo-preview {
   display: flex;
   flex-wrap: wrap;
@@ -589,6 +597,8 @@ a:hover { color: var(--blue-dark); }
   border-radius: 14px;
   background: #E8F6EE;
   color: var(--ink);
+  scroll-margin-top: 6rem;
+  scroll-margin-bottom: 6rem;
 }
 .form-result .cluster { margin-top: 0.8rem; }
 .hp {

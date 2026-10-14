@@ -1,0 +1,11 @@
+name = "shine-city-quote"
+main = "src/index.js"
+compatibility_date = "2026-10-14"
+
+# Non-secret settings. API keys are secrets, not vars.
+# Set them with `npx wrangler secret put`, never in this file.
+[vars]
+VISION_PROVIDER = "openai"
+OPENAI_MODEL = "gpt-4o"
+GEMINI_MODEL = "gemini-2.5-flash"
+RATE_LIMIT_PER_HOUR = "8"

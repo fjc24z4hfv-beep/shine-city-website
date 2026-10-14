@@ -286,6 +286,10 @@
     add("Latitude", "latitude");
     add("Longitude", "longitude");
     add("Satellite", "satellite_link");
+    add("Measured sq ft", "measured_sqft");
+    add("Instant price", "instant_price");
+    add("Confidence", "estimate_confidence");
+    add("Estimate", "instant_estimate");
     add("Service", "service");
     lines.push("Note: " + (description || "(none)"));
     lines.push("");
@@ -296,12 +300,17 @@
   function showThanks(form) {
     var grid = form.querySelector(".form-grid");
     var lead = form.querySelector("[data-form-lead]");
+    var heading = form.querySelector("h3");
     var thanks = form.querySelector("[data-form-thanks]");
     var panel = form.querySelector("[data-form-result]");
     if (grid) grid.hidden = true;
     if (lead) lead.hidden = true;
+    if (heading) heading.hidden = true;
     if (panel) panel.hidden = true;
-    if (thanks) thanks.hidden = false;
+    if (thanks) {
+      thanks.hidden = false;
+      if (thanks.scrollIntoView) thanks.scrollIntoView({ block: "center" });
+    }
     var wizard = form.closest("[data-instant-quote]");
     if (!wizard) return;
     wizard.querySelectorAll("[data-step]").forEach(function (step) {
@@ -548,6 +557,81 @@
     });
   }
 
+  function setHidden(form, name, value) {
+    var field = form.elements[name];
+    if (field) field.value = value == null ? "" : String(value);
+  }
+
+  function estimateSentence(quote) {
+    if (!quote) return "We'll review and send your quote.";
+    return "Instant estimate: about " + formatSqft(Math.round(quote.sqft)) + " sq ft, " +
+      moneyFromCents(quote.priceCents) + ". Final price confirmed after our review.";
+  }
+
+  function applyEstimate(form, quote) {
+    if (quote) {
+      setHidden(form, "measured_sqft", Math.round(quote.sqft));
+      setHidden(form, "instant_price", moneyFromCents(quote.priceCents));
+      setHidden(form, "estimate_confidence", quote.confidence || "");
+      if (quote.formattedAddress) setHidden(form, "full_address", quote.formattedAddress);
+      if (quote.latitude != null && quote.latitude !== "") setHidden(form, "latitude", quote.latitude);
+      if (quote.longitude != null && quote.longitude !== "") setHidden(form, "longitude", quote.longitude);
+      if (quote.satelliteLink) setHidden(form, "satellite_link", quote.satelliteLink);
+    } else {
+      setHidden(form, "measured_sqft", "");
+      setHidden(form, "instant_price", "");
+      setHidden(form, "estimate_confidence", "");
+    }
+    var sentence = estimateSentence(quote);
+    setHidden(form, "instant_estimate", sentence);
+    form.querySelectorAll("[data-estimate-result]").forEach(function (el) {
+      el.textContent = sentence;
+    });
+  }
+
+  function requestInstantQuote(form, files) {
+    var url = cfg.INSTANT_QUOTE_API ? String(cfg.INSTANT_QUOTE_API).trim() : "";
+    if (!url) return Promise.resolve(null);
+    var body = new FormData();
+    body.append("address", fieldValue(form, "full_address"));
+    body.append("latitude", fieldValue(form, "latitude"));
+    body.append("longitude", fieldValue(form, "longitude"));
+    files.forEach(function (file) {
+      body.append("photo", file, file.name || "photo.jpg");
+    });
+    var controller = typeof AbortController === "function" ? new AbortController() : null;
+    var timer = window.setTimeout(function () {
+      if (controller) controller.abort();
+    }, 45000);
+    return fetch(url, {
+      method: "POST",
+      body: body,
+      signal: controller ? controller.signal : undefined
+    }).then(function (response) {
+      if (!response.ok) return null;
+      return response.json();
+    }).then(function (data) {
+      if (!data || data.ok !== true) return null;
+      var sqft = Number(data.sqft);
+      var priceCents = Number(data.priceCents);
+      if (!isFinite(sqft) || sqft <= 0 || !isFinite(priceCents) || priceCents <= 0) return null;
+      return {
+        sqft: sqft,
+        priceCents: priceCents,
+        confidence: data.confidence || "",
+        latitude: data.latitude,
+        longitude: data.longitude,
+        satelliteLink: data.satelliteLink || "",
+        formattedAddress: data.formattedAddress || ""
+      };
+    }).catch(function () {
+      return null;
+    }).then(function (result) {
+      window.clearTimeout(timer);
+      return result;
+    });
+  }
+
   function setSending(form, sending) {
     var button = form.querySelector("[type=submit]");
     if (!button) return;
@@ -584,13 +668,16 @@
       var pending = photos ? preparePhotos(photos.files, minPhotos) : preparePhotos([], minPhotos);
       setSending(form, true);
       pending.then(function (files) {
-        if (!cfg.FORM_ENDPOINT) {
-          setSending(form, false);
-          showFallback(form);
-          return;
-        }
-        installPhotos(form, files);
-        deliverForm(form);
+        return requestInstantQuote(form, files).then(function (quote) {
+          applyEstimate(form, quote);
+          if (!cfg.FORM_ENDPOINT) {
+            setSending(form, false);
+            showFallback(form);
+            return;
+          }
+          installPhotos(form, files);
+          deliverForm(form);
+        });
       }).catch(function (err) {
         setSending(form, false);
         var message = err && err.message ? err.message : "";
