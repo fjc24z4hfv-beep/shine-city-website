@@ -942,28 +942,17 @@ a:hover { color: var(--blue-dark); }
 .wash-section .pair--solo { max-width: 22rem; margin-inline: auto; }
 @media (min-width: 900px) {
   .wash-split {
-    grid-template-columns: minmax(0, 1fr) minmax(16rem, 22rem);
-    column-gap: 2.25rem;
-    align-items: center;
-  }
-  .wash-split__copy {
-    display: flex;
-    flex-direction: column;
+    grid-template-columns: minmax(0, 42rem);
     justify-content: center;
-    order: 0;
-    min-width: 0;
   }
-  .wash-split h2,
-  .wash-split .narrow,
-  .wash-split .cluster { order: 0; }
   .wash-split .narrow { max-width: none; }
   .wash-split .pair {
-    order: 0;
-    justify-self: end;
-    margin: 0;
-    max-width: none;
-    width: 100%;
+    justify-self: center;
+    width: min(100%, 22rem);
+    margin-bottom: 1.25rem;
   }
+  .wash-split .cluster { justify-content: center; }
+  .wash-split figcaption { text-align: center; }
 }
 .pair--native .shot { max-width: 798px; }
 .shot__tag {
