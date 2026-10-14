@@ -11,7 +11,7 @@ The Worker:
 3. Geocodes the address with the ArcGIS World Geocoding service (`findAddressCandidates`, no key) and keeps Orange County and Brevard County, Florida.
 4. Downloads an Esri World Imagery satellite image at zoom 20, about 640 pixels on a side, centered on that point. No key.
 5. Sends that image plus the customer's photos to a vision model.
-6. Prices the returned square footage on the server: $2.00 per sq ft up to 800 sq ft, and $1.75 per sq ft for the whole job over 800.
+6. Prices the returned square footage on the server: the first 800 sq ft at $2.00, and only the square footage above 800 at $1.75. A 1,000 sq ft job is $1,950.
 7. Returns the square footage, price in cents, confidence, and a Google Maps satellite link. That link is only a URL. It does not use a Google key.
 
 If `GOOGLE_MAPS_KEY` is set, steps 3 and 4 use Google Geocoding and the Google Maps Static API instead of ArcGIS and Esri. Leave that secret unset unless you want Google.

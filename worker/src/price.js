@@ -1,7 +1,8 @@
 /* Paver sealing rates. Keep these in step with js/site-config.js.
-   At or under 800 sq ft: $2.00 on every square foot.
-   Over 800 sq ft: $1.75 on every square foot, for the whole job.
-   There is no flat promotional price. */
+   The first 800 sq ft are $2.00 each.
+   Only the square footage above 800 is $1.75 each.
+   A 1,000 sq ft job is $1,600 plus 200 sq ft at $1.75, which is $1,950.
+   There is no job minimum and no flat promotional price. */
 
 export var BREAKPOINT_SQFT = 800;
 export var RATE_UP_TO_CENTS = 200;
@@ -11,11 +12,18 @@ export var MAX_SQFT = 50000;
 export function priceForSqft(sqft) {
   var n = Math.round(Number(sqft));
   if (!isFinite(n) || n <= 0 || n > MAX_SQFT) return null;
-  var rateCents = n <= BREAKPOINT_SQFT ? RATE_UP_TO_CENTS : RATE_OVER_CENTS;
+  var first = Math.min(n, BREAKPOINT_SQFT);
+  var extra = n - first;
+  var firstCents = first * RATE_UP_TO_CENTS;
+  var extraCents = extra * RATE_OVER_CENTS;
   return {
     sqft: n,
-    rateCents: rateCents,
-    totalCents: Math.round(n * rateCents)
+    firstSqft: first,
+    extraSqft: extra,
+    rateCents: extra > 0 ? RATE_OVER_CENTS : RATE_UP_TO_CENTS,
+    firstCents: firstCents,
+    extraCents: extraCents,
+    totalCents: firstCents + extraCents
   };
 }
 

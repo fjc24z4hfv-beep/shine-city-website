@@ -22,8 +22,8 @@
     return n.toLocaleString("en-US", { maximumFractionDigits: 1 });
   }
 
-  /* Whole-job estimate. sqft at or under the breakpoint uses rateUpTo.
-     sqft over the breakpoint uses rateOver on every square foot.
+  /* Tiered estimate. The first breakpointSqFt use rateUpTo.
+     Only the square footage above that uses rateOver.
      Returns null when sqft is missing or not a positive finite number.
      tooLarge is an input guard, not a published maximum. */
   function estimate(sqft) {
@@ -31,33 +31,56 @@
     var n = typeof sqft === "number" ? sqft : parseFloat(sqft);
     if (!isFinite(n) || n <= 0) return null;
     if (n > 50000) return { tooLarge: true };
-    var over = n > pricing.breakpointSqFt;
-    var centsPer = rateCents(over ? pricing.rateOver : pricing.rateUpTo);
-    var total = Math.round(n * centsPer);
-    var bp = pricing.breakpointSqFt.toLocaleString("en-US");
+    var bp = pricing.breakpointSqFt;
+    var up = rateCents(pricing.rateUpTo);
+    var overRate = rateCents(pricing.rateOver);
+    var first = Math.min(n, bp);
+    var extra = Math.max(0, n - bp);
+    var firstCents = Math.round(first * up);
+    var extraCents = Math.round(extra * overRate);
     return {
       sqft: n,
-      over: over,
-      rateCents: centsPer,
-      totalCents: total,
-      tierLabel: over ? "Over " + bp + " sq ft" : "Up to " + bp + " sq ft",
+      over: extra > 0,
+      firstSqft: first,
+      extraSqft: extra,
+      rateCents: extra > 0 ? overRate : up,
+      firstCents: firstCents,
+      extraCents: extraCents,
+      totalCents: firstCents + extraCents,
       includes: pricing.includes
     };
+  }
+
+  function priceSentence(result) {
+    var pricing = cfg.pricing.paverSealing;
+    var up = moneyFromCents(rateCents(pricing.rateUpTo));
+    var over = moneyFromCents(rateCents(pricing.rateOver));
+    if (!result.over) {
+      return formatSqft(result.sqft) + " sq ft × " + up + " per sq ft = " + moneyFromCents(result.totalCents);
+    }
+    return "First " + formatSqft(pricing.breakpointSqFt) + " sq ft at " + up +
+      " (" + moneyFromCents(result.firstCents) + ") plus " + formatSqft(result.extraSqft) +
+      " sq ft at " + over + " (" + moneyFromCents(result.extraCents) + ") = " +
+      moneyFromCents(result.totalCents);
   }
 
   function tierModel() {
     var pricing = cfg.pricing.paverSealing;
     var bp = pricing.breakpointSqFt.toLocaleString("en-US");
+    var sample = estimate(1000);
+    var sampleText = sample
+      ? " A 1,000 sq ft job is " + moneyFromCents(sample.totalCents) + "."
+      : "";
     return [
       {
-        title: "Up to " + bp + " sq ft",
+        title: "First " + bp + " sq ft",
         rate: pricing.rateUpTo,
-        detail: "The rate for the whole job when the paved area is " + bp + " sq ft or less."
+        detail: "Every job starts here. The first " + bp + " sq ft are this rate."
       },
       {
-        title: "Over " + bp + " sq ft",
+        title: "Each sq ft above " + bp,
         rate: pricing.rateOver,
-        detail: "A lower rate, applied to every square foot, when the job is over " + bp + " sq ft."
+        detail: "Only the square footage above " + bp + " sq ft uses this rate. The first " + bp + " stay at the higher rate." + sampleText
       }
     ];
   }
@@ -65,8 +88,9 @@
   function compactRateText() {
     var pricing = cfg.pricing.paverSealing;
     var bp = pricing.breakpointSqFt.toLocaleString("en-US");
-    return moneyFromCents(rateCents(pricing.rateUpTo)) + " per sq ft up to " + bp +
-      " sq ft. " + moneyFromCents(rateCents(pricing.rateOver)) + " per sq ft over " + bp + " sq ft.";
+    return "First " + bp + " sq ft at " + moneyFromCents(rateCents(pricing.rateUpTo)) +
+      " per sq ft. Only the square footage above " + bp + " at " +
+      moneyFromCents(rateCents(pricing.rateOver)) + " per sq ft.";
   }
 
   function escapeHtml(value) {
@@ -153,14 +177,14 @@
     }
     return [
       offer(
-        "Paver sealing up to " + bp + " sq ft",
+        "Paver sealing, first " + bp + " sq ft",
         pricing.rateUpTo,
-        "For jobs of " + bp + " square feet or less, at " + pricing.rateUpTo.toFixed(2) + " per square foot for the whole job."
+        "The first " + bp + " square feet are $" + pricing.rateUpTo.toFixed(2) + " per square foot. There is no job minimum."
       ),
       offer(
-        "Paver sealing over " + bp + " sq ft",
+        "Paver sealing above " + bp + " sq ft",
         pricing.rateOver,
-        "For jobs over " + bp + " square feet, at " + pricing.rateOver.toFixed(2) + " per square foot for the whole job."
+        "Only the square footage above " + bp + " is $" + pricing.rateOver.toFixed(2) + " per square foot. The first " + bp + " square feet stay at $" + pricing.rateUpTo.toFixed(2) + "."
       )
     ];
   }
@@ -198,14 +222,13 @@
         output.textContent = "For an area that large, call or text and we'll walk it with you.";
         return;
       }
-      var line = formatSqft(result.sqft) + " sq ft × " + moneyFromCents(result.rateCents) +
-        " per sq ft = " + moneyFromCents(result.totalCents);
       output.innerHTML =
         '<strong class="calc__total">' + moneyFromCents(result.totalCents) + "</strong>" +
-        "<span>" + escapeHtml(line) + ".</span>" +
-        "<span>" + escapeHtml(result.tierLabel) + " rate, for the whole job. " +
-        escapeHtml(result.includes) + ".</span>" +
-        "<span>Estimate only. Final price is confirmed after a free on-site look.</span>";
+        "<span>" + escapeHtml(priceSentence(result)) + ".</span>" +
+        "<span>" + escapeHtml(result.includes) + ". Only square footage above " +
+        escapeHtml(cfg.pricing.paverSealing.breakpointSqFt.toLocaleString("en-US")) +
+        " sq ft uses the lower rate.</span>" +
+        "<span>Estimate only. Final price is confirmed after a free on-site look. No job minimum.</span>";
     }
 
     input.addEventListener("input", draw);
@@ -241,8 +264,7 @@
     if (result.tooLarge) {
       return "That size is large enough that we'll measure it with you. This is not a final quote.";
     }
-    return "Rough estimate: " + formatSqft(result.sqft) + " sq ft × " +
-      moneyFromCents(result.rateCents) + " per sq ft = " + moneyFromCents(result.totalCents) +
+    return "Rough estimate: " + priceSentence(result) +
       ". This is a rough paver sealing estimate (" + result.includes.toLowerCase() +
       ") from the size you entered. It is not a final quote.";
   }
