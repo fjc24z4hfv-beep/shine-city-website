@@ -323,6 +323,7 @@ a:hover { color: var(--blue-dark); }
 .hero { padding: 2.4rem 0 4.6rem; }
 .page-hero { padding: 1.8rem 0 2.4rem; }
 .hero .lede, .page-hero .lede { color: #E7F0FA; }
+.hero .lede { font-size: 1.3rem; font-weight: 600; }
 .hero__pop { color: var(--brand); font-weight: 800; }
 .hero__rates {
   display: inline-block;
@@ -713,7 +714,7 @@ a:hover { color: var(--blue-dark); }
 @media (max-width: 699px) {
   .hero { padding: 1.2rem 0 calc(1.35rem + 4.75rem + env(safe-area-inset-bottom)); }
   .hero h1 { font-size: 1.85rem; margin-bottom: 0.45rem; }
-  .hero .lede { font-size: 1.02rem; margin-bottom: 0.75rem; }
+  .hero .lede { font-size: 1.15rem; margin-bottom: 0.75rem; }
   .hero__note { margin-top: 0.7rem; font-size: 0.92rem; }
   .hero__actions.cluster {
     display: grid;
