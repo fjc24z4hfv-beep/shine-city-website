@@ -299,6 +299,23 @@ a:hover { color: var(--blue-dark); }
   max-width: 40rem;
 }
 .hero__note { margin: 1rem 0 0; color: #D6E4F5; font-size: 0.98rem; }
+.easy {
+  margin-top: 1.1rem;
+  max-width: 40rem;
+  padding: 0.95rem 1rem 1rem;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+}
+.easy__title {
+  margin: 0 0 0.3rem;
+  color: var(--white);
+  font-size: 1.15rem;
+  font-weight: 800;
+}
+.easy p { margin: 0 0 0.8rem; color: #E7F0FA; }
+.easy .btn { width: 100%; }
+.steps__go { margin-top: 0.8rem; }
 
 .crumbs ol {
   display: flex;
@@ -429,7 +446,8 @@ a:hover { color: var(--blue-dark); }
   font-weight: 800;
 }
 .steps { counter-reset: step; }
-.steps p { margin: 0; color: var(--muted); }
+.steps p { margin: 0; color: var(--ink); }
+.steps p.steps__why { margin-top: 0.4rem; color: var(--muted); font-size: 0.95rem; }
 
 .frames { }
 .frame { margin: 0; }
