@@ -268,37 +268,56 @@
   }
 
   function quoteBody(form) {
-    var description = fieldValue(form, "description");
+    var description = fieldValue(form, "description") || fieldValue(form, "note");
     if (description.length > 700) description = description.slice(0, 700) + "…";
-    return [
-      "Shine City quote request",
-      "",
-      "Name: " + fieldValue(form, "name"),
-      "Phone: " + fieldValue(form, "phone"),
-      "Email: " + (fieldValue(form, "email") || "(none)"),
-      "City: " + fieldValue(form, "city"),
-      "ZIP: " + fieldValue(form, "zip"),
-      "Street address: " + (fieldValue(form, "property_address") || "(none)"),
-      "Service: " + fieldValue(form, "service"),
-      "Description: " + description,
-      "Length (ft): " + (fieldValue(form, "length_ft") || "(none)"),
-      "Width (ft): " + (fieldValue(form, "width_ft") || "(none)"),
-      "Square feet: " + (fieldValue(form, "square_feet") || "(none)"),
-      "Rough estimate: " + (fieldValue(form, "rough_estimate") || "(none)"),
-      "",
-      "Photos were not attached. Please text photos of the job to " + cfg.phoneDisplay + "."
-    ].join("\n");
+    var lines = ["Shine City quote request", ""];
+    function add(label, name, fallback) {
+      var value = fieldValue(form, name);
+      if (!value && fallback == null) return;
+      lines.push(label + ": " + (value || fallback));
+    }
+    add("Name", "name");
+    add("Phone", "phone");
+    add("Email", "email", "(none)");
+    add("Address", "full_address");
+    add("City", "city");
+    add("ZIP", "zip");
+    add("Street address", "property_address");
+    add("Latitude", "latitude");
+    add("Longitude", "longitude");
+    add("Satellite", "satellite_link");
+    add("Measured sq ft", "measured_sqft");
+    add("Instant price", "instant_price");
+    add("Confidence", "estimate_confidence");
+    add("Estimate", "instant_estimate");
+    add("Service", "service");
+    lines.push("Note: " + (description || "(none)"));
+    lines.push("");
+    lines.push("Photos were not attached. Please text photos of the job to " + cfg.phoneDisplay + ".");
+    return lines.join("\n");
   }
 
   function showThanks(form) {
     var grid = form.querySelector(".form-grid");
     var lead = form.querySelector("[data-form-lead]");
+    var heading = form.querySelector("h3");
     var thanks = form.querySelector("[data-form-thanks]");
     var panel = form.querySelector("[data-form-result]");
     if (grid) grid.hidden = true;
     if (lead) lead.hidden = true;
+    if (heading) heading.hidden = true;
     if (panel) panel.hidden = true;
-    if (thanks) thanks.hidden = false;
+    if (thanks) {
+      thanks.hidden = false;
+      if (thanks.scrollIntoView) thanks.scrollIntoView({ block: "center" });
+    }
+    var wizard = form.closest("[data-instant-quote]");
+    if (!wizard) return;
+    wizard.querySelectorAll("[data-step]").forEach(function (step) {
+      if (step !== form) step.hidden = true;
+    });
+    var label = wizard.querySelector("[data-step-label]");
+    if (label) label.hidden = true;
   }
 
   function showFallback(form) {
@@ -392,9 +411,12 @@
     });
   }
 
-  function preparePhotos(fileList) {
+  function preparePhotos(fileList, minCount) {
     var files = Array.prototype.slice.call(fileList || []);
-    if (!files.length) return Promise.resolve([]);
+    if (!files.length) {
+      if (minCount > 0) return Promise.reject(new Error("Please add at least one photo."));
+      return Promise.resolve([]);
+    }
     if (files.length > MAX_PHOTOS) {
       return Promise.reject(new Error("Please choose " + MAX_PHOTOS + " photos or fewer."));
     }
@@ -535,6 +557,81 @@
     });
   }
 
+  function setHidden(form, name, value) {
+    var field = form.elements[name];
+    if (field) field.value = value == null ? "" : String(value);
+  }
+
+  function estimateSentence(quote) {
+    if (!quote) return "We'll review and send your quote.";
+    return "Instant estimate: about " + formatSqft(Math.round(quote.sqft)) + " sq ft, " +
+      moneyFromCents(quote.priceCents) + ". Final price confirmed after our review.";
+  }
+
+  function applyEstimate(form, quote) {
+    if (quote) {
+      setHidden(form, "measured_sqft", Math.round(quote.sqft));
+      setHidden(form, "instant_price", moneyFromCents(quote.priceCents));
+      setHidden(form, "estimate_confidence", quote.confidence || "");
+      if (quote.formattedAddress) setHidden(form, "full_address", quote.formattedAddress);
+      if (quote.latitude != null && quote.latitude !== "") setHidden(form, "latitude", quote.latitude);
+      if (quote.longitude != null && quote.longitude !== "") setHidden(form, "longitude", quote.longitude);
+      if (quote.satelliteLink) setHidden(form, "satellite_link", quote.satelliteLink);
+    } else {
+      setHidden(form, "measured_sqft", "");
+      setHidden(form, "instant_price", "");
+      setHidden(form, "estimate_confidence", "");
+    }
+    var sentence = estimateSentence(quote);
+    setHidden(form, "instant_estimate", sentence);
+    form.querySelectorAll("[data-estimate-result]").forEach(function (el) {
+      el.textContent = sentence;
+    });
+  }
+
+  function requestInstantQuote(form, files) {
+    var url = cfg.INSTANT_QUOTE_API ? String(cfg.INSTANT_QUOTE_API).trim() : "";
+    if (!url) return Promise.resolve(null);
+    var body = new FormData();
+    body.append("address", fieldValue(form, "full_address"));
+    body.append("latitude", fieldValue(form, "latitude"));
+    body.append("longitude", fieldValue(form, "longitude"));
+    files.forEach(function (file) {
+      body.append("photo", file, file.name || "photo.jpg");
+    });
+    var controller = typeof AbortController === "function" ? new AbortController() : null;
+    var timer = window.setTimeout(function () {
+      if (controller) controller.abort();
+    }, 45000);
+    return fetch(url, {
+      method: "POST",
+      body: body,
+      signal: controller ? controller.signal : undefined
+    }).then(function (response) {
+      if (!response.ok) return null;
+      return response.json();
+    }).then(function (data) {
+      if (!data || data.ok !== true) return null;
+      var sqft = Number(data.sqft);
+      var priceCents = Number(data.priceCents);
+      if (!isFinite(sqft) || sqft <= 0 || !isFinite(priceCents) || priceCents <= 0) return null;
+      return {
+        sqft: sqft,
+        priceCents: priceCents,
+        confidence: data.confidence || "",
+        latitude: data.latitude,
+        longitude: data.longitude,
+        satelliteLink: data.satelliteLink || "",
+        formattedAddress: data.formattedAddress || ""
+      };
+    }).catch(function () {
+      return null;
+    }).then(function (result) {
+      window.clearTimeout(timer);
+      return result;
+    });
+  }
+
   function setSending(form, sending) {
     var button = form.querySelector("[type=submit]");
     if (!button) return;
@@ -562,16 +659,25 @@
       }
       if (status) status.textContent = "";
       var photos = form.querySelector("[data-photos]");
-      var pending = photos ? preparePhotos(photos.files) : Promise.resolve([]);
+      var minPhotos = form.hasAttribute("data-photos-required") ? 1 : 0;
+      if (minPhotos && !fieldValue(form, "full_address")) {
+        setSending(form, false);
+        if (status) status.textContent = "Confirm the house before sending.";
+        return;
+      }
+      var pending = photos ? preparePhotos(photos.files, minPhotos) : preparePhotos([], minPhotos);
       setSending(form, true);
       pending.then(function (files) {
-        if (!cfg.FORM_ENDPOINT) {
-          setSending(form, false);
-          showFallback(form);
-          return;
-        }
-        installPhotos(form, files);
-        deliverForm(form);
+        return requestInstantQuote(form, files).then(function (quote) {
+          applyEstimate(form, quote);
+          if (!cfg.FORM_ENDPOINT) {
+            setSending(form, false);
+            showFallback(form);
+            return;
+          }
+          installPhotos(form, files);
+          deliverForm(form);
+        });
       }).catch(function (err) {
         setSending(form, false);
         var message = err && err.message ? err.message : "";
@@ -583,6 +689,198 @@
         showFallback(form);
       });
     });
+  }
+
+  var lastGeoAt = 0;
+
+  function inServiceCounty(item) {
+    var county = String((item.address && item.address.county) || "").toLowerCase();
+    return /\borange\b/.test(county) || county.indexOf("brevard") !== -1;
+  }
+
+  function showWizardStep(root, name) {
+    root.querySelectorAll("[data-step]").forEach(function (step) {
+      step.hidden = step.getAttribute("data-step") !== name;
+    });
+    var labels = {
+      address: "Step 1 of 3. Property address.",
+      map: "Step 2 of 3. Confirm the satellite view.",
+      details: "Step 3 of 3. Photos and contact."
+    };
+    var label = root.querySelector("[data-step-label]");
+    if (label) label.textContent = labels[name] || "";
+    var heading = root.querySelector("[data-step='" + name + "'] h3");
+    if (heading && name !== "address") heading.focus();
+  }
+
+  function satelliteUrl(lat, lon) {
+    return "https://www.google.com/maps?q=" + lat + "," + lon + "&t=k&z=19";
+  }
+
+  function ensureMap(root, lat, lon) {
+    var mount = root.querySelector("[data-map]");
+    if (!mount || !global.L) return false;
+    if (!root._map) {
+      root._map = global.L.map(mount, { scrollWheelZoom: false, zoomControl: true, attributionControl: true });
+      global.L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}", {
+        attribution: "Tiles &copy; Esri",
+        maxZoom: 19
+      }).addTo(root._map);
+      root._marker = global.L.circleMarker([lat, lon], {
+        radius: 9,
+        color: "#ffffff",
+        weight: 3,
+        fillColor: "#1565C0",
+        fillOpacity: 1
+      }).addTo(root._map);
+    }
+    root._map.setView([lat, lon], 19);
+    root._marker.setLatLng([lat, lon]);
+    global.setTimeout(function () {
+      root._map.invalidateSize();
+    }, 60);
+    return true;
+  }
+
+  function geocodeAddress(query) {
+    var key = "shine-geo:" + query.toLowerCase();
+    try {
+      var cached = sessionStorage.getItem(key);
+      if (cached) return Promise.resolve(JSON.parse(cached));
+    } catch (err) { /* Storage can be blocked. The lookup still runs. */ }
+    var wait = Math.max(0, 1100 - (Date.now() - lastGeoAt));
+    lastGeoAt = Date.now() + wait;
+    return new Promise(function (resolve) { global.setTimeout(resolve, wait); }).then(function () {
+      var params = new URLSearchParams({
+        format: "jsonv2",
+        addressdetails: "1",
+        limit: "5",
+        countrycodes: "us",
+        q: query,
+        viewbox: "-81.70,28.86,-80.40,27.84",
+        bounded: "0"
+      });
+      return fetch("https://nominatim.openstreetmap.org/search?" + params.toString(), {
+        headers: { Accept: "application/json" },
+        referrerPolicy: "strict-origin-when-cross-origin"
+      });
+    }).then(function (res) {
+      if (!res.ok) throw new Error("lookup");
+      return res.json();
+    }).then(function (rows) {
+      var matches = (rows || []).filter(inServiceCounty).map(function (item) {
+        return {
+          label: item.display_name,
+          lat: item.lat,
+          lon: item.lon,
+          county: (item.address && item.address.county) || ""
+        };
+      });
+      if (matches.length) {
+        try { sessionStorage.setItem(key, JSON.stringify(matches)); } catch (err) { /* Ignore quota errors. */ }
+      }
+      return matches;
+    });
+  }
+
+  function bindInstantQuote(root) {
+    var addressInput = root.querySelector("[data-address]");
+    var findButton = root.querySelector("[data-find]");
+    var status = root.querySelector("[data-geo-status]");
+    var choices = root.querySelector("[data-choices]");
+    var placeName = root.querySelector("[data-place-name]");
+    var summary = root.querySelector("[data-summary]");
+    var form = root.querySelector("[data-quote-form]");
+    var selected = null;
+
+    function setStatus(message) {
+      if (status) status.textContent = message || "";
+    }
+
+    function openMap(match) {
+      selected = match;
+      if (placeName) placeName.textContent = match.label;
+      showWizardStep(root, "map");
+      if (!ensureMap(root, parseFloat(match.lat), parseFloat(match.lon))) {
+        setStatus("The satellite view could not load. Try the address again.");
+        showWizardStep(root, "address");
+      }
+    }
+
+    function lookup() {
+      var raw = addressInput ? addressInput.value.trim() : "";
+      if (raw.length < 5) {
+        setStatus("Enter the street, city, and ZIP.");
+        return;
+      }
+      var query = /\bflorida\b|\bfl\b/i.test(raw) ? raw : raw + ", Florida";
+      if (findButton) findButton.disabled = true;
+      setStatus("Looking up that address\u2026");
+      if (choices) {
+        choices.hidden = true;
+        choices.innerHTML = "";
+      }
+      geocodeAddress(query).then(function (matches) {
+        if (findButton) findButton.disabled = false;
+        if (!matches.length) {
+          setStatus("We couldn't find that address in Orange County or Brevard County. Check the street and ZIP.");
+          return;
+        }
+        setStatus("");
+        if (matches.length === 1) {
+          openMap(matches[0]);
+          return;
+        }
+        if (!choices) {
+          openMap(matches[0]);
+          return;
+        }
+        choices.hidden = false;
+        choices.innerHTML = matches.map(function (match, index) {
+          return '<button type="button" data-choice="' + index + '">' + escapeHtml(match.label) + '</button>';
+        }).join("");
+        choices.onclick = function (event) {
+          var button = event.target.closest("[data-choice]");
+          if (!button) return;
+          openMap(matches[Number(button.getAttribute("data-choice"))]);
+        };
+      }).catch(function () {
+        if (findButton) findButton.disabled = false;
+        setStatus("The address search didn't respond. Try again in a moment.");
+      });
+    }
+
+    if (findButton) findButton.addEventListener("click", lookup);
+    if (addressInput) {
+      addressInput.addEventListener("keydown", function (event) {
+        if (event.key === "Enter") {
+          event.preventDefault();
+          lookup();
+        }
+      });
+    }
+    var backAddress = root.querySelector("[data-back-address]");
+    if (backAddress) backAddress.addEventListener("click", function () { showWizardStep(root, "address"); });
+    var confirmHouse = root.querySelector("[data-confirm]");
+    if (confirmHouse) {
+      confirmHouse.addEventListener("click", function () {
+        if (!selected || !form) return;
+        form.elements.full_address.value = selected.label;
+        form.elements.latitude.value = String(selected.lat);
+        form.elements.longitude.value = String(selected.lon);
+        form.elements.satellite_link.value = satelliteUrl(selected.lat, selected.lon);
+        if (summary) summary.textContent = selected.label;
+        showWizardStep(root, "details");
+      });
+    }
+    var backDetails = root.querySelector("[data-back-details]");
+    if (backDetails) backDetails.addEventListener("click", function () { showWizardStep(root, "map"); });
+
+    if (/[?&]thanks=1(?:&|$)/.test(global.location.search)) {
+      root.querySelectorAll("[data-step]").forEach(function (step) {
+        step.hidden = step.getAttribute("data-step") !== "details";
+      });
+    }
   }
 
   function bindNav() {
@@ -662,6 +960,7 @@
     refreshJsonLd();
     document.querySelectorAll("[data-calculator]").forEach(renderCalculator);
     document.querySelectorAll("[data-quote-form]").forEach(bindQuoteForm);
+    document.querySelectorAll("[data-instant-quote]").forEach(bindInstantQuote);
     bindNav();
   }
 
