@@ -518,7 +518,7 @@
     }
     reply.value = fieldValue(form, "email");
     var next = form.querySelector("[name=_next]");
-    if (next) next.value = window.location.origin + "/contact/?thanks=1#quote";
+    if (next) next.value = window.location.origin + "/pricing/?thanks=1#quote";
     form.action = cfg.FORM_ENDPOINT;
     form.method = "post";
     form.enctype = "multipart/form-data";

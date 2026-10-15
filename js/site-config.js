@@ -55,6 +55,7 @@ var SHINE_CITY = {
      Leave "" to use only the email and text fallback.
      The same address is the form's action, so a browser without
      JavaScript still posts the form and its photos.
+     The quote form lives on /pricing/. /contact/ redirects there.
      The first real submission emails reviveexterior@gmail.com a
      FormSubmit activation link. Until that link is opened, submissions
      are not delivered. Do not send a test entry. */

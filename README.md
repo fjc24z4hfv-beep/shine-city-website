@@ -18,7 +18,7 @@ Paver sealing rates, the 800 sq ft breakpoint, the city list, and quote-form del
 
 - `pricing.paverSealing.breakpointSqFt`, `rateUpTo`, and `rateOver` drive the price cards, the estimate calculator, and the price structured data. The first `breakpointSqFt` use `rateUpTo`. Only the square footage above that uses `rateOver`. The same split is in `worker/src/price.js`.
 - `FORM_ENDPOINT` is the FormSubmit address that receives the quote form and its photos. Leave it blank to use only the prefilled email and text backup. The first real submission sends FormSubmit's activation email to reviveexterior@gmail.com. Open that link once so later submissions are delivered. Do not send a test just to trigger it.
-- The quote on the homepage and `/contact/` looks up the address (OpenStreetMap Nominatim, one search per button press, biased to Orange and Brevard County) and shows Esri satellite imagery so the customer can confirm the house. Photos are required. The published paver sealing rates stay on the page as general information.
+- The quote on `/pricing/` looks up the address (OpenStreetMap Nominatim, one search per button press, biased to Orange and Brevard County) and shows Esri satellite imagery so the customer can confirm the house. Photos are required. The published paver sealing rates stay on the page as general information. `/contact/` redirects there and keeps the query string, including `?thanks=1`.
 - `INSTANT_QUOTE_API` is the Cloudflare Worker URL that estimates square footage from a satellite image and the customer's photos, then prices the job. It is set to `https://shine-city-quote.shinecity.workers.dev`. The deploy steps and the request shape are in `worker/README.md`. The only required Worker secret is `OPENAI_API_KEY`. Geocoding and the satellite image use ArcGIS and Esri unless `GOOGLE_MAPS_KEY` is also set. A blank setting, or a Worker error, still emails the request and shows "We'll review and send your quote."
 - `serviceArea` is the city list. Counties are Orange and Brevard. If you change cities, also update the sentences on `service-area/index.html` and the meta descriptions that name cities.
 
@@ -27,7 +27,8 @@ The visible price lines in the HTML are a no-JavaScript fallback. If the rates c
 ## Pages
 
 - `/` home, with a short paver sealing price teaser in the hero
-- `/pricing/` paver sealing rates, sealer stripping, and the neighbor discount
+- `/pricing/` instant quote, paver sealing rates, sealer stripping, and the neighbor discount
+- `/contact/` redirects to `/pricing/`
 - `/paver-sealing/` prices, the square-foot estimate, and stripping
 - `/gallery/` cleaning photos (prep for sealing, not sealed finishes)
 - `/first-seal/` and `/new-pavers/` redirect to `/paver-sealing/`
