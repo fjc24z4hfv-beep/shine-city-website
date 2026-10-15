@@ -313,6 +313,10 @@
         <p>Send as many photos as you can, up to 6, from different angles. Include one of the whole driveway or patio. More photos give a more accurate price.</p>
         <form id="instant-quote" data-quote-form data-photos-required action="https://formsubmit.co/reviveexterior@gmail.com" method="post" enctype="multipart/form-data">
           <div class="form-grid">
+            <div class="field full">
+              <label for="iq-address">Property address <span class="req">(required)</span></label>
+              <input id="iq-address" name="full_address" type="text" autocomplete="street-address" required minlength="5" placeholder="Street, city, ZIP">
+            </div>
             <div class="field">
               <label for="iq-name">Name <span class="req">(required)</span></label>
               <input id="iq-name" name="name" type="text" autocomplete="name" required minlength="2">
@@ -324,10 +328,6 @@
             <div class="field">
               <label for="iq-email">Email <span class="req">(required)</span></label>
               <input id="iq-email" name="email" type="email" autocomplete="email" inputmode="email" required>
-            </div>
-            <div class="field full">
-              <label for="iq-address">Property address <span class="req">(required)</span></label>
-              <input id="iq-address" name="full_address" type="text" autocomplete="street-address" required minlength="5" placeholder="Street, city, ZIP">
             </div>
             <div class="field full">
               <label for="iq-note">Short note <span class="req">(required)</span></label>
