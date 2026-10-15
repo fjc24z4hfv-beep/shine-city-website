@@ -613,6 +613,7 @@ a:hover { color: var(--blue-dark); }
 .form-card { padding: 1.2rem; }
 .form-grid { display: grid; gap: 0.9rem; }
 .field label, .size-field legend { display: block; font-weight: 700; margin-bottom: 0.3rem; }
+.photo-limit { font-weight: 800; color: var(--ink); }
 .field input, .field select, .field textarea {
   width: 100%;
   min-height: 48px;
