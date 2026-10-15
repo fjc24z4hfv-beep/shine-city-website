@@ -352,6 +352,13 @@ a:hover { color: var(--blue-dark); }
 }
 .easy p { margin: 0 0 0.8rem; color: #E7F0FA; }
 .easy .btn { width: 100%; }
+.section .easy {
+  margin-top: 0;
+  margin-bottom: 1.35rem;
+  background: var(--navy-deep);
+}
+.hero__note a { color: var(--brand); font-weight: 700; }
+.hero__note a:hover { color: var(--white); }
 .steps__go { margin-top: 0.8rem; }
 
 .crumbs ol {

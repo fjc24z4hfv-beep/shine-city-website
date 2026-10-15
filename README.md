@@ -22,11 +22,12 @@ Paver sealing rates, the 800 sq ft breakpoint, the city list, and quote-form del
 - `INSTANT_QUOTE_API` is the Cloudflare Worker URL that estimates square footage from a satellite image and the customer's photos, then prices the job. It is set to `https://shine-city-quote.shinecity.workers.dev`. The deploy steps and the request shape are in `worker/README.md`. The only required Worker secret is `OPENAI_API_KEY`. Geocoding and the satellite image use ArcGIS and Esri unless `GOOGLE_MAPS_KEY` is also set. A blank setting, or a Worker error, still emails the request and shows "We'll review and send your quote."
 - `serviceArea` is the city list. Counties are Orange and Brevard. If you change cities, also update the sentences on `service-area/index.html` and the meta descriptions that name cities.
 
-The visible price lines in the HTML are a no-JavaScript fallback. If the rates change, update those sentences and the meta descriptions on the home page and the paver sealing page so they match the config.
+The visible price lines in the HTML are a no-JavaScript fallback. If the rates change, update those sentences and the meta descriptions on the home page, the pricing page, and the paver sealing page so they match the config.
 
 ## Pages
 
-- `/` home, with paver sealing prices in the hero
+- `/` home, with a short paver sealing price teaser in the hero
+- `/pricing/` paver sealing rates, sealer stripping, and the neighbor discount
 - `/paver-sealing/` prices, the square-foot estimate, and stripping
 - `/gallery/` cleaning photos (prep for sealing, not sealed finishes)
 - `/first-seal/` and `/new-pavers/` redirect to `/paver-sealing/`
