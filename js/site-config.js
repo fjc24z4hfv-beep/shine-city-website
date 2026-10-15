@@ -17,7 +17,7 @@
    JSON-LD are filled from the three numbers below.
    If the numbers change, also update the matching sentences in:
      - index.html (hero tier fallback, FAQ, meta description)
-     - pricing/index.html (tier fallback, meta description)
+     - pricing/index.html (hero lede, quote card price line, meta description)
      - paver-sealing/index.html (tier fallback, meta description)
      - pressure-washing/index.html and contact/index.html
      - the static makesOffer block in each page's business JSON-LD
