@@ -973,6 +973,19 @@ a:hover { color: var(--blue-dark); }
   color: var(--muted);
   font-size: 0.95rem;
 }
+.benefits {
+  display: grid;
+  gap: 1.35rem;
+  max-width: 42rem;
+}
+.benefits article p:last-child { margin-bottom: 0; }
+.job-photos {
+  display: grid;
+  gap: 1.6rem;
+  max-width: 52rem;
+  margin-bottom: 1.25rem;
+}
+.job-photos .pair { margin: 0; }
 .feature-list { max-width: 52rem; }
 
 .compare {
