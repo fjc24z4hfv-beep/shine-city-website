@@ -704,7 +704,7 @@
       var minPhotos = form.hasAttribute("data-photos-required") ? 1 : 0;
       if (minPhotos && !fieldValue(form, "full_address")) {
         setSending(form, false);
-        if (status) status.textContent = "Confirm the house before sending.";
+        if (status) status.textContent = "Enter the property address.";
         return;
       }
       var pending = photos ? preparePhotos(photos.files, minPhotos) : preparePhotos([], minPhotos);
