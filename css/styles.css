@@ -985,19 +985,25 @@ a:hover { color: var(--blue-dark); }
   max-width: 52rem;
   margin-bottom: 1.25rem;
 }
-.job-photos .pair { margin: 0; }
+.job-photos .pair,
+.lead-pair .pair { margin: 0; }
+.lead-pair { max-width: 52rem; }
 /* Equal frames for every before/after pair, including mixed portrait and landscape shots. */
 .job-photos .pair__grid,
+.lead-pair .pair__grid,
 .gallery-grid .pair--split .pair__grid:not(:has(> :only-child)) {
   align-items: stretch;
 }
 .job-photos .shot,
+.lead-pair .shot,
 .gallery-grid .pair--split .pair__grid:not(:has(> :only-child)) .shot {
   width: 100%;
   aspect-ratio: 4 / 3;
 }
-.job-photos .pair--native .shot { max-width: none; }
+.job-photos .pair--native .shot,
+.lead-pair .pair--native .shot { max-width: none; }
 .job-photos .shot img,
+.lead-pair .shot img,
 .gallery-grid .pair--split .pair__grid:not(:has(> :only-child)) .shot img {
   position: absolute;
   inset: 0;
