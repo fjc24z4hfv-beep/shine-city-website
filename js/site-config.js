@@ -10,7 +10,7 @@
    No job minimum is set. Do not add one.
    Sealer stripping is a separate published rate: strip only, re-sand and reseal not included.
    It is not used by the paver sealing calculator or the instant quote.
-   House washing and pressure washing have no published price.
+   House washing and pressure washing: call or text for an estimate. Do not add a published wash price.
    The door-hanger flat special is not a website price. Do not add it here.
 
    Visible tier cards, the estimate calculator, and the price fields in
