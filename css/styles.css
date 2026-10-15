@@ -986,6 +986,27 @@ a:hover { color: var(--blue-dark); }
   margin-bottom: 1.25rem;
 }
 .job-photos .pair { margin: 0; }
+/* Equal frames for every before/after pair, including mixed portrait and landscape shots. */
+.job-photos .pair__grid,
+.gallery-grid .pair--split .pair__grid:not(:has(> :only-child)) {
+  align-items: stretch;
+}
+.job-photos .shot,
+.gallery-grid .pair--split .pair__grid:not(:has(> :only-child)) .shot {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+}
+.job-photos .pair--native .shot { max-width: none; }
+.job-photos .shot img,
+.gallery-grid .pair--split .pair__grid:not(:has(> :only-child)) .shot img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  object-fit: cover;
+  object-position: center center;
+}
 .feature-list { max-width: 52rem; }
 
 .compare {
