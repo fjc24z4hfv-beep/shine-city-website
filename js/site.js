@@ -518,7 +518,7 @@
     }
     reply.value = fieldValue(form, "email");
     var next = form.querySelector("[name=_next]");
-    if (next) next.value = window.location.origin + "/contact/?thanks=1#quote";
+    if (next) next.value = window.location.origin + "/pricing/?thanks=1#quote";
     form.action = cfg.FORM_ENDPOINT;
     form.method = "post";
     form.enctype = "multipart/form-data";
@@ -704,7 +704,7 @@
       var minPhotos = form.hasAttribute("data-photos-required") ? 1 : 0;
       if (minPhotos && !fieldValue(form, "full_address")) {
         setSending(form, false);
-        if (status) status.textContent = "Confirm the house before sending.";
+        if (status) status.textContent = "Enter the property address.";
         return;
       }
       var pending = photos ? preparePhotos(photos.files, minPhotos) : preparePhotos([], minPhotos);

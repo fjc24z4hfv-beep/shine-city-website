@@ -17,6 +17,7 @@
    JSON-LD are filled from the three numbers below.
    If the numbers change, also update the matching sentences in:
      - index.html (hero tier fallback, FAQ, meta description)
+     - pricing/index.html (tier fallback, meta description)
      - paver-sealing/index.html (tier fallback, meta description)
      - pressure-washing/index.html and contact/index.html
      - the static makesOffer block in each page's business JSON-LD
@@ -54,6 +55,7 @@ var SHINE_CITY = {
      Leave "" to use only the email and text fallback.
      The same address is the form's action, so a browser without
      JavaScript still posts the form and its photos.
+     The quote form lives on /pricing/. /contact/ redirects there.
      The first real submission emails reviveexterior@gmail.com a
      FormSubmit activation link. Until that link is opened, submissions
      are not delivered. Do not send a test entry. */
