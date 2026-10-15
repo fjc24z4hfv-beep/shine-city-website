@@ -33,8 +33,8 @@ The visible price lines in the HTML are a no-JavaScript fallback. If the rates c
 - `/gallery/` cleaning photos (prep for sealing, not sealed finishes)
 - `/first-seal/` and `/new-pavers/` redirect to `/paver-sealing/`
 - `/sealer-stripping/` strip only at $2.25 per sq ft. Re-sand and reseal are priced separately. Not used by the instant quote.
-- `/soft-washing/` soft washing for stucco, siding, and stone veneer
-- `/pressure-washing/` pressure washing for concrete and screen enclosures
+- `/soft-washing/` soft washing for stucco, vinyl siding, stone veneer, and screen enclosures
+- `/pressure-washing/` pressure washing for driveways, sidewalks, walkways, patios, pavers, and pool decks
 - `/service-area/` Orange County and Brevard County
 - `/about/`
 - `/contact/` free quote

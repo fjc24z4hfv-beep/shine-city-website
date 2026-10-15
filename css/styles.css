@@ -973,6 +973,57 @@ a:hover { color: var(--blue-dark); }
   color: var(--muted);
   font-size: 0.95rem;
 }
+.benefits {
+  display: grid;
+  gap: 1.35rem;
+  max-width: 42rem;
+}
+.benefits article p:last-child { margin-bottom: 0; }
+.job-photos {
+  display: grid;
+  gap: 1.6rem;
+  max-width: 52rem;
+  margin-bottom: 1.25rem;
+}
+.job-photos .pair,
+.lead-pair .pair { margin: 0; }
+.lead-pair { max-width: 52rem; }
+/* Equal frames for every before/after pair, including mixed portrait and landscape shots. */
+.job-photos .pair__grid,
+.lead-pair .pair__grid,
+.gallery-grid .pair--split .pair__grid:not(:has(> :only-child)) {
+  align-items: stretch;
+}
+.job-photos .shot,
+.lead-pair .shot,
+.gallery-grid .pair--split .pair__grid:not(:has(> :only-child)) .shot {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+}
+.job-photos .pair--native .shot,
+.lead-pair .pair--native .shot { max-width: none; }
+.job-photos .shot img,
+.lead-pair .shot img,
+.gallery-grid .pair--split .pair__grid:not(:has(> :only-child)) .shot img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  object-fit: cover;
+  object-position: center center;
+}
+/* Combined before/after is one square photo. Keep the whole frame instead of cropping it to 4:3. */
+.job-photos .pair--solo .shot {
+  aspect-ratio: auto;
+  max-width: 22rem;
+}
+.job-photos .pair--solo .shot img {
+  position: static;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}
 .feature-list { max-width: 52rem; }
 
 .compare {
