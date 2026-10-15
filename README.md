@@ -27,7 +27,7 @@ The visible price lines in the HTML are a no-JavaScript fallback. If the rates c
 ## Pages
 
 - `/` home, with a short paver sealing price teaser in the hero
-- `/pricing/` instant quote, paver sealing rates, sealer stripping, and the neighbor discount
+- `/pricing/` instant quote and the paver sealing rate line. Sealer stripping stays on `/sealer-stripping/` and `/paver-sealing/`. The neighbor discount stays on `/paver-sealing/`.
 - `/contact/` redirects to `/pricing/`
 - `/paver-sealing/` prices, the square-foot estimate, and stripping
 - `/gallery/` cleaning photos (prep for sealing, not sealed finishes)
