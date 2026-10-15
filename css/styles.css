@@ -1013,6 +1013,17 @@ a:hover { color: var(--blue-dark); }
   object-fit: cover;
   object-position: center center;
 }
+/* Combined before/after is one square photo. Keep the whole frame instead of cropping it to 4:3. */
+.job-photos .pair--solo .shot {
+  aspect-ratio: auto;
+  max-width: 22rem;
+}
+.job-photos .pair--solo .shot img {
+  position: static;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}
 .feature-list { max-width: 52rem; }
 
 .compare {
