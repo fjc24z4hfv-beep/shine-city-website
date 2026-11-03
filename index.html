@@ -301,14 +301,28 @@
       </div>
     </section>
 
-    <section class="section section--white video-slot" id="process-video" aria-labelledby="process-video-heading">
-      <div class="container narrow">
-        <h2 id="process-video-heading">See the sealing process</h2>
+    <section class="section video-feature" id="process-video" aria-labelledby="process-video-heading">
+      <div class="container video-feature__grid">
+        <h2 id="process-video-heading" class="video-feature__title">Watch a pool deck get sealed</h2>
         <!-- Pool deck clean-to-sealed video. Source also set in js/site-config.js (processVideo). -->
-        <div class="video-frame video-frame--vertical" data-video-mount>
-          <video controls muted playsinline preload="metadata" poster="/videos/pool-deck-sealing-poster.jpg" width="720" height="1280">
-            <source src="/videos/pool-deck-sealing.mp4" type="video/mp4">
-          </video>
+        <div class="video-feature__media">
+          <div class="video-frame video-frame--vertical" data-video-mount>
+            <video controls muted playsinline preload="metadata" poster="/videos/pool-deck-sealing-poster.jpg" width="720" height="1280">
+              <source src="/videos/pool-deck-sealing.mp4" type="video/mp4">
+            </video>
+          </div>
+        </div>
+        <div class="video-feature__body">
+          <p>This is a real Orlando pool deck. Nick cleaned it first, then sealed it, start to finish. Shine City is owner-operated, so the person you talk to is the person doing the work, with 10 years of sealing in Orlando.</p>
+          <ul class="video-feature__points">
+            <li>Deep clean first</li>
+            <li>Even sealer coat</li>
+            <li>Richer color and protection</li>
+          </ul>
+          <div class="video-feature__actions">
+            <a class="btn" href="/pricing/#quote">Free quote</a>
+            <a class="btn btn--outline" href="tel:3217950313">Call or text 321-795-0313</a>
+          </div>
         </div>
       </div>
     </section>
