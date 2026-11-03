@@ -41,8 +41,8 @@ var SHINE_CITY = {
      If src is set, it is used and youtubeId is ignored.
      Empty src and youtubeId show the "Video coming soon" placeholder. */
   processVideo: {
-    src: "",
-    poster: "",
+    src: "/videos/pool-deck-sealing.mp4",
+    poster: "/videos/pool-deck-sealing-poster.jpg",
     youtubeId: ""
   },
 

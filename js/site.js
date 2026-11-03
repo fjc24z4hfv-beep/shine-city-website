@@ -979,7 +979,7 @@
     var poster = String(video.poster || "").trim();
     var youtubeId = String(video.youtubeId || "").trim();
     if (src) {
-      mount.innerHTML = '<video controls muted playsinline preload="none"' +
+      mount.innerHTML = '<video controls muted playsinline preload="metadata" width="720" height="1280"' +
         (poster ? ' poster="' + escapeHtml(poster) + '"' : "") + ">" +
         '<source src="' + escapeHtml(src) + '" type="video/mp4">' +
         "</video>";
