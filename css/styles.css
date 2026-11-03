@@ -1198,3 +1198,7 @@ a:hover { color: var(--blue-dark); }
   .hero .tier__title { font-size: 0.82rem; }
   .pair__grid { gap: 0.35rem; }
 }
+
+/* Vertical (9:16) process video on the homepage. */
+.video-frame--vertical { aspect-ratio: 9 / 16; max-width: 22rem; margin-inline: auto; }
+.seal-slot-done { margin: 1.5rem 0; }
