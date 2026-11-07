@@ -299,25 +299,76 @@ a:hover { color: var(--blue-dark); }
 }
 .hero {
   background-color: #061C40;
-  background-image: url("/images/hero/sealed-paver-driveway-palm.jpg");
+  /* Previous homepage hero, file kept in the repo: /images/hero/sealed-paver-driveway-palm.jpg
+     Restore it by using that path here. */
+  background-image: url("/images/hero/sealed-front-driveway.jpg");
   background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center 72%;
+  /* Phone hero is much taller than 3:2. Keep the width close to the frame
+     so cover does not zoom it back in, and center the garage and driveway. */
+  background-size: 168% auto;
+  background-position: center top;
+}
+@media (min-width: 700px) {
+  .hero {
+    background-size: cover;
+    background-position: center 46%;
+    /* Near 3:2, so a typical desktop hero keeps the roof, garage, and driveway. */
+    min-height: min(66.67vw, 56rem);
+  }
 }
 .hero::before { display: none; }
 .hero::after {
+  /* Darker behind the headline; lighter over the driveway so the sealed shine stays visible. */
   background: linear-gradient(
     180deg,
-    rgba(6, 28, 64, 0.84) 0%,
-    rgba(8, 39, 90, 0.7) 34%,
-    rgba(8, 39, 90, 0.52) 100%
+    rgba(6, 28, 64, 0.74) 0%,
+    rgba(6, 28, 64, 0.5) 20%,
+    rgba(8, 39, 90, 0.34) 58%,
+    rgba(8, 39, 90, 0.18) 80%,
+    rgba(8, 39, 90, 0.06) 100%
   );
+}
+.hero__mark {
+  position: relative;
+  display: inline-block;
+  margin: 0 0 0.7rem;
+  line-height: 0;
+}
+.hero__mark::before {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  left: 50%;
+  top: 48%;
+  width: 132%;
+  height: 148%;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(
+    ellipse at center,
+    rgba(255, 255, 255, 0.7) 0%,
+    rgba(255, 255, 255, 0.34) 34%,
+    rgba(255, 255, 255, 0.08) 56%,
+    rgba(255, 255, 255, 0) 72%
+  );
+  pointer-events: none;
+}
+.hero__mark img {
+  position: relative;
+  z-index: 1;
+  width: min(16rem, 68vw);
+  height: auto;
+}
+@media (max-width: 699px) {
+  .hero__mark img { width: min(10.25rem, 52vw); }
 }
 .hero h1,
 .hero .lede,
 .hero .eyebrow,
 .hero__note {
   text-shadow: 0 1px 2px rgba(6, 28, 64, 0.7);
+}
+.hero__note {
+  text-shadow: 0 1px 2px rgba(6, 28, 64, 0.95), 0 0 12px rgba(6, 28, 64, 0.85);
 }
 .hero__inner, .page-hero .container { position: relative; z-index: 1; }
 .hero { padding: 2.4rem 0 4.6rem; }
