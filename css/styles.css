@@ -1,6 +1,6 @@
 /* Shine City marketing site
    Brand blue #3FA7F9 is the logo color. Body text and buttons use
-   #1565C0 (white text contrast about 5.8:1) and #0E2A52. #1E88E5 is
+   #1565C0 (white text contrast about 5.8:1) and #111111. #1E88E5 is
    reserved for large figures. The script wordmark lives only in the logo. */
 
 :root {
@@ -8,16 +8,16 @@
   --blue: #1E88E5;
   --blue-deep: #1565C0;
   --blue-dark: #0D47A1;
-  --navy: #08275A;
-  --navy-deep: #061C40;
-  --ink: #0E2A52;
-  --muted: #3E5570;
+  --navy: #1a1a1a;
+  --navy-deep: #111111;
+  --ink: #111111;
+  --muted: #454545;
   --line: #D5E2F0;
   --paper: #F4F8FC;
   --sand: #F7F4EE;
   --white: #ffffff;
   --focus: #3FA7F9;
-  --shadow: 0 12px 32px rgba(8, 39, 90, 0.08);
+  --shadow: 0 12px 32px rgba(17, 17, 17, 0.08);
   --header-offset: 7.5rem;
   --font: "Plus Jakarta Sans", Inter, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 }
@@ -286,7 +286,7 @@ a:hover { color: var(--blue-dark); }
   background: repeating-conic-gradient(
     from 0deg at 50% 0%,
     rgba(63, 167, 249, 0.18) 0deg 8deg,
-    rgba(8, 39, 90, 0) 8deg 16deg
+    rgba(17, 17, 17, 0) 8deg 16deg
   );
   pointer-events: none;
 }
@@ -298,7 +298,7 @@ a:hover { color: var(--blue-dark); }
   pointer-events: none;
 }
 .hero {
-  background-color: #061C40;
+  background-color: var(--navy-deep);
   /* Previous homepage hero, file kept in the repo: /images/hero/sealed-paver-driveway-palm.jpg
      Restore it by using that path here. */
   background-image: url("/images/hero/sealed-front-driveway.jpg");
@@ -321,55 +321,21 @@ a:hover { color: var(--blue-dark); }
   /* Darker behind the headline; lighter over the driveway so the sealed shine stays visible. */
   background: linear-gradient(
     180deg,
-    rgba(6, 28, 64, 0.74) 0%,
-    rgba(6, 28, 64, 0.5) 20%,
-    rgba(8, 39, 90, 0.26) 58%,
-    rgba(8, 39, 90, 0.12) 80%,
-    rgba(8, 39, 90, 0.04) 100%
+    rgba(17, 17, 17, 0.74) 0%,
+    rgba(17, 17, 17, 0.5) 20%,
+    rgba(17, 17, 17, 0.26) 58%,
+    rgba(17, 17, 17, 0.12) 80%,
+    rgba(17, 17, 17, 0.04) 100%
   );
-}
-.hero__mark {
-  position: relative;
-  display: inline-block;
-  margin: 0 0 0.7rem;
-  line-height: 0;
-}
-.hero__mark::before {
-  content: "";
-  position: absolute;
-  z-index: 0;
-  left: 50%;
-  top: 48%;
-  width: 190%;
-  height: 200%;
-  transform: translate(-50%, -50%);
-  background: radial-gradient(
-    ellipse at center,
-    rgba(255, 255, 255, 0.98) 0%,
-    rgba(255, 255, 255, 0.96) 46%,
-    rgba(255, 255, 255, 0.9) 68%,
-    rgba(255, 255, 255, 0.42) 84%,
-    rgba(255, 255, 255, 0) 100%
-  );
-  pointer-events: none;
-}
-.hero__mark img {
-  position: relative;
-  z-index: 1;
-  width: min(16rem, 68vw);
-  height: auto;
-}
-@media (max-width: 699px) {
-  .hero__mark img { width: min(10.25rem, 52vw); }
 }
 .hero h1,
 .hero .lede,
 .hero .eyebrow,
 .hero__note {
-  text-shadow: 0 1px 2px rgba(6, 28, 64, 0.7);
+  text-shadow: 0 1px 2px rgba(17, 17, 17, 0.7);
 }
 .hero__note {
-  text-shadow: 0 1px 2px rgba(6, 28, 64, 0.95), 0 0 12px rgba(6, 28, 64, 0.85);
+  text-shadow: 0 1px 2px rgba(17, 17, 17, 0.95), 0 0 12px rgba(17, 17, 17, 0.85);
 }
 .hero__inner, .page-hero .container { position: relative; z-index: 1; }
 .hero { padding: 2.4rem 0 4.6rem; }
@@ -393,7 +359,7 @@ a:hover { color: var(--blue-dark); }
   max-width: 40rem;
   padding: 0.95rem 1rem 1rem;
   border-radius: 16px;
-  background: rgba(6, 28, 64, 0.62);
+  background: rgba(17, 17, 17, 0.62);
   border: 1px solid rgba(255, 255, 255, 0.28);
 }
 .easy__title {
@@ -788,7 +754,7 @@ a:hover { color: var(--blue-dark); }
   grid-template-columns: 1.4fr 0.8fr;
   gap: 0.5rem;
   padding: 0.55rem 0.75rem calc(0.55rem + env(safe-area-inset-bottom));
-  background: rgba(6, 28, 64, 0.96);
+  background: rgba(17, 17, 17, 0.96);
   box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.16);
 }
 .sticky-bar a {
@@ -807,8 +773,7 @@ a:hover { color: var(--blue-dark); }
 .sticky-bar a:last-child:hover { background: #E7F2FC; color: var(--navy); }
 
 @media (max-width: 699px) {
-  /* Room for the logo and its white haze, clear of the sticky header. */
-  .hero { padding: 4.75rem 0 calc(1.35rem + 4.75rem + env(safe-area-inset-bottom)); }
+  .hero { padding: 1.2rem 0 calc(1.35rem + 4.75rem + env(safe-area-inset-bottom)); }
   .hero h1 { font-size: 1.85rem; margin-bottom: 0.45rem; }
   .hero .lede { font-size: 1.15rem; margin-bottom: 0.75rem; }
   .hero__note { margin-top: 0.7rem; font-size: 0.92rem; }
@@ -835,7 +800,7 @@ a:hover { color: var(--blue-dark); }
   .size-grid { grid-template-columns: 1fr 1fr 1fr; }
   .form-card, .instant { padding: 1.5rem; }
   .instant-map { height: 380px; }
-  .hero { padding: 5.5rem 0 3rem; }
+  .hero { padding: 2.6rem 0 3rem; }
 }
 
 @media (min-width: 1000px) {
@@ -868,7 +833,7 @@ a:hover { color: var(--blue-dark); }
   .site-nav a { min-height: 44px; padding: 0.2rem; font-size: 0.9rem; white-space: nowrap; }
   .site-nav .nav-cta { margin-top: 0; padding-inline: 0.95rem; }
   .sticky-bar { display: none; }
-  .hero { padding: 6.2rem 0 4.8rem; }
+  .hero { padding: 3.2rem 0 4.8rem; }
   .trust { margin-top: -2.2rem; }
 }
 
@@ -1011,7 +976,7 @@ a:hover { color: var(--blue-dark); }
   position: absolute;
   left: 0.5rem;
   bottom: 0.5rem;
-  background: rgba(6, 28, 64, 0.88);
+  background: rgba(17, 17, 17, 0.88);
   color: var(--white);
   font-size: 0.75rem;
   font-weight: 800;
@@ -1137,7 +1102,7 @@ a:hover { color: var(--blue-dark); }
   width: 3px;
   margin-left: -1.5px;
   background: var(--white);
-  box-shadow: 0 0 0 1px rgba(8, 39, 90, 0.35);
+  box-shadow: 0 0 0 1px rgba(17, 17, 17, 0.35);
   pointer-events: none;
 }
 .compare:focus-within {
@@ -1148,7 +1113,7 @@ a:hover { color: var(--blue-dark); }
   position: absolute;
   top: 0.55rem;
   z-index: 1;
-  background: rgba(6, 28, 64, 0.88);
+  background: rgba(17, 17, 17, 0.88);
   color: var(--white);
   font-size: 0.75rem;
   font-weight: 800;
@@ -1237,7 +1202,7 @@ a:hover { color: var(--blue-dark); }
   background: var(--navy-deep);
   color: var(--white);
 }
-.lightbox::backdrop { background: rgba(6, 28, 64, 0.82); }
+.lightbox::backdrop { background: rgba(17, 17, 17, 0.82); }
 .lightbox figure { margin: 0; }
 .lightbox img {
   width: auto;
@@ -1284,7 +1249,7 @@ a:hover { color: var(--blue-dark); }
 .video-feature__media { grid-area: media; }
 .video-feature__body { grid-area: body; color: var(--ink); }
 .video-feature__body p { font-size: 1.08rem; line-height: 1.65; margin: 0 0 1rem; color: var(--muted); }
-.video-feature .video-frame--vertical { max-width: 20rem; border-radius: 1.25rem; overflow: hidden; box-shadow: 0 18px 44px rgba(8, 39, 90, 0.18); border: 4px solid var(--white); }
+.video-feature .video-frame--vertical { max-width: 20rem; border-radius: 1.25rem; overflow: hidden; box-shadow: 0 18px 44px rgba(17, 17, 17, 0.18); border: 4px solid var(--white); }
 .video-feature__points { list-style: none; padding: 0; margin: 0 0 1.5rem; display: grid; gap: 0.6rem; }
 .video-feature__points li { position: relative; padding-left: 2rem; font-weight: 600; color: var(--ink); }
 .video-feature__points li::before { content: "\2713"; position: absolute; left: 0; top: 0.05rem; width: 1.4rem; height: 1.4rem; border-radius: 50%; background: var(--brand); color: var(--white); font-size: 0.8rem; font-weight: 800; display: grid; place-items: center; }
