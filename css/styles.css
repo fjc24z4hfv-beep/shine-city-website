@@ -1024,6 +1024,27 @@ a:hover { color: var(--blue-dark); }
   height: auto;
   object-fit: contain;
 }
+/* Two stacked driveway posters: side by side on desktop, full frame either way. */
+.poster-row {
+  display: grid;
+  gap: 1.25rem;
+}
+.job-photos .poster-row .pair--solo .pair__grid {
+  grid-template-columns: minmax(0, 1fr);
+}
+.job-photos .poster-row .pair--solo .shot {
+  max-width: none;
+  width: 100%;
+  aspect-ratio: auto;
+}
+.poster-row figcaption { text-align: center; }
+@media (min-width: 700px) {
+  .poster-row {
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
+    gap: 1.5rem;
+  }
+}
 .feature-list { max-width: 52rem; }
 
 .compare {
