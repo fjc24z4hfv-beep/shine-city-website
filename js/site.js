@@ -30,32 +30,61 @@
     return cfg.pricing.paverSealing.tiers;
   }
 
-  function tierForSqft(n) {
-    var tiers = sealingTiers();
-    var i;
-    for (i = 0; i < tiers.length; i++) {
-      if (tiers[i].maxSqFt == null || n <= tiers[i].maxSqFt) return tiers[i];
-    }
-    return tiers[tiers.length - 1];
-  }
-
+  /* Straight tier price, then hold the previous tier's top price so a
+     larger area never estimates lower, then apply the job minimum.
+     The no-drop hold is not mentioned in customer-facing copy. */
   function estimate(sqft) {
     var pricing = cfg.pricing.paverSealing;
     var n = typeof sqft === "number" ? sqft : parseFloat(sqft);
     if (!isFinite(n) || n <= 0) return null;
     if (n > 50000) return { tooLarge: true };
-    var cents = rateCents(tierForSqft(n).rate);
+    var tiers = sealingTiers();
+    var tier = tiers[tiers.length - 1];
+    var index = tiers.length - 1;
+    var i;
+    for (i = 0; i < tiers.length; i++) {
+      if (tiers[i].maxSqFt == null || n <= tiers[i].maxSqFt) {
+        tier = tiers[i];
+        index = i;
+        break;
+      }
+    }
+    var cents = rateCents(tier.rate);
+    var straight = Math.round(n * cents);
+    var total = straight;
+    if (index > 0) {
+      var prev = tiers[index - 1];
+      var hold = Math.round(prev.maxSqFt * rateCents(prev.rate));
+      if (hold > total) total = hold;
+    }
+    var minimumCents = rateCents(pricing.minimum || 0);
+    var minimumApplied = minimumCents > 0 && total < minimumCents;
+    if (minimumApplied) total = minimumCents;
     return {
       sqft: n,
       rateCents: cents,
-      totalCents: Math.round(n * cents),
+      straightCents: straight,
+      totalCents: total,
+      minimumCents: minimumCents,
+      minimumApplied: minimumApplied,
       includes: pricing.includes
     };
   }
 
+  function minimumLabel() {
+    var dollars = cfg.pricing.paverSealing.minimum || 0;
+    return "$" + Number(dollars).toLocaleString("en-US") + " minimum";
+  }
+
   function priceSentence(result) {
-    return formatSqft(result.sqft) + " sq ft × " + moneyFromCents(result.rateCents) +
-      " per sq ft = " + moneyFromCents(result.totalCents);
+    if (result.totalCents === result.straightCents) {
+      return formatSqft(result.sqft) + " sq ft × " + moneyFromCents(result.rateCents) +
+        " per sq ft = " + moneyFromCents(result.totalCents);
+    }
+    if (result.minimumApplied) {
+      return formatSqft(result.sqft) + " sq ft. " + minimumLabel();
+    }
+    return formatSqft(result.sqft) + ".";
   }
 
   function tierModel() {
@@ -82,13 +111,15 @@
 
   function compactRateParts() {
     var tiers = sealingTiers();
-    return tiers.map(function (tier, index) {
+    var parts = tiers.map(function (tier, index) {
       var rate = moneyFromCents(rateCents(tier.rate)) + "/sq ft";
       if (index === 0) return rate + " up to " + formatSqft(tier.maxSqFt) + " sq ft";
       var prev = tiers[index - 1].maxSqFt;
       if (tier.maxSqFt == null) return rate + " over " + formatSqft(prev);
       return rate + " " + formatSqft(prev) + "–" + formatSqft(tier.maxSqFt);
     });
+    if (cfg.pricing.paverSealing.minimum) parts.push(minimumLabel());
+    return parts;
   }
 
   function compactRateText() {
@@ -184,7 +215,7 @@
         return offer(
           "Paver sealing, up to " + formatSqft(tier.maxSqFt) + " sq ft",
           tier.rate,
-          "The whole job up to " + formatSqft(tier.maxSqFt) + " square feet is " + rateText + " per square foot. There is no job minimum."
+          "The whole job up to " + formatSqft(tier.maxSqFt) + " square feet is " + rateText + " per square foot. " + minimumLabel() + "."
         );
       }
       var prev = formatSqft(tiers[index - 1].maxSqFt);
@@ -192,13 +223,13 @@
         return offer(
           "Paver sealing, over " + prev + " sq ft",
           tier.rate,
-          "The whole job over " + prev + " square feet is " + rateText + " per square foot. There is no job minimum."
+          "The whole job over " + prev + " square feet is " + rateText + " per square foot. " + minimumLabel() + "."
         );
       }
       return offer(
         "Paver sealing, over " + prev + " up to " + formatSqft(tier.maxSqFt) + " sq ft",
         tier.rate,
-        "The whole job over " + prev + " square feet, up to " + formatSqft(tier.maxSqFt) + ", is " + rateText + " per square foot. There is no job minimum."
+        "The whole job over " + prev + " square feet, up to " + formatSqft(tier.maxSqFt) + ", is " + rateText + " per square foot. " + minimumLabel() + "."
       );
     });
     offers.push({
@@ -257,12 +288,15 @@
         output.textContent = "For an area that large, call or text and we'll walk it with you.";
         return;
       }
+      var rateNote = result.totalCents === result.straightCents
+        ? result.includes + ". The whole job is priced at " + moneyFromCents(result.rateCents) + " per sq ft."
+        : result.includes + ".";
       output.innerHTML =
         '<strong class="calc__total">' + moneyFromCents(result.totalCents) + "</strong>" +
         "<span>" + escapeHtml(priceSentence(result)) + ".</span>" +
-        "<span>" + escapeHtml(result.includes) + ". The whole job is priced at " +
-        escapeHtml(moneyFromCents(result.rateCents)) + " per sq ft.</span>" +
-        "<span>Estimate only. Final price is confirmed after a free on-site look. No job minimum.</span>";
+        "<span>" + escapeHtml(rateNote) + "</span>" +
+        "<span>Estimate only. Final price is confirmed after a free on-site look. " +
+        escapeHtml(minimumLabel()) + ".</span>";
     }
 
     input.addEventListener("input", draw);
