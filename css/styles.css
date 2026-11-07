@@ -334,22 +334,21 @@ a:hover { color: var(--blue-dark); }
   margin: 0 0 0.7rem;
   line-height: 0;
 }
+/* Small soft white glow, tight on the logo, just enough to read the light blue on the roof. */
 .hero__mark::before {
   content: "";
   position: absolute;
   z-index: 0;
   left: 50%;
-  top: 48%;
-  width: 190%;
-  height: 200%;
+  top: 50%;
+  width: 108%;
+  height: 118%;
   transform: translate(-50%, -50%);
   background: radial-gradient(
     ellipse at center,
-    rgba(255, 255, 255, 0.98) 0%,
-    rgba(255, 255, 255, 0.96) 46%,
-    rgba(255, 255, 255, 0.9) 68%,
-    rgba(255, 255, 255, 0.42) 84%,
-    rgba(255, 255, 255, 0) 100%
+    rgba(255, 255, 255, 0.3) 0%,
+    rgba(255, 255, 255, 0.12) 28%,
+    rgba(255, 255, 255, 0) 52%
   );
   pointer-events: none;
 }
