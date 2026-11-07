@@ -308,11 +308,11 @@ a:hover { color: var(--blue-dark); }
      Restore it by using that path here. */
   background-image: url("/images/hero/sealed-front-driveway.jpg");
   background-repeat: no-repeat;
-  /* On a phone the hero is tall. Size the photo by height, then shift it up
-     so the headline sits on the garage door and the sealed driveway fills
-     the space under the estimate button. Desktop overrides this below. */
+  /* On a phone the hero is tall. Size the photo by height, shift it up so
+     the headline sits on the garage door, and set 35% across so the glossy
+     patch on the left of the driveway is in frame. Desktop overrides this. */
   background-size: auto 78%;
-  background-position: center -16rem;
+  background-position: 35% -16rem;
 }
 @media (min-width: 700px) {
   .hero {
