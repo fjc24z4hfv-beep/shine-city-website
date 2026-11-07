@@ -303,9 +303,9 @@ a:hover { color: var(--blue-dark); }
      Restore it by using that path here. */
   background-image: url("/images/hero/sealed-front-driveway.jpg");
   background-repeat: no-repeat;
-  /* Phone hero is much taller than 3:2. Keep the width close to the frame
-     so cover does not zoom it back in, and center the garage and driveway. */
-  background-size: 168% auto;
+  /* On a phone the hero is tall. Size the photo by height so the garage and
+     driveway continue behind the estimate card, centered, without a hard edge. */
+  background-size: auto 78%;
   background-position: center top;
 }
 @media (min-width: 700px) {
@@ -323,9 +323,9 @@ a:hover { color: var(--blue-dark); }
     180deg,
     rgba(6, 28, 64, 0.74) 0%,
     rgba(6, 28, 64, 0.5) 20%,
-    rgba(8, 39, 90, 0.34) 58%,
-    rgba(8, 39, 90, 0.18) 80%,
-    rgba(8, 39, 90, 0.06) 100%
+    rgba(8, 39, 90, 0.26) 58%,
+    rgba(8, 39, 90, 0.12) 80%,
+    rgba(8, 39, 90, 0.04) 100%
   );
 }
 .hero__mark {
@@ -340,15 +340,16 @@ a:hover { color: var(--blue-dark); }
   z-index: 0;
   left: 50%;
   top: 48%;
-  width: 132%;
-  height: 148%;
+  width: 190%;
+  height: 200%;
   transform: translate(-50%, -50%);
   background: radial-gradient(
     ellipse at center,
-    rgba(255, 255, 255, 0.7) 0%,
-    rgba(255, 255, 255, 0.34) 34%,
-    rgba(255, 255, 255, 0.08) 56%,
-    rgba(255, 255, 255, 0) 72%
+    rgba(255, 255, 255, 0.98) 0%,
+    rgba(255, 255, 255, 0.96) 46%,
+    rgba(255, 255, 255, 0.9) 68%,
+    rgba(255, 255, 255, 0.42) 84%,
+    rgba(255, 255, 255, 0) 100%
   );
   pointer-events: none;
 }
@@ -806,7 +807,8 @@ a:hover { color: var(--blue-dark); }
 .sticky-bar a:last-child:hover { background: #E7F2FC; color: var(--navy); }
 
 @media (max-width: 699px) {
-  .hero { padding: 1.2rem 0 calc(1.35rem + 4.75rem + env(safe-area-inset-bottom)); }
+  /* Room for the logo and its white haze, clear of the sticky header. */
+  .hero { padding: 4.75rem 0 calc(1.35rem + 4.75rem + env(safe-area-inset-bottom)); }
   .hero h1 { font-size: 1.85rem; margin-bottom: 0.45rem; }
   .hero .lede { font-size: 1.15rem; margin-bottom: 0.75rem; }
   .hero__note { margin-top: 0.7rem; font-size: 0.92rem; }
@@ -833,7 +835,7 @@ a:hover { color: var(--blue-dark); }
   .size-grid { grid-template-columns: 1fr 1fr 1fr; }
   .form-card, .instant { padding: 1.5rem; }
   .instant-map { height: 380px; }
-  .hero { padding: 2.6rem 0 3rem; }
+  .hero { padding: 5.5rem 0 3rem; }
 }
 
 @media (min-width: 1000px) {
@@ -866,7 +868,7 @@ a:hover { color: var(--blue-dark); }
   .site-nav a { min-height: 44px; padding: 0.2rem; font-size: 0.9rem; white-space: nowrap; }
   .site-nav .nav-cta { margin-top: 0; padding-inline: 0.95rem; }
   .sticky-bar { display: none; }
-  .hero { padding: 3.2rem 0 4.8rem; }
+  .hero { padding: 6.2rem 0 4.8rem; }
   .trust { margin-top: -2.2rem; }
 }
 
