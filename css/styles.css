@@ -308,10 +308,12 @@ a:hover { color: var(--blue-dark); }
      Restore it by using that path here. */
   background-image: url("/images/hero/sealed-front-driveway.jpg");
   background-repeat: no-repeat;
-  /* On a phone the hero is tall. Size the photo by height so the garage and
-     driveway continue behind the estimate card, centered, without a hard edge. */
-  background-size: auto 78%;
-  background-position: center top;
+  /* On a phone, size the photo a little smaller than the hero so more of the
+     house is in frame. Shift it up so the headline sits on the garage door,
+     and 30% across so the glossy patch on the left of the driveway is clearly
+     in frame. Desktop overrides this. */
+  background-size: auto 60%;
+  background-position: 30% -4rem;
 }
 @media (min-width: 700px) {
   .hero {
@@ -836,6 +838,8 @@ a:hover { color: var(--blue-dark); }
 .sticky-bar a:last-child:hover { background: #E7F2FC; color: var(--navy); }
 
 @media (max-width: 699px) {
+  .hero .easy { display: none; }
+  .hero .hero-cta { margin-bottom: 14rem; }
   .price-tiers { display: block; }
   .price-tiers span { display: block; }
   .price-tiers span:not(:last-child)::after { content: none; }
