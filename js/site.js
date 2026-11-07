@@ -22,75 +22,77 @@
     return n.toLocaleString("en-US", { maximumFractionDigits: 1 });
   }
 
-  /* Tiered estimate. The first breakpointSqFt use rateUpTo.
-     Only the square footage above that uses rateOver.
+  /* Whole-job tiers. maxSqFt is inclusive. The last tier has no max.
+     The entire area uses that one rate. It is not split across tiers.
      Returns null when sqft is missing or not a positive finite number.
      tooLarge is an input guard, not a published maximum. */
+  function sealingTiers() {
+    return cfg.pricing.paverSealing.tiers;
+  }
+
+  function tierForSqft(n) {
+    var tiers = sealingTiers();
+    var i;
+    for (i = 0; i < tiers.length; i++) {
+      if (tiers[i].maxSqFt == null || n <= tiers[i].maxSqFt) return tiers[i];
+    }
+    return tiers[tiers.length - 1];
+  }
+
   function estimate(sqft) {
     var pricing = cfg.pricing.paverSealing;
     var n = typeof sqft === "number" ? sqft : parseFloat(sqft);
     if (!isFinite(n) || n <= 0) return null;
     if (n > 50000) return { tooLarge: true };
-    var bp = pricing.breakpointSqFt;
-    var up = rateCents(pricing.rateUpTo);
-    var overRate = rateCents(pricing.rateOver);
-    var first = Math.min(n, bp);
-    var extra = Math.max(0, n - bp);
-    var firstCents = Math.round(first * up);
-    var extraCents = Math.round(extra * overRate);
+    var cents = rateCents(tierForSqft(n).rate);
     return {
       sqft: n,
-      over: extra > 0,
-      firstSqft: first,
-      extraSqft: extra,
-      rateCents: extra > 0 ? overRate : up,
-      firstCents: firstCents,
-      extraCents: extraCents,
-      totalCents: firstCents + extraCents,
+      rateCents: cents,
+      totalCents: Math.round(n * cents),
       includes: pricing.includes
     };
   }
 
   function priceSentence(result) {
-    var pricing = cfg.pricing.paverSealing;
-    var up = moneyFromCents(rateCents(pricing.rateUpTo));
-    var over = moneyFromCents(rateCents(pricing.rateOver));
-    if (!result.over) {
-      return formatSqft(result.sqft) + " sq ft × " + up + " per sq ft = " + moneyFromCents(result.totalCents);
-    }
-    return "First " + formatSqft(pricing.breakpointSqFt) + " sq ft at " + up +
-      " (" + moneyFromCents(result.firstCents) + ") plus " + formatSqft(result.extraSqft) +
-      " sq ft at " + over + " (" + moneyFromCents(result.extraCents) + ") = " +
-      moneyFromCents(result.totalCents);
+    return formatSqft(result.sqft) + " sq ft × " + moneyFromCents(result.rateCents) +
+      " per sq ft = " + moneyFromCents(result.totalCents);
   }
 
   function tierModel() {
-    var pricing = cfg.pricing.paverSealing;
-    var bp = pricing.breakpointSqFt.toLocaleString("en-US");
-    var sample = estimate(1000);
-    var sampleText = sample
-      ? " A 1,000 sq ft job is " + moneyFromCents(sample.totalCents) + "."
-      : "";
-    return [
-      {
-        title: "First " + bp + " sq ft",
-        rate: pricing.rateUpTo,
-        detail: "Every job starts here. The first " + bp + " sq ft are this rate."
-      },
-      {
-        title: "Each sq ft above " + bp,
-        rate: pricing.rateOver,
-        detail: "Only the square footage above " + bp + " sq ft uses this rate. The first " + bp + " stay at the higher rate." + sampleText
+    var tiers = sealingTiers();
+    return tiers.map(function (tier, index) {
+      var title;
+      var detail;
+      if (index === 0) {
+        title = "Up to " + formatSqft(tier.maxSqFt) + " sq ft";
+        detail = "The whole job is this rate when the area is " + formatSqft(tier.maxSqFt) + " sq ft or less.";
+      } else if (tier.maxSqFt == null) {
+        var floor = tiers[index - 1].maxSqFt;
+        title = "Over " + formatSqft(floor) + " sq ft";
+        detail = "The whole job is this rate when the area is over " + formatSqft(floor) + " sq ft.";
+      } else {
+        var above = tiers[index - 1].maxSqFt;
+        title = formatSqft(above) + "–" + formatSqft(tier.maxSqFt) + " sq ft";
+        detail = "The whole job is this rate when the area is over " + formatSqft(above) +
+          " sq ft, up to " + formatSqft(tier.maxSqFt) + ".";
       }
-    ];
+      return { title: title, rate: tier.rate, detail: detail };
+    });
+  }
+
+  function compactRateParts() {
+    var tiers = sealingTiers();
+    return tiers.map(function (tier, index) {
+      var rate = moneyFromCents(rateCents(tier.rate)) + "/sq ft";
+      if (index === 0) return rate + " up to " + formatSqft(tier.maxSqFt) + " sq ft";
+      var prev = tiers[index - 1].maxSqFt;
+      if (tier.maxSqFt == null) return rate + " over " + formatSqft(prev);
+      return rate + " " + formatSqft(prev) + "–" + formatSqft(tier.maxSqFt);
+    });
   }
 
   function compactRateText() {
-    var pricing = cfg.pricing.paverSealing;
-    var bp = pricing.breakpointSqFt.toLocaleString("en-US");
-    return "First " + bp + " sq ft at " + moneyFromCents(rateCents(pricing.rateUpTo)) +
-      " per sq ft. Only the square footage above " + bp + " at " +
-      moneyFromCents(rateCents(pricing.rateOver)) + " per sq ft.";
+    return compactRateParts().join(" · ");
   }
 
   function escapeHtml(value) {
@@ -153,7 +155,7 @@
 
   function buildOffers() {
     var pricing = cfg.pricing.paverSealing;
-    var bp = pricing.breakpointSqFt;
+    var tiers = pricing.tiers;
     function offer(title, rate, detail) {
       return {
         "@type": "Offer",
@@ -176,18 +178,30 @@
       };
     }
     var strip = cfg.pricing.sealerStripping;
-    return [
-      offer(
-        "Paver sealing, first " + bp + " sq ft",
-        pricing.rateUpTo,
-        "The first " + bp + " square feet are $" + pricing.rateUpTo.toFixed(2) + " per square foot. There is no job minimum."
-      ),
-      offer(
-        "Paver sealing above " + bp + " sq ft",
-        pricing.rateOver,
-        "Only the square footage above " + bp + " is $" + pricing.rateOver.toFixed(2) + " per square foot. The first " + bp + " square feet stay at $" + pricing.rateUpTo.toFixed(2) + "."
-      ),
-      {
+    var offers = tiers.map(function (tier, index) {
+      var rateText = "$" + tier.rate.toFixed(2);
+      if (index === 0) {
+        return offer(
+          "Paver sealing, up to " + formatSqft(tier.maxSqFt) + " sq ft",
+          tier.rate,
+          "The whole job up to " + formatSqft(tier.maxSqFt) + " square feet is " + rateText + " per square foot. There is no job minimum."
+        );
+      }
+      var prev = formatSqft(tiers[index - 1].maxSqFt);
+      if (tier.maxSqFt == null) {
+        return offer(
+          "Paver sealing, over " + prev + " sq ft",
+          tier.rate,
+          "The whole job over " + prev + " square feet is " + rateText + " per square foot. There is no job minimum."
+        );
+      }
+      return offer(
+        "Paver sealing, over " + prev + " up to " + formatSqft(tier.maxSqFt) + " sq ft",
+        tier.rate,
+        "The whole job over " + prev + " square feet, up to " + formatSqft(tier.maxSqFt) + ", is " + rateText + " per square foot. There is no job minimum."
+      );
+    });
+    offers.push({
         "@type": "Offer",
         name: strip.name,
         description: "Sealer stripping only, $" + strip.rate.toFixed(2) +
@@ -206,7 +220,8 @@
           }
         }
       }
-    ];
+    );
+    return offers;
   }
 
   function refreshJsonLd() {
@@ -245,9 +260,8 @@
       output.innerHTML =
         '<strong class="calc__total">' + moneyFromCents(result.totalCents) + "</strong>" +
         "<span>" + escapeHtml(priceSentence(result)) + ".</span>" +
-        "<span>" + escapeHtml(result.includes) + ". Only square footage above " +
-        escapeHtml(cfg.pricing.paverSealing.breakpointSqFt.toLocaleString("en-US")) +
-        " sq ft uses the lower rate.</span>" +
+        "<span>" + escapeHtml(result.includes) + ". The whole job is priced at " +
+        escapeHtml(moneyFromCents(result.rateCents)) + " per sq ft.</span>" +
         "<span>Estimate only. Final price is confirmed after a free on-site look. No job minimum.</span>";
     }
 
@@ -996,7 +1010,10 @@
     document.querySelectorAll("[data-pricing-tiers]").forEach(renderTiers);
     renderProcessVideo();
     document.querySelectorAll("[data-price-compact]").forEach(function (el) {
-      el.textContent = compactRateText();
+      el.classList.add("price-tiers");
+      el.innerHTML = compactRateParts().map(function (part) {
+        return "<span>" + escapeHtml(part) + "</span>";
+      }).join("");
     });
     renderAreas();
     refreshJsonLd();

@@ -14,9 +14,9 @@ Then open http://127.0.0.1:8000/ and http://127.0.0.1:8000/review/.
 
 ## What to edit
 
-Paver sealing rates, the 800 sq ft breakpoint, the city list, and quote-form delivery live in `js/site-config.js`.
+Paver sealing rates, the size tiers, the city list, and quote-form delivery live in `js/site-config.js`.
 
-- `pricing.paverSealing.breakpointSqFt`, `rateUpTo`, and `rateOver` drive the price cards, the estimate calculator, and the price structured data. The first `breakpointSqFt` use `rateUpTo`. Only the square footage above that uses `rateOver`. The same split is in `worker/src/price.js`.
+- `pricing.paverSealing.tiers` drives the price cards, the estimate calculator, and the price structured data. The whole job uses one tier rate. Up to 1,000 sq ft is $1.75, over 1,000 up to 2,000 is $1.50, and over 2,000 is $1.35. The same tiers are in `worker/src/price.js`.
 - `FORM_ENDPOINT` is the FormSubmit address that receives the quote form and its photos. Leave it blank to use only the prefilled email and text backup. The first real submission sends FormSubmit's activation email to reviveexterior@gmail.com. Open that link once so later submissions are delivered. Do not send a test just to trigger it.
 - The quote on `/pricing/` is one form: name, phone, email, address, note, and photos. The Worker geocodes that address and measures from the satellite image plus the photos. Photos are required. The published paver sealing rates stay on the page as general information. `/contact/` redirects there and keeps the query string, including `?thanks=1`.
 - `INSTANT_QUOTE_API` is the Cloudflare Worker URL that estimates square footage from a satellite image and the customer's photos, then prices the job. It is set to `https://shine-city-quote.shinecity.workers.dev`. The deploy steps and the request shape are in `worker/README.md`. The only required Worker secret is `OPENAI_API_KEY`. Geocoding and the satellite image use ArcGIS and Esri unless `GOOGLE_MAPS_KEY` is also set. A blank setting, or a Worker error, still emails the request and shows "We'll review and send your quote."

@@ -3,9 +3,10 @@
    city list, and how the quote form is delivered.
 
    PAVER SEALING RATES — confirmed by the owner.
-   The first breakpointSqFt are priced at rateUpTo.
-   Only the square footage above breakpointSqFt is priced at rateOver.
-   A 1,000 sq ft job is the first 800 at $2.00 ($1,600) plus 200 at $1.75 ($350), which is $1,950.
+   The whole job is priced at one tier rate. It is not split across tiers.
+   Up to 1,000 sq ft is $1.75 per sq ft. A 1,000 sq ft job is $1,750.
+   Over 1,000 sq ft, up to 2,000, is $1.50 per sq ft. A 1,500 sq ft job is $2,250.
+   Over 2,000 sq ft is $1.35 per sq ft. A 2,500 sq ft job is $3,375.
    The rate is for paver sealing: clean, re-sand joints, and seal.
    No job minimum is set. Do not add one.
    Sealer stripping is a separate published rate: strip only, re-sand and reseal not included.
@@ -14,7 +15,8 @@
    The door-hanger flat special is not a website price. Do not add it here.
 
    Visible tier cards, the estimate calculator, and the price fields in
-   JSON-LD are filled from the three numbers below.
+   JSON-LD are filled from pricing.paverSealing.tiers below.
+   maxSqFt is inclusive. The last tier has no maxSqFt.
    If the numbers change, also update the matching sentences in:
      - index.html (hero tier fallback, FAQ, meta description)
      - pricing/index.html (hero lede, quote card price line, meta description)
@@ -71,9 +73,11 @@ var SHINE_CITY = {
     paverSealing: {
       name: "Paver sealing",
       includes: "Clean, re-sand joints, and seal",
-      breakpointSqFt: 800,
-      rateUpTo: 2.0,
-      rateOver: 1.75
+      tiers: [
+        { maxSqFt: 1000, rate: 1.75 },
+        { maxSqFt: 2000, rate: 1.5 },
+        { maxSqFt: null, rate: 1.35 }
+      ]
     },
     /* Strip only. Do not fold this into paverSealing or the instant quote. */
     sealerStripping: {

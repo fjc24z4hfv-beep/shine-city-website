@@ -699,6 +699,15 @@ a:hover { color: var(--blue-dark); }
 }
 .form-confirm { margin: 0.95rem 0 0; font-weight: 700; }
 .instant { padding: 1.2rem; margin-bottom: 0.4rem; }
+.price-tiers {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.15rem 0;
+  margin: 0.15rem 0 1rem;
+  font-weight: 700;
+  line-height: 1.4;
+}
+.price-tiers span:not(:last-child)::after { content: " · "; font-weight: 600; }
 .step-label { margin: 0 0 0.7rem; color: var(--blue-deep); font-weight: 800; font-size: 0.92rem; }
 .instant-map {
   height: 280px;
@@ -827,6 +836,9 @@ a:hover { color: var(--blue-dark); }
 .sticky-bar a:last-child:hover { background: #E7F2FC; color: var(--navy); }
 
 @media (max-width: 699px) {
+  .price-tiers { display: block; }
+  .price-tiers span { display: block; }
+  .price-tiers span:not(:last-child)::after { content: none; }
   .hero { padding: 1.2rem 0 calc(1.35rem + 4.75rem + env(safe-area-inset-bottom)); }
   .hero h1 { font-size: 1.85rem; margin-bottom: 0.2rem; }
   .hero__serve { margin-bottom: 0.4rem; font-size: 0.95rem; }
@@ -861,6 +873,7 @@ a:hover { color: var(--blue-dark); }
 @media (min-width: 1000px) {
   .cards--4 { grid-template-columns: repeat(4, 1fr); }
   .why-grid { grid-template-columns: repeat(3, 1fr); }
+  .tiers:not(.tiers--one) { grid-template-columns: repeat(3, 1fr); }
   .section { padding: 3.5rem 0; }
 }
 
@@ -916,9 +929,9 @@ a:hover { color: var(--blue-dark); }
   .btn, .card, .tier, .sticky-bar a { border: 1px solid ButtonText; }
 }
 
-/* Prices in the hero stay two-up so both rates are visible at once. */
+/* Size tiers in the hero: stacked on a phone, three across once there is room. */
 .hero .tiers {
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr;
   gap: 0.65rem;
   max-width: 40rem;
   margin: 0.15rem 0 0.35rem;
@@ -1286,6 +1299,7 @@ a:hover { color: var(--blue-dark); }
 @media (min-width: 700px) {
   .seal-slot__frames { grid-template-columns: repeat(3, 1fr); }
   .section { padding: 3.25rem 0; }
+  .hero .tiers { grid-template-columns: repeat(3, 1fr); max-width: 56rem; }
 }
 
 @media (max-width: 520px) {

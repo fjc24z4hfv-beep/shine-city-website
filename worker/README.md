@@ -11,7 +11,7 @@ The Worker:
 3. Geocodes the address with the ArcGIS World Geocoding service (`findAddressCandidates`, no key) and keeps Orange County and Brevard County, Florida.
 4. Downloads an Esri World Imagery satellite image at zoom 20, about 640 pixels on a side, centered on that point. No key.
 5. Sends that image plus the customer's photos to a vision model.
-6. Prices the returned square footage on the server: the first 800 sq ft at $2.00, and only the square footage above 800 at $1.75. A 1,000 sq ft job is $1,950.
+6. Prices the returned square footage on the server. The whole job uses one rate: $1.75 per sq ft up to 1,000, $1.50 over 1,000 up to 2,000, and $1.35 over 2,000. A 1,000 sq ft job is $1,750.
 7. Returns the square footage, price in cents, confidence, and a Google Maps satellite link. That link is only a URL. It does not use a Google key.
 
 If `GOOGLE_MAPS_KEY` is set, steps 3 and 4 use Google Geocoding and the Google Maps Static API instead of ArcGIS and Esri. Leave that secret unset unless you want Google.
@@ -112,7 +112,7 @@ A success body looks like:
 {
   "ok": true,
   "sqft": 720,
-  "priceCents": 144000,
+  "priceCents": 126000,
   "confidence": "medium",
   "latitude": 28.25,
   "longitude": -80.74,
@@ -121,6 +121,6 @@ A success body looks like:
 }
 ```
 
-`priceCents` 144000 is $1,440.00, which is 720 sq ft at $2.00. The website then emails that result, the address, the satellite link, and the photos through FormSubmit.
+`priceCents` 126000 is $1,260.00, which is 720 sq ft at $1.75. The website then emails that result, the address, the satellite link, and the photos through FormSubmit.
 
 Any failure, including a missing Worker URL, returns the customer to "We'll review and send your quote." The email still goes out.
