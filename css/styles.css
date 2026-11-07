@@ -308,12 +308,12 @@ a:hover { color: var(--blue-dark); }
      Restore it by using that path here. */
   background-image: url("/images/hero/sealed-front-driveway.jpg");
   background-repeat: no-repeat;
-  /* On a phone, keep the photo a bit smaller than the hero so more of the
-     house is in frame. Shift it up so the headline sits on the garage door
-     and 32% across so the glossy patch on the left of the driveway shows.
-     Desktop overrides this. */
-  background-size: auto 66%;
-  background-position: 32% -7rem;
+  /* On a phone, size the photo a little smaller than the hero so more of the
+     house is in frame. Shift it up so the headline sits on the garage door,
+     and 30% across so the glossy patch on the left of the driveway is clearly
+     in frame. Desktop overrides this. */
+  background-size: auto 60%;
+  background-position: 30% -4rem;
 }
 @media (min-width: 700px) {
   .hero {
