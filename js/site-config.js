@@ -30,7 +30,7 @@ var SHINE_CITY = {
   phoneDisplay: "321-795-0313",
   phoneTel: "+13217950313",
   email: "reviveexterior@gmail.com",
-  regionPhrase: "Orlando & the Space Coast",
+  regionPhrase: "Orlando & Central Florida",
   reviewUrl: "https://search.google.com/local/writereview?placeid=ChIJhw8ynC9JzigRu_68uv9DBQM",
 
   /* Homepage video, directly under the pricing hero.
