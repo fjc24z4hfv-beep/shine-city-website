@@ -1,29 +1,47 @@
 /* Paver sealing rates. Keep these in step with js/site-config.js.
-   The first 800 sq ft are $2.00 each.
-   Only the square footage above 800 is $1.75 each.
-   A 1,000 sq ft job is $1,600 plus 200 sq ft at $1.75, which is $1,950.
-   There is no job minimum and no flat promotional price. */
+   The whole job uses one tier rate. It is not split across tiers.
+   Up to 1,000 sq ft is $1.95. A 1,000 sq ft job is $1,950.
+   Over 1,000 through 2,000 sq ft is $1.75. A 1,500 sq ft job is $2,625.
+   Over 2,000 sq ft is $1.50. A 2,500 sq ft job is $3,750.
+   A price never drops below the largest job in the tier below:
+   over 1,000 through 2,000, at least 1,000 × $1.95;
+   over 2,000, at least 2,000 × $1.75.
+   Then the job is at least $750.
+   maxSqFt is inclusive. The last tier has no maxSqFt.
+   There is no flat promotional price. */
 
-export var BREAKPOINT_SQFT = 800;
-export var RATE_UP_TO_CENTS = 200;
-export var RATE_OVER_CENTS = 175;
+export var TIERS = [
+  { maxSqFt: 1000, rateCents: 195 },
+  { maxSqFt: 2000, rateCents: 175 },
+  { maxSqFt: null, rateCents: 150 }
+];
+export var MINIMUM_CENTS = 75000;
 export var MAX_SQFT = 50000;
 
 export function priceForSqft(sqft) {
   var n = Math.round(Number(sqft));
   if (!isFinite(n) || n <= 0 || n > MAX_SQFT) return null;
-  var first = Math.min(n, BREAKPOINT_SQFT);
-  var extra = n - first;
-  var firstCents = first * RATE_UP_TO_CENTS;
-  var extraCents = extra * RATE_OVER_CENTS;
+  var tier = TIERS[TIERS.length - 1];
+  var index = TIERS.length - 1;
+  var i;
+  for (i = 0; i < TIERS.length; i++) {
+    if (TIERS[i].maxSqFt == null || n <= TIERS[i].maxSqFt) {
+      tier = TIERS[i];
+      index = i;
+      break;
+    }
+  }
+  var total = n * tier.rateCents;
+  if (index > 0) {
+    var prev = TIERS[index - 1];
+    var hold = prev.maxSqFt * prev.rateCents;
+    if (hold > total) total = hold;
+  }
+  if (total < MINIMUM_CENTS) total = MINIMUM_CENTS;
   return {
     sqft: n,
-    firstSqft: first,
-    extraSqft: extra,
-    rateCents: extra > 0 ? RATE_OVER_CENTS : RATE_UP_TO_CENTS,
-    firstCents: firstCents,
-    extraCents: extraCents,
-    totalCents: firstCents + extraCents
+    rateCents: tier.rateCents,
+    totalCents: total
   };
 }
 

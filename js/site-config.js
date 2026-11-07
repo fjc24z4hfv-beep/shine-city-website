@@ -3,18 +3,24 @@
    city list, and how the quote form is delivered.
 
    PAVER SEALING RATES — confirmed by the owner.
-   The first breakpointSqFt are priced at rateUpTo.
-   Only the square footage above breakpointSqFt is priced at rateOver.
-   A 1,000 sq ft job is the first 800 at $2.00 ($1,600) plus 200 at $1.75 ($350), which is $1,950.
+   The whole job is priced at one tier rate. It is not split across tiers.
+   Up to 1,000 sq ft is $1.95 per sq ft. A 1,000 sq ft job is $1,950.
+   Over 1,000 sq ft, through 2,000, is $1.75 per sq ft. A 1,500 sq ft job is $2,625.
+   Over 2,000 sq ft is $1.50 per sq ft. A 2,500 sq ft job is $3,750.
+   A price never drops below the largest job in the tier below it:
+   over 1,000 through 2,000, at least 1,000 × $1.95 ($1,950);
+   over 2,000, at least 2,000 × $1.75 ($3,500).
+   Then the job is at least $750.
+   Publish the $750 minimum. Do not explain the no-drop rule on the site.
    The rate is for paver sealing: clean, re-sand joints, and seal.
-   No job minimum is set. Do not add one.
    Sealer stripping is a separate published rate: strip only, re-sand and reseal not included.
    It is not used by the paver sealing calculator or the instant quote.
    House washing and pressure washing: call or text for an estimate. Do not add a published wash price.
    The door-hanger flat special is not a website price. Do not add it here.
 
    Visible tier cards, the estimate calculator, and the price fields in
-   JSON-LD are filled from the three numbers below.
+   JSON-LD are filled from pricing.paverSealing.tiers below.
+   maxSqFt is inclusive. The last tier has no maxSqFt.
    If the numbers change, also update the matching sentences in:
      - index.html (hero tier fallback, FAQ, meta description)
      - pricing/index.html (hero lede, quote card price line, meta description)
@@ -71,9 +77,12 @@ var SHINE_CITY = {
     paverSealing: {
       name: "Paver sealing",
       includes: "Clean, re-sand joints, and seal",
-      breakpointSqFt: 800,
-      rateUpTo: 2.0,
-      rateOver: 1.75
+      minimum: 750,
+      tiers: [
+        { maxSqFt: 1000, rate: 1.95 },
+        { maxSqFt: 2000, rate: 1.75 },
+        { maxSqFt: null, rate: 1.5 }
+      ]
     },
     /* Strip only. Do not fold this into paverSealing or the instant quote. */
     sealerStripping: {
