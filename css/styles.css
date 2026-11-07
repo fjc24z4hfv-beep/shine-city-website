@@ -309,8 +309,8 @@ a:hover { color: var(--blue-dark); }
   background-image: url("/images/hero/sealed-front-driveway.jpg");
   background-repeat: no-repeat;
   /* On a phone the hero is tall. Size the photo by height, then shift it up
-     so the roof is cropped and the garage and sealed driveway sit behind
-     the headline and the estimate card. Desktop overrides this below. */
+     so the headline sits on the garage door and the sealed driveway fills
+     the space under the estimate button. Desktop overrides this below. */
   background-size: auto 78%;
   background-position: center -16rem;
 }
@@ -837,6 +837,8 @@ a:hover { color: var(--blue-dark); }
 .sticky-bar a:last-child:hover { background: #E7F2FC; color: var(--navy); }
 
 @media (max-width: 699px) {
+  .hero .easy { display: none; }
+  .hero .hero-cta { margin-bottom: 14rem; }
   .price-tiers { display: block; }
   .price-tiers span { display: block; }
   .price-tiers span:not(:last-child)::after { content: none; }
