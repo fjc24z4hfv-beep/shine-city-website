@@ -1040,9 +1040,31 @@
     }
   }
 
+  function bindInViewVideos() {
+    var videos = document.querySelectorAll("video[data-inview-autoplay]");
+    if (!videos.length) return;
+    var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduce || typeof IntersectionObserver !== "function") return;
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        var video = entry.target;
+        if (entry.isIntersecting) {
+          var pending = video.play();
+          if (pending && pending.catch) pending.catch(function () {});
+        } else {
+          video.pause();
+        }
+      });
+    }, { threshold: 0.45 });
+    Array.prototype.forEach.call(videos, function (video) {
+      observer.observe(video);
+    });
+  }
+
   function init() {
     document.querySelectorAll("[data-pricing-tiers]").forEach(renderTiers);
     renderProcessVideo();
+    bindInViewVideos();
     document.querySelectorAll("[data-price-compact]").forEach(function (el) {
       el.classList.add("price-tiers");
       el.innerHTML = compactRateParts().map(function (part) {

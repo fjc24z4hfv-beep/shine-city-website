@@ -1340,3 +1340,19 @@ a:hover { color: var(--blue-dark); }
 .video-feature__actions { flex-direction: column; align-items: flex-start; }
 .video-feature__primary { font-size: 1.15rem; padding: 1.05rem 1.9rem; box-shadow: 0 10px 24px rgba(21, 101, 192, 0.32); width: 100%; max-width: 24rem; justify-content: center; text-align: center; }
 .video-feature__secondary { font-size: 0.92rem; padding: 0.55rem 1.1rem; }
+
+.porch-makeover { text-align: center; }
+.porch-makeover .video-feature__title { text-align: center; }
+.porch-makeover__caption {
+  margin: 0.55rem auto 1.15rem;
+  max-width: 36rem;
+  color: var(--muted);
+}
+.porch-makeover .video-frame--vertical {
+  width: 100%;
+  max-width: none;
+  margin-inline: auto;
+}
+@media (min-width: 700px) {
+  .porch-makeover .video-frame--vertical { max-width: 380px; }
+}
