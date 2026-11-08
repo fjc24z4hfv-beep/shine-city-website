@@ -1136,6 +1136,29 @@ a:hover { color: var(--blue-dark); }
     gap: 1.5rem;
   }
 }
+/* Driveway comparisons: full-width side by side from 700px, the tall stack below that. */
+.job-photos .driveway-compare .pair__grid {
+  grid-template-columns: minmax(0, 1fr);
+  justify-content: stretch;
+}
+.job-photos .driveway-compare .shot {
+  max-width: none;
+  width: 100%;
+  aspect-ratio: 1080 / 1920;
+}
+.job-photos .driveway-compare .shot img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  object-fit: contain;
+  object-position: center center;
+}
+.driveway-compare figcaption { text-align: center; }
+@media (min-width: 700px) {
+  .job-photos .driveway-compare .shot { aspect-ratio: 2160 / 960; }
+}
 .feature-list { max-width: 52rem; }
 
 .compare {

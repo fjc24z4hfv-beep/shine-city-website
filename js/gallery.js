@@ -241,13 +241,16 @@
 
   function openLightbox(button) {
     ensureDialog();
-    var width = parseInt(button.getAttribute("data-w"), 10) || 1600;
+    var wide = button.getAttribute("data-full-wide");
+    var useWide = wide && window.matchMedia && window.matchMedia("(min-width: 700px)").matches;
+    var width = parseInt(button.getAttribute(useWide ? "data-w-wide" : "data-w"), 10) || 1600;
+    var height = parseInt(button.getAttribute(useWide ? "data-h-wide" : "data-h"), 10) || 1200;
     dialogImg.style.setProperty("--natw", width + "px");
     dialogImg.width = width;
-    dialogImg.height = parseInt(button.getAttribute("data-h"), 10) || 1200;
+    dialogImg.height = height;
     dialogImg.alt = button.getAttribute("data-alt") || "";
     dialogCap.textContent = button.getAttribute("data-alt") || "";
-    dialogImg.src = button.getAttribute("data-full");
+    dialogImg.src = useWide ? wide : button.getAttribute("data-full");
     if (typeof dialog.showModal === "function") dialog.showModal();
     else dialog.setAttribute("open", "");
   }
