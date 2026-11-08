@@ -1498,10 +1498,10 @@ a:hover { color: var(--blue-dark); }
   .hero::after {
     background: linear-gradient(
       180deg,
-      rgba(17, 17, 17, 0.94) 0,
-      rgba(17, 17, 17, 0.88) 240px,
-      rgba(17, 17, 17, 0.8) 350px,
-      rgba(17, 17, 17, 0.4) 425px,
+      rgba(17, 17, 17, 0.9) 0,
+      rgba(17, 17, 17, 0.82) 240px,
+      rgba(17, 17, 17, 0.73) 350px,
+      rgba(17, 17, 17, 0.36) 425px,
       rgba(17, 17, 17, 0.06) 510px,
       rgba(17, 17, 17, 0) 580px
     );
