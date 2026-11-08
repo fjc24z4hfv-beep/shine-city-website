@@ -1493,3 +1493,17 @@ a:hover { color: var(--blue-dark); }
     rgba(17, 17, 17, 0) 100%
   );
 }
+@media (max-width: 699px) {
+  /* Phones: dark behind the text, then clear quickly so the driveway shine shows */
+  .hero::after {
+    background: linear-gradient(
+      180deg,
+      rgba(17, 17, 17, 0.86) 0,
+      rgba(17, 17, 17, 0.76) 240px,
+      rgba(17, 17, 17, 0.66) 350px,
+      rgba(17, 17, 17, 0.32) 425px,
+      rgba(17, 17, 17, 0.06) 510px,
+      rgba(17, 17, 17, 0) 580px
+    );
+  }
+}
