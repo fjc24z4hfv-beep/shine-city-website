@@ -1444,3 +1444,14 @@ a:hover { color: var(--blue-dark); }
   object-fit: contain;
 }
 .package-photos figcaption { text-align: center; }
+
+/* Paver Sealing: makeover video beside "What the work includes" */
+.work-makeover__label { margin: 0 0 0.5rem; font-weight: 800; font-size: 0.85rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--brand-dark, #1565C0); text-align: center; }
+.work-makeover__caption { margin: 0.6rem auto 0; font-size: 0.92rem; color: var(--muted); text-align: center; max-width: 22rem; }
+.work-makeover .video-frame--vertical { margin-inline: auto; }
+.work-makeover .video-feature__body p { color: var(--ink); }
+@media (min-width: 52rem) {
+  .work-makeover .video-feature__grid { align-items: center; }
+  .work-makeover .video-feature__title { align-self: end; }
+  .work-makeover .video-feature__body { align-self: start; }
+}
