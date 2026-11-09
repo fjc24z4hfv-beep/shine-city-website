@@ -2,7 +2,7 @@
    Brand blue #3FA7F9 is the logo color. Body text and buttons use
    #1565C0 (white text contrast about 5.8:1) and #111111. #1E88E5 is
    reserved for large figures. The logo wordmark stays in the image.
-   Shine & Save uses a self-hosted script chosen by --shine-save-font. */
+   Shine & Save uses self-hosted Oleo Script Bold. */
 
 :root {
   --brand: #3FA7F9;
@@ -21,15 +21,6 @@
   --shadow: 0 12px 32px rgba(17, 17, 17, 0.08);
   --header-offset: 7.5rem;
   --font: "Plus Jakarta Sans", Inter, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  /* Shine & Save. Change this one value:
-     "Lobster Two"  — Bold Italic (default)
-     "Oleo Script"  — Bold
-     Or add class shine-save-oleo on <html>. */
-  --shine-save-font: "Lobster Two", "Segoe Script", cursive;
-}
-
-html.shine-save-oleo {
-  --shine-save-font: "Oleo Script", "Segoe Script", cursive;
 }
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -1518,28 +1509,19 @@ a:hover { color: var(--blue-dark); }
   }
 }
 
-/* Shine & Save faces. One weight each. Oleo Script Bold is upright, but
-   it is registered as italic so --shine-save-font is the only switch.
-   The outlines are not slanted again. */
-@font-face {
-  font-family: "Lobster Two";
-  src: url("/fonts/lobster-two-bold-italic.woff2") format("woff2");
-  font-weight: 700;
-  font-style: italic;
-  font-display: swap;
-}
+/* Shine & Save. One weight of Oleo Script Bold, self-hosted. */
 @font-face {
   font-family: "Oleo Script";
   src: url("/fonts/oleo-script-bold.woff2") format("woff2");
   font-weight: 700;
-  font-style: italic;
+  font-style: normal;
   font-display: swap;
 }
 
 .shine-save {
-  font-family: var(--shine-save-font);
+  font-family: "Oleo Script", "Segoe Script", cursive;
   font-weight: 700;
-  font-style: italic;
+  font-style: normal;
   font-synthesis: none;
   letter-spacing: 0;
 }
@@ -1558,13 +1540,23 @@ a:hover { color: var(--blue-dark); }
   color: var(--brand);
 }
 
-/* Share the other tabs' size, padding, and row. The script and blue
-   carry the emphasis so the item does not grow the header. */
+/* About 30% larger than the other tabs, still centered on their row.
+   Tighter side padding keeps the header on one line. */
 .site-nav a.shine-save {
   font-weight: 700;
-  font-style: italic;
+  font-style: normal;
   letter-spacing: 0;
   line-height: 1;
+  align-self: center;
+}
+@media (max-width: 1099px) {
+  .site-nav a.shine-save { font-size: 1.43rem; }
+}
+@media (min-width: 1100px) and (max-width: 1279px) {
+  .site-nav a.shine-save { font-size: 1.21rem; padding-inline: 0.22rem; }
+}
+@media (min-width: 1280px) {
+  .site-nav a.shine-save { font-size: 1.35rem; padding-inline: 0.4rem; }
 }
 
 h1.shine-save,
@@ -1575,7 +1567,20 @@ h2.shine-save {
 .site-footer a.shine-save {
   font-size: 1.2rem;
   font-weight: 700;
-  font-style: italic;
+  font-style: normal;
   letter-spacing: 0;
   line-height: 1.35;
+}
+
+.page-hero h1.shine-save { margin-bottom: 0.2rem; }
+.package-subtitle {
+  margin: 0 0 0.85rem;
+  max-width: 36rem;
+  font-family: var(--font);
+  font-weight: 800;
+  font-style: normal;
+  font-size: clamp(1.2rem, 2.5vw, 1.65rem);
+  letter-spacing: -0.015em;
+  line-height: 1.2;
+  color: var(--white);
 }
