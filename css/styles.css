@@ -1599,6 +1599,30 @@ h2.shine-save {
   line-height: 1.2;
   color: var(--white);
 }
+.package-benefits {
+  margin: 0.15rem 0 0.2rem;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 0.4rem;
+  max-width: 36rem;
+}
+.package-benefits li {
+  position: relative;
+  padding-left: 1.15rem;
+  color: var(--white);
+  font-weight: 700;
+}
+.package-benefits li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.55em;
+  width: 0.45rem;
+  height: 0.45rem;
+  border-radius: 50%;
+  background: var(--brand);
+}
 
 /* Paver sealing page header: porch weeds before / sealed after */
 .page-hero--ba {
