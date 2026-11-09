@@ -1282,6 +1282,33 @@ a:hover { color: var(--blue-dark); }
   max-width: calc(100% - 1rem);
   line-height: 1.15;
 }
+.recent-jobs .driveway-posters {
+  display: grid;
+  gap: 1.25rem;
+}
+.recent-jobs .driveway-posters .pair { margin: 0; }
+.recent-jobs .driveway-posters .pair__grid { grid-template-columns: minmax(0, 1fr); }
+.recent-jobs .driveway-posters .shot {
+  width: 100%;
+  max-width: none;
+  aspect-ratio: 1080 / 1920;
+}
+.recent-jobs .driveway-posters .shot img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  object-fit: contain;
+}
+.recent-jobs .driveway-posters figcaption { text-align: center; }
+@media (min-width: 700px) {
+  .recent-jobs .driveway-posters {
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
+    gap: 1.5rem;
+  }
+}
 
 .lightbox {
   width: min(96vw, 1100px);
