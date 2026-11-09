@@ -1661,9 +1661,9 @@ h2.shine-save {
 }
 @media (min-width: 1280px) {
   .page-hero--ba {
-    min-height: 26.25rem;
-    padding: 1.05rem 0 0.85rem;
-    background-position: center 62%;
+    min-height: 22.5rem;
+    padding: 0.8rem 0 0.6rem;
+    background-position: center 68%;
   }
   .page-hero--ba .crumbs ol { margin-bottom: 0.3rem; }
   .page-hero--ba h1 { margin-bottom: 0.28rem; }
@@ -1674,11 +1674,11 @@ h2.shine-save {
   .page-hero--ba {
     background-image: url("/images/hero/paver-before-after-split-1400.jpg");
     background-image: image-set(url("/images/hero/paver-before-after-split-1400.jpg") 1x, url("/images/hero/paver-before-after-split-2400.jpg") 2x);
-    background-position: center 60%;
-    min-height: 13.75rem;
-    padding: 0.45rem 0 0.35rem;
+    background-position: center bottom;
+    min-height: 11.5625rem;
+    padding: 0.5625rem 0 0.25rem;
   }
-  .page-hero--ba .crumbs ol { margin-bottom: 0.2rem; font-size: 0.8rem; }
+  .page-hero--ba .crumbs ol { margin-bottom: 0.12rem; font-size: 0.75rem; line-height: 1.2; }
   .page-hero--ba h1 { font-size: 1.45rem; margin-bottom: 0.12rem; }
   .page-hero--ba .container > * { max-width: calc(50% - 0.35rem); }
   .page-hero--ba .lede { font-size: 0.84rem; line-height: 1.25; margin-bottom: 0; }
