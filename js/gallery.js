@@ -93,8 +93,35 @@
     return { width: width, height: height };
   }
 
+  function surfaceName(service) {
+    if (service === "paver/driveway cleaning") return "driveway";
+    if (service === "walkway/sidewalk") return "walkway";
+    if (service === "pool deck") return "pool deck";
+    if (service === "house soft wash") return "house wash";
+    if (service === "screen enclosure") return "screen enclosure";
+    if (service === "stone veneer") return "stone veneer";
+    if (service === "patio furniture") return "patio furniture";
+    return "cleaning";
+  }
+
   function caption(group) {
+    var custom = "";
+    group.items.forEach(function (item) {
+      if (item.caption && !custom) custom = item.caption;
+    });
+    if (custom) return custom;
+    if (group.before && group.after) {
+      var what = surfaceName(group.service);
+      if (group.city) return group.city + " " + what + ", before and after cleaning.";
+      return what.charAt(0).toUpperCase() + what.slice(1) + ", before and after cleaning.";
+    }
     return group.city ? group.city + "." : "";
+  }
+
+  function pairStyle(before, after) {
+    if (!before || !after) return "";
+    return ' style="--bw:' + before.width + ";--bh:" + before.height +
+      ";--aw:" + after.width + ";--ah:" + after.height + '"';
   }
 
   function shotButton(item) {
@@ -156,28 +183,11 @@
     var before = group.before;
     var after = group.after;
     var cap = esc(caption(group));
-    if (before && after && !useSplit(group.id, before, after)) {
-      var maxw = Math.min(before.width, after.width, 600);
-      return '<figure class="pair pair--slider" data-service="' + esc(group.service) + '" data-job="' + esc(group.job) + '">' +
-        '<div class="compare" style="--pos:50%;--w:' + after.width + ";--h:" + after.height +
-        ";max-width:min(100%," + maxw + 'px)">' +
-        '<img class="compare__after" src="' + esc(BASE + after.thumbnail) + '" alt="' + esc(after.alt) +
-        '" width="' + displaySize(after).width + '" height="' + displaySize(after).height + '" loading="lazy" decoding="async">' +
-        '<img class="compare__before" src="' + esc(BASE + before.thumbnail) + '" alt="' + esc(before.alt) +
-        '" width="' + displaySize(before).width + '" height="' + displaySize(before).height + '" loading="lazy" decoding="async">' +
-        '<input class="compare__range" type="range" min="0" max="100" value="50" aria-label="Drag to compare before and after cleaning">' +
-        '<span class="compare__label compare__label--before">Before</span>' +
-        '<span class="compare__label compare__label--after">After cleaning</span>' +
-        "</div><figcaption>" + cap + " " + fullButton(before, "Full before") + " " + fullButton(after, "Full after") +
-        "</figcaption></figure>";
-    }
     var buttons = (before && after ? [before, after] : group.items).map(shotButton).join("");
-    var angle = useSplit(group.id, before, after) && before && after
-      ? " Shown side by side because the angles differ."
-      : "";
+    var matched = before && after ? " pair--matched" : "";
     var native = group.service === "pool deck" ? " pair--native" : "";
-    return '<figure class="pair pair--split' + native + '" data-service="' + esc(group.service) + '" data-job="' + esc(group.job) + '">' +
-      '<div class="pair__grid">' + buttons + "</div><figcaption>" + cap + esc(angle) + "</figcaption></figure>";
+    return '<figure class="pair pair--split pair--full' + matched + native + '" data-service="' + esc(group.service) + '" data-job="' + esc(group.job) + '">' +
+      '<div class="pair__grid"' + pairStyle(before, after) + ">" + buttons + "</div><figcaption>" + cap + "</figcaption></figure>";
   }
 
   function matches(service, job) {
