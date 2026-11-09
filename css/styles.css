@@ -1,7 +1,8 @@
 /* Shine City marketing site
    Brand blue #3FA7F9 is the logo color. Body text and buttons use
    #1565C0 (white text contrast about 5.8:1) and #111111. #1E88E5 is
-   reserved for large figures. The script wordmark lives only in the logo. */
+   reserved for large figures. The logo wordmark stays in the image.
+   Shine & Save uses self-hosted Oleo Script Bold. */
 
 :root {
   --brand: #3FA7F9;
@@ -1506,4 +1507,80 @@ a:hover { color: var(--blue-dark); }
       rgba(17, 17, 17, 0) 580px
     );
   }
+}
+
+/* Shine & Save. One weight of Oleo Script Bold, self-hosted. */
+@font-face {
+  font-family: "Oleo Script";
+  src: url("/fonts/oleo-script-bold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+.shine-save {
+  font-family: "Oleo Script", "Segoe Script", cursive;
+  font-weight: 700;
+  font-style: normal;
+  font-synthesis: none;
+  letter-spacing: 0;
+}
+
+/* Every Shine & Save label sits on the black header, hero, card, or footer. */
+.site-nav a.shine-save,
+.site-footer a.shine-save,
+.package-promo .shine-save,
+.page-hero .shine-save {
+  color: var(--brand);
+}
+
+.site-nav a.shine-save:hover,
+.site-nav a.shine-save[aria-current="page"],
+.site-footer a.shine-save:hover {
+  color: var(--brand);
+}
+
+/* About 30% larger than the other tabs, still centered on their row.
+   Tighter side padding keeps the header on one line. */
+.site-nav a.shine-save {
+  font-weight: 700;
+  font-style: normal;
+  letter-spacing: 0;
+  line-height: 1;
+  align-self: center;
+}
+@media (max-width: 1099px) {
+  .site-nav a.shine-save { font-size: 1.43rem; }
+}
+@media (min-width: 1100px) and (max-width: 1279px) {
+  .site-nav a.shine-save { font-size: 1.21rem; padding-inline: 0.22rem; }
+}
+@media (min-width: 1280px) {
+  .site-nav a.shine-save { font-size: 1.35rem; padding-inline: 0.4rem; }
+}
+
+h1.shine-save,
+h2.shine-save {
+  line-height: 1.25;
+}
+
+.site-footer a.shine-save {
+  font-size: 1.2rem;
+  font-weight: 700;
+  font-style: normal;
+  letter-spacing: 0;
+  line-height: 1.35;
+}
+
+.page-hero h1.shine-save { margin-bottom: 0.2rem; }
+.package-subtitle {
+  margin: 0 0 0.85rem;
+  max-width: 36rem;
+  font-family: var(--font);
+  font-weight: 800;
+  font-style: normal;
+  font-size: clamp(1.2rem, 2.5vw, 1.65rem);
+  letter-spacing: -0.015em;
+  line-height: 1.2;
+  color: var(--white);
 }
