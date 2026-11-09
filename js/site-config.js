@@ -91,14 +91,44 @@ var SHINE_CITY = {
     }
   },
 
-  /* Counties are confirmed: Orange County and Brevard County, Florida.
-     Do not add Seminole, Osceola, or Lake County.
-     Do not add Kissimmee or St. Cloud.
-     The city names below are the working list and still need owner review. */
+  /* Orange County places and Oviedo were added at the owner's request.
+     Do not add Bay Lake or Lake Buena Vista. Do not add Kissimmee or St. Cloud. */
   serviceArea: [
     {
       name: "Orange County",
-      cities: ["Orlando", "Winter Garden", "Horizon West", "Lake Nona", "Sunbridge", "East Orlando"]
+      cities: [
+        "Apopka",
+        "Avalon Park",
+        "Azalea Park",
+        "Belle Isle",
+        "Bithlo",
+        "Christmas",
+        "Conway",
+        "Dr. Phillips",
+        "East Orlando",
+        "Eatonville",
+        "Edgewood",
+        "Gotha",
+        "Horizon West",
+        "Hunters Creek",
+        "Lake Nona",
+        "Maitland",
+        "Meadow Woods",
+        "Oakland",
+        "Ocoee",
+        "Orlando",
+        "Pine Hills",
+        "Sunbridge",
+        "Union Park",
+        "Wedgefield",
+        "Windermere",
+        "Winter Garden",
+        "Winter Park"
+      ]
+    },
+    {
+      name: "Seminole County",
+      cities: ["Oviedo"]
     },
     {
       name: "Brevard County",

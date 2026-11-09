@@ -8,7 +8,7 @@ The Worker:
 
 1. Accepts a POST only from `https://shinecitypaversealing.com` or `https://www.shinecitypaversealing.com`.
 2. Limits each IP to 8 requests an hour.
-3. Geocodes the address with the ArcGIS World Geocoding service (`findAddressCandidates`, no key) and keeps Orange County and Brevard County, Florida.
+3. Geocodes the address with the ArcGIS World Geocoding service (`findAddressCandidates`, no key) and keeps Orange County, Seminole County, and Brevard County, Florida.
 4. Downloads an Esri World Imagery satellite image at zoom 20, about 640 pixels on a side, centered on that point. No key.
 5. Sends that image plus the customer's photos to a vision model.
 6. Prices the returned square footage on the server. The whole job uses one rate: $1.95 per sq ft up to 1,000, $1.75 over 1,000 through 2,000, and $1.50 over 2,000. A price never drops below the largest job in the tier below, and then the job is at least $750. A 1,000 sq ft job is $1,950. A 300 sq ft job is $750.
