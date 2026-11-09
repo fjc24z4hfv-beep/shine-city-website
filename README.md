@@ -20,7 +20,7 @@ Paver sealing rates, the size tiers, the city list, and quote-form delivery live
 - `FORM_ENDPOINT` is the FormSubmit address that receives the quote form and its photos. Leave it blank to use only the prefilled email and text backup. The first real submission sends FormSubmit's activation email to reviveexterior@gmail.com. Open that link once so later submissions are delivered. Do not send a test just to trigger it.
 - The quote on `/pricing/` is one form: name, phone, email, address, note, and photos. The Worker geocodes that address and measures from the satellite image plus the photos. Photos are required. The published paver sealing rates stay on the page as general information. `/contact/` redirects there and keeps the query string, including `?thanks=1`.
 - `INSTANT_QUOTE_API` is the Cloudflare Worker URL that estimates square footage from a satellite image and the customer's photos, then prices the job. It is set to `https://shine-city-quote.shinecity.workers.dev`. The deploy steps and the request shape are in `worker/README.md`. The only required Worker secret is `OPENAI_API_KEY`. Geocoding and the satellite image use ArcGIS and Esri unless `GOOGLE_MAPS_KEY` is also set. A blank setting, or a Worker error, still emails the request and shows "We'll review and send your quote."
-- `serviceArea` is the city list. Counties are Orange and Brevard. If you change cities, also update the sentences on `service-area/index.html` and the meta descriptions that name cities.
+- `serviceArea` is the city list. Counties are Orange, Seminole, and Brevard. Oviedo is the Seminole County place. If you change cities, also update the sentences on `service-area/index.html` and the meta descriptions that name cities.
 
 The visible price lines in the HTML are a no-JavaScript fallback. If the rates change, update those sentences and the meta descriptions on the home page, the pricing page, and the paver sealing page so they match the config.
 
@@ -35,7 +35,7 @@ The visible price lines in the HTML are a no-JavaScript fallback. If the rates c
 - `/sealer-stripping/` strip only at $2.25 per sq ft. Re-sand and reseal are priced separately. Not used by the instant quote.
 - `/soft-washing/` soft washing for stucco, vinyl siding, stone veneer, and screen enclosures
 - `/pressure-washing/` pressure washing for driveways, sidewalks, walkways, patios, pavers, and pool decks
-- `/service-area/` Orange County and Brevard County
+- `/service-area/` Orange County, Seminole County, and Brevard County
 - `/about/`
 - `/contact/` free quote
 - `/review/` Google review landing page (leave its review link as it is)

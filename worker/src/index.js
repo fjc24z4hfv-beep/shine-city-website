@@ -60,7 +60,7 @@ function countyMatch(state, county) {
   var region = String(state || "").toLowerCase();
   if (region && region !== "fl" && region !== "florida") return false;
   var name = String(county || "").toLowerCase();
-  return name.indexOf("orange") !== -1 || name.indexOf("brevard") !== -1;
+  return name.indexOf("orange") !== -1 || name.indexOf("seminole") !== -1 || name.indexOf("brevard") !== -1;
 }
 
 function inServiceCounty(result) {
