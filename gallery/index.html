@@ -28,7 +28,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap">
-  <link rel="stylesheet" href="/css/styles.css?v=20261108u">
+  <link rel="stylesheet" href="/css/styles.css?v=20261108v">
 </head>
 <body>
 
@@ -68,23 +68,77 @@
       </div>
     </header>
 
-    <section class="section" aria-labelledby="seal-slot-heading">
+    <section class="section" aria-labelledby="recent-sealing-heading">
       <div class="container">
-        <div class="seal-slot" id="after-sealing">
-          <h2 id="seal-slot-heading">Coming soon: before / after cleaning / after sealing</h2>
-          <p>A three-photo sealing set is not up yet. The next job will drop in here: the pavers before, the same pavers after cleaning, and the same pavers after sealer.</p>
-          <!--
-            SEALING SET DROP-IN. Replace the three empty frames, in this order, when the photos exist.
-            Do not use a cleaning photo as the sealed frame.
-            <img src="/images/gallery/sealing/before.jpg" alt="Before cleaning: city and paver surface. No street or house number." width="" height="">
-            <img src="/images/gallery/sealing/after-cleaning.jpg" alt="After cleaning, before sealer: city and paver surface. No street or house number." width="" height="">
-            <img src="/images/gallery/sealing/after-sealing.jpg" alt="After sealing: matte or wet look, city and paver surface. No street or house number." width="" height="">
-          -->
-          <ol class="seal-slot__frames">
-            <li><strong>Before</strong><span>Waiting on the next job.</span></li>
-            <li><strong>After cleaning</strong><span>Waiting on the next job.</span></li>
-            <li><strong>After sealing</strong><span>Waiting on the next job.</span></li>
-          </ol>
+        <div class="recent-jobs" id="recent-sealing">
+          <h2 id="recent-sealing-heading">Recent paver sealing jobs</h2>
+          <div class="job-photos">
+            <figure class="pair pair--split">
+              <div class="pair__grid">
+                <button type="button" class="shot" data-full="/images/gallery/sealing/pool-deck-before.jpg" data-alt="Pool deck before" data-w="1200" data-h="1600">
+                  <img src="/images/gallery/sealing/thumbs/pool-deck-before.jpg" alt="Pool deck before" width="450" height="600" loading="lazy" decoding="async">
+                  <span class="shot__tag">Before</span>
+                </button>
+                <button type="button" class="shot" data-full="/images/gallery/sealing/pool-deck-after.jpg" data-alt="Pool deck after cleaning" data-w="1200" data-h="1600">
+                  <img src="/images/gallery/sealing/thumbs/pool-deck-after.jpg" alt="Pool deck after cleaning" width="450" height="600" loading="lazy" decoding="async">
+                  <span class="shot__tag">After cleaning</span>
+                </button>
+              </div>
+              <figcaption>Pool deck, after cleaning.</figcaption>
+            </figure>
+            <figure class="pair pair--split">
+              <div class="pair__grid">
+                <button type="button" class="shot" data-full="/images/gallery/sealing/pool-deck-side-2-before.jpg" data-alt="Pool deck pavers before" data-w="1200" data-h="1600">
+                  <img src="/images/gallery/sealing/thumbs/pool-deck-side-2-before.jpg" alt="Pool deck pavers before" width="450" height="600" loading="lazy" decoding="async">
+                  <span class="shot__tag">Before</span>
+                </button>
+                <button type="button" class="shot" data-full="/images/gallery/sealing/pool-deck-side-2-sealed-after.jpg" data-alt="Pool deck pavers after sealing" data-w="1200" data-h="1600">
+                  <img src="/images/gallery/sealing/thumbs/pool-deck-side-2-sealed-after.jpg" alt="Pool deck pavers after sealing" width="450" height="600" loading="lazy" decoding="async">
+                  <span class="shot__tag">After sealing</span>
+                </button>
+              </div>
+              <figcaption>Pool deck, clean and seal.</figcaption>
+            </figure>
+            <figure class="pair pair--split">
+              <div class="pair__grid">
+                <button type="button" class="shot" data-full="/images/gallery/sealing/pool-deck-spa-corner-before.jpg" data-alt="Pool deck pavers by the spa before" data-w="1200" data-h="1600">
+                  <img src="/images/gallery/sealing/thumbs/pool-deck-spa-corner-before.jpg" alt="Pool deck pavers by the spa before" width="450" height="600" loading="lazy" decoding="async">
+                  <span class="shot__tag">Before</span>
+                </button>
+                <button type="button" class="shot" data-full="/images/gallery/sealing/pool-deck-spa-corner-sealed-after.jpg" data-alt="Pool deck pavers by the spa after sealing" data-w="1200" data-h="1600">
+                  <img src="/images/gallery/sealing/thumbs/pool-deck-spa-corner-sealed-after.jpg" alt="Pool deck pavers by the spa after sealing" width="450" height="600" loading="lazy" decoding="async">
+                  <span class="shot__tag">After sealing</span>
+                </button>
+              </div>
+              <figcaption>Pool deck by the spa, clean and seal.</figcaption>
+            </figure>
+            <figure class="pair pair--split">
+              <div class="pair__grid">
+                <button type="button" class="shot" data-full="/images/gallery/sealing/patio-before.jpg" data-alt="Paver patio before" data-w="1200" data-h="1600">
+                  <img src="/images/gallery/sealing/thumbs/patio-before.jpg" alt="Paver patio before" width="450" height="600" loading="lazy" decoding="async">
+                  <span class="shot__tag">Before</span>
+                </button>
+                <button type="button" class="shot" data-full="/images/gallery/sealing/patio-after.jpg" data-alt="Paver patio after" data-w="1200" data-h="1600">
+                  <img src="/images/gallery/sealing/thumbs/patio-after.jpg" alt="Paver patio after" width="450" height="600" loading="lazy" decoding="async">
+                  <span class="shot__tag">After</span>
+                </button>
+              </div>
+              <figcaption>Paver patio.</figcaption>
+            </figure>
+            <figure class="pair pair--split">
+              <div class="pair__grid">
+                <button type="button" class="shot" data-full="/images/hero/paver-before-inset.jpg" data-alt="Front porch pavers before" data-w="400" data-h="450">
+                  <img src="/images/hero/paver-before-inset.jpg" alt="Front porch pavers before" width="400" height="450" loading="lazy" decoding="async">
+                  <span class="shot__tag">Before</span>
+                </button>
+                <button type="button" class="shot" data-full="/images/hero/paver-after-mobile.jpg" data-alt="Front porch pavers after sealing" data-w="900" data-h="1100">
+                  <img src="/images/hero/paver-after-mobile.jpg" alt="Front porch pavers after sealing" width="900" height="1100" loading="lazy" decoding="async">
+                  <span class="shot__tag">After sealing</span>
+                </button>
+              </div>
+              <figcaption>Front porch, before and after sealing.</figcaption>
+            </figure>
+          </div>
         </div>
 
         <div class="filters" id="gallery-filters" role="toolbar" aria-label="Filter photos by service"></div>
