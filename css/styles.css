@@ -1508,7 +1508,7 @@ a:hover { color: var(--blue-dark); }
   }
 }
 
-/* Paver sealing page header: real before/after photo from house 10044 */
+/* Paver sealing page header: street-view driveway before/after photo */
 .page-hero--ba {
   background: #111111 url("/images/hero/paver-after-mobile.jpg") center 62% / cover no-repeat;
   padding: 1.8rem 0 11.5rem;
