@@ -257,8 +257,10 @@ a:hover { color: var(--blue-dark); }
   text-decoration: none;
   font-weight: 600;
 }
-.site-nav a:hover,
-.site-nav a[aria-current="page"] { color: var(--brand); }
+.site-nav a:hover { color: var(--brand); }
+/* Current page stays white, like the other tabs. Shine & Save keeps its blue script. */
+.site-nav a[aria-current="page"]:not(.shine-save) { color: var(--white); }
+.site-nav a[aria-current="page"]:not(.shine-save):hover { color: var(--brand); }
 .site-nav .nav-cta {
   margin-top: 0.35rem;
   background: var(--blue-deep);
@@ -1583,4 +1585,65 @@ h2.shine-save {
   letter-spacing: -0.015em;
   line-height: 1.2;
   color: var(--white);
+}
+
+/* Paver sealing page header: porch weeds before / sealed after */
+.page-hero--ba {
+  background: #111111 url("/images/hero/paver-after-mobile.jpg") center 62% / cover no-repeat;
+  padding: 1.8rem 0 11.5rem;
+}
+.page-hero--ba::before { display: none; }
+.page-hero--ba::after {
+  background: linear-gradient(180deg, rgba(17,17,17,0.88) 0%, rgba(17,17,17,0.76) 48%, rgba(17,17,17,0.22) 74%, rgba(17,17,17,0.05) 100%);
+}
+.page-hero--ba h1, .page-hero--ba .lede, .page-hero--ba .crumbs { text-shadow: 0 1px 3px rgba(17,17,17,0.8); }
+.ba-hero__media { position: absolute; inset: 0; z-index: 1; pointer-events: none; }
+.ba-tag {
+  position: absolute;
+  bottom: 1rem;
+  padding: 0.3rem 0.65rem;
+  border-radius: 6px;
+  background: rgba(17,17,17,0.78);
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border-bottom: 3px solid var(--brand);
+}
+.ba-tag--before { display: none; left: 1rem; }
+.ba-tag--after { right: 1rem; }
+.ba-hero__inset {
+  position: absolute;
+  left: 1rem;
+  bottom: 1rem;
+  margin: 0;
+  width: 38%;
+  max-width: 170px;
+  border: 3px solid #fff;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.45);
+}
+.ba-hero__inset img { display: block; width: 100%; height: auto; }
+.ba-hero__inset .ba-tag { bottom: 0.35rem; left: 0.35rem; font-size: 0.62rem; padding: 0.2rem 0.4rem; border-bottom-width: 2px; }
+@media (min-width: 700px) {
+  .page-hero--ba {
+    background-image: url("/images/hero/paver-before-after-split-1400.jpg");
+    background-image: image-set(url("/images/hero/paver-before-after-split-1400.jpg") 1x, url("/images/hero/paver-before-after-split-2400.jpg") 2x);
+    background-position: center center;
+    /* 16:9, the framing the owner approved. */
+    min-height: 56.25vw;
+    padding: 2.4rem 0 5rem;
+  }
+  .page-hero--ba::after {
+    background: linear-gradient(90deg, rgba(17,17,17,0.82) 0%, rgba(17,17,17,0.6) 32%, rgba(17,17,17,0.15) 55%, rgba(17,17,17,0) 100%);
+  }
+  .page-hero--ba .container > * { max-width: 34rem; }
+  .ba-hero__inset { display: none; }
+  .ba-tag--before { display: block; left: calc(50% - 7.5rem); }
+  .ba-tag--after { right: auto; left: calc(50% + 1rem); }
+}
+@media (min-width: 1280px) {
+  .page-hero--ba { min-height: 45rem; }
 }
