@@ -1598,6 +1598,16 @@ h2.shine-save {
 }
 .page-hero--ba h1, .page-hero--ba .lede, .page-hero--ba .crumbs { text-shadow: 0 1px 3px rgba(17,17,17,0.8); }
 .ba-hero__media { position: absolute; inset: 0; z-index: 1; pointer-events: none; }
+.ba-hero__media::after {
+  content: "";
+  position: absolute;
+  z-index: 2;
+  top: 0;
+  bottom: 0;
+  left: calc(50% - 1.5px);
+  width: 3px;
+  background: #fff;
+}
 .ba-tag {
   position: absolute;
   bottom: 1rem;
@@ -1647,3 +1657,25 @@ h2.shine-save {
 @media (min-width: 1280px) {
   .page-hero--ba { min-height: 45rem; }
 }
+/* Phones: same 50/50 split, short enough that the next section sits near the top. */
+@media (max-width: 760px) {
+  .page-hero--ba {
+    background-image: url("/images/hero/paver-before-after-split-1400.jpg");
+    background-image: image-set(url("/images/hero/paver-before-after-split-1400.jpg") 1x, url("/images/hero/paver-before-after-split-2400.jpg") 2x);
+    background-position: center center;
+    min-height: 17.5rem;
+    padding: 0.7rem 0 0.55rem;
+  }
+  .page-hero--ba::after {
+    background: linear-gradient(180deg, rgba(17,17,17,0.9) 0%, rgba(17,17,17,0.72) 42%, rgba(17,17,17,0.28) 68%, rgba(17,17,17,0.08) 100%);
+  }
+  .page-hero--ba h1 { font-size: 1.65rem; margin-bottom: 0.2rem; }
+  .page-hero--ba .lede { font-size: 0.92rem; line-height: 1.3; margin-bottom: 0; }
+  .page-hero--ba .ba-lede-full { display: none; }
+  .page-hero--ba .ba-lede-short { display: inline; }
+  .ba-hero__inset { display: none; }
+  .ba-tag { font-size: 0.62rem; padding: 0.18rem 0.4rem; bottom: 0.45rem; }
+  .ba-tag--before { display: block; left: 0.5rem; right: auto; }
+  .ba-tag--after { left: auto; right: 0.5rem; }
+}
+.ba-lede-short { display: none; }
