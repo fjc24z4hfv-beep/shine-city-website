@@ -2,7 +2,7 @@
    Brand blue #3FA7F9 is the logo color. Body text and buttons use
    #1565C0 (white text contrast about 5.8:1) and #111111. #1E88E5 is
    reserved for large figures. The logo wordmark stays in the image.
-   The Shine & Save package name uses self-hosted Pacifico. */
+   Shine & Save uses a self-hosted script chosen by --shine-save-font. */
 
 :root {
   --brand: #3FA7F9;
@@ -21,6 +21,15 @@
   --shadow: 0 12px 32px rgba(17, 17, 17, 0.08);
   --header-offset: 7.5rem;
   --font: "Plus Jakarta Sans", Inter, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  /* Shine & Save. Change this one value:
+     "Lobster Two"  — Bold Italic (default)
+     "Oleo Script"  — Bold
+     Or add class shine-save-oleo on <html>. */
+  --shine-save-font: "Lobster Two", "Segoe Script", cursive;
+}
+
+html.shine-save-oleo {
+  --shine-save-font: "Oleo Script", "Segoe Script", cursive;
 }
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -1509,22 +1518,28 @@ a:hover { color: var(--blue-dark); }
   }
 }
 
-/* Shine & Save. Pacifico is the closest readable match to the logo's
-   bold, round, low-contrast script. Yellowtail is too thin to read in
-   the nav. Lobster is a high-contrast poster script. Kaushan Script is
-   brushier and less even. One latin weight, self-hosted. */
+/* Shine & Save faces. One weight each. Oleo Script Bold is upright, but
+   it is registered as italic so --shine-save-font is the only switch.
+   The outlines are not slanted again. */
 @font-face {
-  font-family: "Pacifico";
-  src: url("/fonts/pacifico-regular.woff2") format("woff2");
-  font-weight: 400;
-  font-style: normal;
+  font-family: "Lobster Two";
+  src: url("/fonts/lobster-two-bold-italic.woff2") format("woff2");
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Oleo Script";
+  src: url("/fonts/oleo-script-bold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: italic;
   font-display: swap;
 }
 
 .shine-save {
-  font-family: "Pacifico", "Segoe Script", "Brush Script MT", cursive;
-  font-weight: 400;
-  font-style: normal;
+  font-family: var(--shine-save-font);
+  font-weight: 700;
+  font-style: italic;
   font-synthesis: none;
   letter-spacing: 0;
 }
@@ -1544,11 +1559,10 @@ a:hover { color: var(--blue-dark); }
 }
 
 /* Share the other tabs' size, padding, and row. The script and blue
-   carry the emphasis so the item does not grow the header.
-   Weight stays 400: the file has one weight, and the nav's 800
-   would synthesize a blurry bold. */
+   carry the emphasis so the item does not grow the header. */
 .site-nav a.shine-save {
-  font-weight: 400;
+  font-weight: 700;
+  font-style: italic;
   letter-spacing: 0;
   line-height: 1;
 }
@@ -1560,7 +1574,8 @@ h2.shine-save {
 
 .site-footer a.shine-save {
   font-size: 1.2rem;
-  font-weight: 400;
+  font-weight: 700;
+  font-style: italic;
   letter-spacing: 0;
   line-height: 1.35;
 }
