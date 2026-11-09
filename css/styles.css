@@ -1089,27 +1089,66 @@ a:hover { color: var(--blue-dark); }
 .lead-pair { max-width: 52rem; }
 /* Equal frames for every before/after pair, including mixed portrait and landscape shots. */
 .job-photos .pair__grid,
-.lead-pair .pair__grid,
-.gallery-grid .pair--split .pair__grid:not(:has(> :only-child)) {
+.lead-pair .pair__grid {
   align-items: stretch;
 }
 .job-photos .shot,
-.lead-pair .shot,
-.gallery-grid .pair--split .pair__grid:not(:has(> :only-child)) .shot {
+.lead-pair .shot {
   width: 100%;
   aspect-ratio: 4 / 3;
 }
 .job-photos .pair--native .shot,
 .lead-pair .pair--native .shot { max-width: none; }
 .job-photos .shot img,
-.lead-pair .shot img,
-.gallery-grid .pair--split .pair__grid:not(:has(> :only-child)) .shot img {
+.lead-pair .shot img {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
   max-width: none;
   object-fit: cover;
+  object-position: center center;
+}
+/* Gallery pairs show the whole photo. A shared row height letterboxes a shorter frame; nothing is cropped. */
+.gallery-grid .pair--full .pair__grid,
+.recent-jobs .pair--full .pair__grid {
+  align-items: stretch;
+  gap: 0.45rem;
+}
+.gallery-grid .pair--matched .pair__grid,
+.recent-jobs .pair--matched .pair__grid {
+  --tall: max(var(--bh) / var(--bw), var(--ah) / var(--aw));
+  grid-template-columns: 1fr 1fr;
+}
+.gallery-grid .pair--full .shot,
+.recent-jobs .pair--full .shot {
+  width: 100%;
+  max-width: none;
+  aspect-ratio: auto;
+  height: auto;
+  background: #e7eef5;
+}
+.gallery-grid .pair--matched .shot,
+.recent-jobs .pair--matched .shot {
+  position: relative;
+  aspect-ratio: calc(1 / var(--tall));
+}
+.gallery-grid .pair--full .shot img,
+.recent-jobs .pair--full .shot img {
+  position: static;
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+  object-fit: contain;
+}
+.gallery-grid .pair--matched .shot img,
+.recent-jobs .pair--matched .shot img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  object-fit: contain;
   object-position: center center;
 }
 /* Combined before/after is one square photo. Keep the whole frame instead of cropping it to 4:3. */
@@ -1278,8 +1317,14 @@ a:hover { color: var(--blue-dark); }
 
 .recent-jobs { margin: 0 0 2.25rem; }
 .recent-jobs > h2 { margin-bottom: 1rem; }
+.gallery-grid .shot__tag,
 .recent-jobs .shot__tag {
-  max-width: calc(100% - 1rem);
+  top: 0.3rem;
+  bottom: auto;
+  left: 0.3rem;
+  max-width: calc(100% - 0.6rem);
+  padding: 0.1rem 0.4rem;
+  font-size: 0.65rem;
   line-height: 1.15;
 }
 

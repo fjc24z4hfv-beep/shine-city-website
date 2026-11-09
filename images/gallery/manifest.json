@@ -192,16 +192,30 @@
     "alt": "Before cleaning: concrete front walkway bordering a garden bed"
   },
   {
-    "filename": "orlando-patio-furniture-cleaning-before-after.jpg",
-    "thumbnail": "thumbs/orlando-patio-furniture-cleaning-before-after.jpg",
-    "width": 1600,
+    "filename": "orlando-patio-furniture-cleaning-before.jpg",
+    "thumbnail": "thumbs/orlando-patio-furniture-cleaning-before.jpg",
+    "width": 782,
     "height": 906,
     "city": "Orlando",
     "job": "orlando-patio-furniture-cleaning",
-    "stage": "combined",
+    "stage": "before",
     "service": "patio furniture",
-    "pair_id": null,
-    "alt": "Before and after cleaning: outdoor wicker sectional and cushions"
+    "pair_id": "orlando-patio-furniture-cleaning",
+    "alt": "Before cleaning: outdoor wicker sectional and cushions",
+    "caption": "Orlando patio furniture, before and after cleaning."
+  },
+  {
+    "filename": "orlando-patio-furniture-cleaning-after.jpg",
+    "thumbnail": "thumbs/orlando-patio-furniture-cleaning-after.jpg",
+    "width": 790,
+    "height": 906,
+    "city": "Orlando",
+    "job": "orlando-patio-furniture-cleaning",
+    "stage": "after",
+    "service": "patio furniture",
+    "pair_id": "orlando-patio-furniture-cleaning",
+    "alt": "After cleaning: outdoor wicker sectional and cushions",
+    "caption": "Orlando patio furniture, before and after cleaning."
   },
   {
     "filename": "orlando-paver-back-patio-after.jpg",
@@ -600,16 +614,56 @@
     "alt": "Before cleaning: stucco side wall near a downspout"
   },
   {
-    "filename": "orlando-stone-pillars-before-after.jpg",
-    "thumbnail": "thumbs/orlando-stone-pillars-before-after.jpg",
-    "width": 1600,
-    "height": 1600,
+    "filename": "orlando-stone-pillars-mailbox-before.jpg",
+    "thumbnail": "thumbs/orlando-stone-pillars-mailbox-before.jpg",
+    "width": 765,
+    "height": 762,
     "city": "Orlando",
-    "job": "orlando-stone-pillars",
-    "stage": "combined",
+    "job": "orlando-stone-pillars-1",
+    "stage": "before",
     "service": "stone veneer",
-    "pair_id": null,
-    "alt": "Before and after cleaning: stone entrance pillars"
+    "pair_id": "orlando-stone-pillars-1",
+    "alt": "Before cleaning: stone mailbox pillar",
+    "caption": "Orlando stone mailbox pillar, before and after cleaning."
+  },
+  {
+    "filename": "orlando-stone-pillars-mailbox-after.jpg",
+    "thumbnail": "thumbs/orlando-stone-pillars-mailbox-after.jpg",
+    "width": 762,
+    "height": 762,
+    "city": "Orlando",
+    "job": "orlando-stone-pillars-1",
+    "stage": "after",
+    "service": "stone veneer",
+    "pair_id": "orlando-stone-pillars-1",
+    "alt": "After cleaning: stone mailbox pillar",
+    "caption": "Orlando stone mailbox pillar, before and after cleaning."
+  },
+  {
+    "filename": "orlando-stone-pillars-fence-before.jpg",
+    "thumbnail": "thumbs/orlando-stone-pillars-fence-before.jpg",
+    "width": 765,
+    "height": 761,
+    "city": "Orlando",
+    "job": "orlando-stone-pillars-2",
+    "stage": "before",
+    "service": "stone veneer",
+    "pair_id": "orlando-stone-pillars-2",
+    "alt": "Before cleaning: stone pillar by a wooden fence",
+    "caption": "Orlando stone pillar by the fence, before and after cleaning."
+  },
+  {
+    "filename": "orlando-stone-pillars-fence-after.jpg",
+    "thumbnail": "thumbs/orlando-stone-pillars-fence-after.jpg",
+    "width": 762,
+    "height": 761,
+    "city": "Orlando",
+    "job": "orlando-stone-pillars-2",
+    "stage": "after",
+    "service": "stone veneer",
+    "pair_id": "orlando-stone-pillars-2",
+    "alt": "After cleaning: stone pillar by a wooden fence",
+    "caption": "Orlando stone pillar by the fence, before and after cleaning."
   },
   {
     "filename": "titusville-driveway-4-after.jpg",
