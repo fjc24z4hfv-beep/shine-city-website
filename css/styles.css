@@ -1,7 +1,8 @@
 /* Shine City marketing site
    Brand blue #3FA7F9 is the logo color. Body text and buttons use
    #1565C0 (white text contrast about 5.8:1) and #111111. #1E88E5 is
-   reserved for large figures. The script wordmark lives only in the logo. */
+   reserved for large figures. The logo wordmark stays in the image.
+   The Shine & Save package name uses self-hosted Pacifico. */
 
 :root {
   --brand: #3FA7F9;
@@ -1506,4 +1507,60 @@ a:hover { color: var(--blue-dark); }
       rgba(17, 17, 17, 0) 580px
     );
   }
+}
+
+/* Shine & Save. Pacifico is the closest readable match to the logo's
+   bold, round, low-contrast script. Yellowtail is too thin to read in
+   the nav. Lobster is a high-contrast poster script. Kaushan Script is
+   brushier and less even. One latin weight, self-hosted. */
+@font-face {
+  font-family: "Pacifico";
+  src: url("/fonts/pacifico-regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+.shine-save {
+  font-family: "Pacifico", "Segoe Script", "Brush Script MT", cursive;
+  font-weight: 400;
+  font-style: normal;
+  font-synthesis: none;
+  letter-spacing: 0;
+}
+
+/* Every Shine & Save label sits on the black header, hero, card, or footer. */
+.site-nav a.shine-save,
+.site-footer a.shine-save,
+.package-promo .shine-save,
+.page-hero .shine-save {
+  color: var(--brand);
+}
+
+.site-nav a.shine-save:hover,
+.site-nav a.shine-save[aria-current="page"],
+.site-footer a.shine-save:hover {
+  color: var(--brand);
+}
+
+/* Share the other tabs' size, padding, and row. The script and blue
+   carry the emphasis so the item does not grow the header.
+   Weight stays 400: the file has one weight, and the nav's 800
+   would synthesize a blurry bold. */
+.site-nav a.shine-save {
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 1;
+}
+
+h1.shine-save,
+h2.shine-save {
+  line-height: 1.25;
+}
+
+.site-footer a.shine-save {
+  font-size: 1.2rem;
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 1.35;
 }
