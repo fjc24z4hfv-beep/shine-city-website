@@ -1404,8 +1404,16 @@ a:hover { color: var(--blue-dark); }
   object-fit: cover;
   object-position: center 92%;
 }
-.package-promo h2 { margin: 0.2rem 0 0.55rem; }
+.package-promo h2 { margin: 0.2rem 0 0.15rem; }
 .package-promo p { margin: 0 0 1rem; color: #E7F0FA; max-width: 36rem; }
+.package-promo p.package-promo__sub {
+  margin: 0 0 0.7rem;
+  font-family: var(--font);
+  font-weight: 800;
+  font-size: 1.22rem;
+  line-height: 1.25;
+  color: #fff;
+}
 .package-promo .btn { width: 100%; }
 @media (min-width: 700px) {
   .package-promo__card { grid-template-columns: minmax(0, 22rem) minmax(0, 1fr); gap: 2rem; }
@@ -1645,29 +1653,21 @@ h2.shine-save {
 }
 .ba-hero__inset img { display: block; width: 100%; height: auto; }
 .ba-hero__inset .ba-tag { bottom: 0.35rem; left: 0.35rem; font-size: 0.62rem; padding: 0.2rem 0.4rem; border-bottom-width: 2px; }
-@media (min-width: 700px) {
+@media (min-width: 761px) {
   .page-hero--ba {
     background-image: url("/images/hero/paver-before-after-split-1400.jpg");
     background-image: image-set(url("/images/hero/paver-before-after-split-1400.jpg") 1x, url("/images/hero/paver-before-after-split-2400.jpg") 2x);
-    background-position: center center;
-    /* 16:9, the framing the owner approved. */
-    min-height: 56.25vw;
-    padding: 2.4rem 0 5rem;
-  }
-  .page-hero--ba .container > * { max-width: min(34rem, calc(50vw - 2.5rem)); }
-  .ba-hero__inset { display: none; }
-  .ba-tag--before { display: block; left: calc(50% - 7.5rem); }
-  .ba-tag--after { right: auto; left: calc(50% + 1rem); }
-}
-@media (min-width: 1280px) {
-  .page-hero--ba {
+    background-position: center 68%;
     min-height: 22.5rem;
     padding: 0.8rem 0 0.6rem;
-    background-position: center 68%;
   }
+  .page-hero--ba .container > * { max-width: min(34rem, calc(50vw - 2.5rem)); }
   .page-hero--ba .crumbs ol { margin-bottom: 0.3rem; }
   .page-hero--ba h1 { margin-bottom: 0.28rem; }
   .page-hero--ba .lede { margin-bottom: 0; }
+  .ba-hero__inset { display: none; }
+  .ba-tag--before { display: block; left: calc(50% - 7.5rem); }
+  .ba-tag--after { right: auto; left: calc(50% + 1rem); }
 }
 /* Phones: same 50/50 split, short enough that the next section sits near the top. */
 @media (max-width: 760px) {
