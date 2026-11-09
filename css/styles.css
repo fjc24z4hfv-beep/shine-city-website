@@ -1276,26 +1276,12 @@ a:hover { color: var(--blue-dark); }
 .gallery-grid { max-width: 880px; }
 .gallery-status { color: var(--muted); margin: 0 0 1rem; }
 
-.seal-slot { margin: 0 0 1.5rem; }
-.seal-slot__frames {
-  display: grid;
-  gap: 0.75rem;
-  list-style: none;
-  margin: 0;
-  padding: 0;
+.recent-jobs { margin: 0 0 2.25rem; }
+.recent-jobs > h2 { margin-bottom: 1rem; }
+.recent-jobs .shot__tag {
+  max-width: calc(100% - 1rem);
+  line-height: 1.15;
 }
-.seal-slot__frames li {
-  min-height: 9rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  gap: 0.25rem;
-  padding: 0.9rem;
-  border: 2px dashed #B7C8DC;
-  border-radius: 16px;
-  background: var(--white);
-}
-.seal-slot__frames span { color: var(--muted); }
 
 .lightbox {
   width: min(96vw, 1100px);
@@ -1332,7 +1318,6 @@ a:hover { color: var(--blue-dark); }
 }
 
 @media (min-width: 700px) {
-  .seal-slot__frames { grid-template-columns: repeat(3, 1fr); }
   .section { padding: 3.25rem 0; }
   .hero .tiers { grid-template-columns: repeat(3, 1fr); max-width: 56rem; }
 }
