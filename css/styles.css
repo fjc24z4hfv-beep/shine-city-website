@@ -1457,14 +1457,39 @@ a:hover { color: var(--blue-dark); }
   object-fit: cover;
   object-position: center center;
 }
-.pkg-tile--seal img { object-position: center 38%; }
-.pkg-tile--wash img { object-position: center center; }
+.pkg-tile--seal img { object-position: center center; }
+.pkg-tile--wash img { object-position: 68% 72%; }
 .pkg-tile::after {
   content: "";
   position: absolute;
   inset: 0;
   background:
     radial-gradient(ellipse at center, rgba(0, 0, 0, 0.62) 0%, rgba(0, 0, 0, 0.42) 58%, rgba(0, 0, 0, 0.28) 100%);
+}
+.pkg-tile--seal::after,
+.pkg-tile--wash::after {
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.78) 0%,
+    rgba(0, 0, 0, 0.62) 22%,
+    rgba(0, 0, 0, 0.22) 46%,
+    rgba(0, 0, 0, 0.04) 64%,
+    rgba(0, 0, 0, 0) 78%
+  );
+}
+.pkg-tile--seal .pkg-tile__text,
+.pkg-tile--wash .pkg-tile__text {
+  justify-content: flex-start;
+  align-items: flex-start;
+  text-align: left;
+  padding: 0.95rem 1rem 0.8rem 1.05rem;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.9), 0 8px 18px rgba(0, 0, 0, 0.45);
+}
+.pkg-tile--seal .pkg-tile__cta,
+.pkg-tile--wash .pkg-tile__cta { margin-top: 0.65rem; }
+.pkg-tile--seal .pkg-tile__tag {
+  left: auto;
+  right: 0.85rem;
 }
 .pkg-tile__tag {
   position: absolute;
