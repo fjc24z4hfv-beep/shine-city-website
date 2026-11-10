@@ -1436,7 +1436,7 @@ a:hover { color: var(--blue-dark); }
 .pkg-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 1.25rem;
+  gap: 2rem;
 }
 .pkg-tile {
   position: relative;
@@ -1656,7 +1656,7 @@ a:hover { color: var(--blue-dark); }
   .wash-quote .wash-stories legend { grid-column: 1 / -1; }
 }
 @media (min-width: 761px) {
-  .pkg-grid { grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+  .pkg-grid { grid-template-columns: 1fr 1fr; gap: 2rem; }
 }
 @media (prefers-reduced-motion: reduce) {
   .pkg-tile img { transition: none; }
