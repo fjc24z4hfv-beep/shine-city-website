@@ -1457,7 +1457,7 @@ a:hover { color: var(--blue-dark); }
   object-fit: cover;
   object-position: center center;
 }
-.pkg-tile--seal img { object-position: center 58%; }
+.pkg-tile--seal img { object-position: center center; }
 .pkg-tile--wash img { object-position: 68% 72%; }
 .pkg-tile::after {
   content: "";
