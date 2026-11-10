@@ -47,21 +47,21 @@ export function priceForSqft(sqft) {
 
 /* Wash & Shine. Driveway cleaning is $0.20 per sq ft for concrete or pavers,
    with a $200 minimum. House soft wash uses the building footprint, one floor:
-   $0.15 per sq ft for 1 story. A 2-story house is that same footprint times
-   $0.15 times 1.5, which is $0.225 per sq ft, rounded to the nearest cent.
+   $0.20 per sq ft for 1 story. A 2-story house is that same footprint times
+   $0.20 times 1.5, which is $0.30 per sq ft, rounded to the nearest cent.
    The house minimum is $250 either way. Each minimum is applied first. Then
    20% comes off the combined total. Oil, rust, a pool cage, a fence, and a
    roof wash are not in this price. This does not change priceForSqft. */
 
 export var WASH_DRIVEWAY_RATE_CENTS = 20;
 export var WASH_DRIVEWAY_MINIMUM_CENTS = 20000;
-export var WASH_HOUSE_RATE_CENTS = { 1: 15, 2: 22.5 };
+export var WASH_HOUSE_RATE_CENTS = { 1: 20, 2: 30 };
 export var WASH_HOUSE_MINIMUM_CENTS = 25000;
 export var WASH_DISCOUNT_PERCENT = 20;
 
 function houseChargeCents(sqft, level) {
   if (level === 1) return sqft * WASH_HOUSE_RATE_CENTS[1];
-  if (level === 2) return Math.round(sqft * 45 / 2);
+  if (level === 2) return Math.round(sqft * 20 * 3 / 2);
   return null;
 }
 

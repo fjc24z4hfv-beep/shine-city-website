@@ -139,10 +139,10 @@ The vision model is asked for `{houseSqft, drivewaySqft, confidence}`. `houseSqf
 The server prices both areas in `priceWash` in `src/price.js`:
 
 - Driveway cleaning: $0.20 per sq ft, $200 minimum
-- House soft wash on that footprint: $0.15 per sq ft for 1 story. A 2-story house is the same footprint times $0.15 times 1.5, which is $0.225 per sq ft, rounded to the nearest cent. $250 minimum either way
+- House soft wash on that footprint: $0.20 per sq ft for 1 story. A 2-story house is the same footprint times $0.20 times 1.5, which is $0.30 per sq ft, rounded to the nearest cent. $250 minimum either way
 - Each minimum is applied first. Then 20% comes off the combined total.
 
-A 1,800 sq ft 1-story house is $270. A 600 sq ft driveway uses the $200 minimum. Together that is $470, and 20% off is $376. A 1,100 sq ft 2-story footprint is $247.50 before the house minimum, so that line is $250.
+A 1,800 sq ft 1-story house is $360. A 1,100 sq ft 2-story footprint is $330. A 1,000 sq ft 1-story footprint is $200, so that line is the $250 minimum. A 1,800 sq ft 1-story house plus a 600 sq ft driveway ($200 minimum) is $560, and 20% off is $448.
 
 A success body looks like:
 
@@ -152,13 +152,13 @@ A success body looks like:
   "houseSqft": 1800,
   "drivewaySqft": 600,
   "stories": 1,
-  "houseRateCents": 15,
-  "houseCents": 27000,
+  "houseRateCents": 20,
+  "houseCents": 36000,
   "drivewayRateCents": 20,
   "drivewayCents": 20000,
-  "regularCents": 47000,
-  "savingsCents": 9400,
-  "totalCents": 37600,
+  "regularCents": 56000,
+  "savingsCents": 11200,
+  "totalCents": 44800,
   "confidence": "medium",
   "latitude": 28.25,
   "longitude": -80.74,
@@ -173,4 +173,4 @@ Check the math locally with:
 node src/price.test.mjs
 ```
 
-Run that from this `worker` directory. It covers the $376 example, both minimums, a 2-story house, and the unchanged sealing prices.
+Run that from this `worker` directory. It covers the $448 example, the $250 house minimum, a 2-story house at $0.30, and the unchanged sealing prices.
