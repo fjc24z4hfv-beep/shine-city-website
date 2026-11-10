@@ -309,16 +309,16 @@ a:hover { color: var(--blue-dark); }
   background-color: var(--navy-deep);
   /* Previous homepage hero, file kept in the repo: /images/hero/sealed-paver-driveway-palm.jpg
      Restore it by using that path here. */
-  background-image: url("/images/hero/sealed-front-driveway.jpg");
+  background-image: url("/images/hero/sealed-paver-driveway-palm.jpg");
   background-repeat: no-repeat;
-  /* Cover the whole hero. A short phone hero used to leave the lower part
-     as plain navy when the photo was only 60% of a much taller box. */
+  /* Cover the whole hero, including the space under the button, and keep
+     the glossy pavers in frame. Desktop nudges the frame in the next rule. */
   background-size: cover;
-  background-position: 32% 38%;
+  background-position: center 62%;
 }
 @media (min-width: 700px) {
   .hero {
-    background-position: center 46%;
+    background-position: center 48%;
     /* Near 3:2, so a typical desktop hero keeps the roof, garage, and driveway. */
     min-height: min(66.67vw, 56rem);
   }
@@ -900,6 +900,17 @@ a:hover { color: var(--blue-dark); }
   /* Room under the hero buttons so the fixed Call/Text bar does not cover them. */
   .hero { padding-bottom: calc(1.35rem + 4.75rem + env(safe-area-inset-bottom)); }
   .easy .btn { scroll-margin-bottom: calc(5rem + env(safe-area-inset-bottom)); }
+}
+@media (max-width: 699px) {
+  /* Fill the visible screen with the photo so the glossy pavers show
+     under the text, then meet Shine & Save. svh avoids the iOS 100vh jump. */
+  .hero {
+    min-height: calc(100vh - 7.25rem);
+    min-height: calc(100svh - 7.25rem);
+    padding-bottom: 1rem;
+    background-position: center 72%;
+  }
+  .package-promo { padding-top: 0.85rem; }
 }
 
 @media (prefers-reduced-motion: reduce) {
