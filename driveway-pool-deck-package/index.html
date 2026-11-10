@@ -28,7 +28,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap">
-  <link rel="stylesheet" href="/css/styles.css?v=20261110i">
+  <link rel="stylesheet" href="/css/styles.css?v=20261110l">
 
   <script type="application/ld+json">
 {
@@ -130,7 +130,7 @@
               <span class="pkg-tile__cta">See details</span>
             </span>
           </a>
-          <a class="pkg-tile pkg-tile--wash" href="#house-wash-driveway">
+          <a class="pkg-tile pkg-tile--wash" href="#wash-quote">
             <img src="/images/gallery/thumbs/orlando-driveway-3-after.jpg" alt="" width="600" height="450">
             <span class="pkg-tile__text">
               <span class="pkg-tile__name shine-save">Wash &amp; Shine</span>
@@ -216,8 +216,98 @@
           <li>No sealing on this visit</li>
         </ul>
         <div class="cluster" style="margin-top:1.25rem">
-          <a class="btn" href="/pricing/#quote">Get your instant estimate</a>
+          <a class="btn" href="#wash-quote">Get your Wash &amp; Shine instant estimate</a>
           <a class="btn btn--outline" href="tel:+13217950313">Call (321) 795-0313</a>
+        </div>
+        <div class="wash-quote" id="wash-quote">
+          <h3>Get your Wash &amp; Shine instant estimate</h3>
+          <p>Add your address and a few photos, and you'll see your Wash &amp; Shine total with 20% off. Nick confirms every quote.</p>
+          <form id="wash-quote-form" data-quote-form data-photos-required data-wash-quote action="https://formsubmit.co/reviveexterior@gmail.com" method="post" enctype="multipart/form-data">
+            <div class="form-grid">
+              <div class="field full">
+                <label for="wq-address">Property address <span class="req">(required)</span></label>
+                <input id="wq-address" name="full_address" type="text" autocomplete="street-address" required minlength="5" placeholder="Street, city, ZIP">
+              </div>
+              <fieldset class="field full wash-stories">
+                <legend>Home <span class="req">(required)</span></legend>
+                <label><input type="radio" name="stories" value="1" required> 1-story</label>
+                <label><input type="radio" name="stories" value="2" required> 2-story</label>
+              </fieldset>
+              <div class="field full">
+                <label for="wq-photos">Photos <span class="req">(required)</span> <span class="photo-limit">Up to 6 photos</span></label>
+                <input id="wq-photos" data-photos name="attachment" type="file" accept="image/*" multiple required>
+                <p class="form-note">Include the house and the driveway. Large images are reduced in your browser before they are sent.</p>
+                <div class="photo-preview" data-photo-preview></div>
+                <p class="form-note" data-photo-status role="status"></p>
+              </div>
+              <div class="field">
+                <label for="wq-name">Name <span class="req">(required)</span></label>
+                <input id="wq-name" name="name" type="text" autocomplete="name" required minlength="2">
+              </div>
+              <div class="field">
+                <label for="wq-phone">Phone <span class="req">(required)</span></label>
+                <input id="wq-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" required minlength="7">
+              </div>
+              <div class="field full">
+                <label for="wq-email">Email <span class="req">(required)</span></label>
+                <input id="wq-email" name="email" type="email" autocomplete="email" inputmode="email" required>
+              </div>
+              <div class="field full">
+                <label for="wq-note">Short note <span class="optional">(optional)</span></label>
+                <textarea id="wq-note" name="note" maxlength="1000" rows="3"></textarea>
+              </div>
+              <div class="full">
+                <p class="hp" aria-hidden="true">
+                  <label for="wq-company">Company</label>
+                  <input id="wq-company" name="_honey" type="text" tabindex="-1" autocomplete="off">
+                </p>
+                <input type="hidden" name="latitude" value="">
+                <input type="hidden" name="longitude" value="">
+                <input type="hidden" name="satellite_link" value="">
+                <input type="hidden" name="house_sqft" value="">
+                <input type="hidden" name="driveway_sqft" value="">
+                <input type="hidden" name="house_price" value="">
+                <input type="hidden" name="driveway_price" value="">
+                <input type="hidden" name="regular_price" value="">
+                <input type="hidden" name="wash_savings" value="">
+                <input type="hidden" name="instant_price" value="">
+                <input type="hidden" name="estimate_confidence" value="">
+                <input type="hidden" name="instant_estimate" value="">
+                <input type="hidden" name="service" value="Wash &amp; Shine">
+                <input type="hidden" name="_subject" value="Shine City Wash &amp; Shine quote request">
+                <input type="hidden" name="_template" value="table">
+                <input type="hidden" name="_captcha" value="false">
+                <input type="hidden" name="_next" value="https://shinecitypaversealing.com/driveway-pool-deck-package/?thanks=1#wash-quote">
+                <button class="btn" type="submit">Send quote request</button>
+                <p class="form-note" data-form-note>Sending delivers this request, including photos, to reviveexterior@gmail.com. Nick confirms every quote.</p>
+              </div>
+            </div>
+            <div class="wash-breakdown" data-wash-breakdown hidden>
+              <h3 class="wash-breakdown__title">Your Wash &amp; Shine estimate</h3>
+              <dl>
+                <div><dt>House</dt><dd data-wash-house></dd></div>
+                <div><dt>Driveway</dt><dd data-wash-driveway></dd></div>
+                <div><dt>Regular price</dt><dd data-wash-regular></dd></div>
+                <div><dt>Wash &amp; Shine 20% savings</dt><dd data-wash-savings></dd></div>
+                <div class="wash-breakdown__total"><dt>Total</dt><dd data-wash-total></dd></div>
+              </dl>
+              <p class="form-confirm">Nick confirms every quote.</p>
+            </div>
+            <div class="form-result" data-form-thanks hidden>
+              <h3>Thanks, we have your quote request</h3>
+              <p class="estimate-live" data-estimate-result>We'll review and send your quote.</p>
+              <p>Nick confirms every quote. Nothing is stored on this website.</p>
+            </div>
+            <div class="form-result" data-form-result hidden>
+              <h3>We could not deliver the form from the website</h3>
+              <p class="estimate-live" data-estimate-result>We'll review and send your quote.</p>
+              <p>Your email app should open with the details addressed to reviveexterior@gmail.com. Photos were not attached this way. Please text photos of the house and driveway to 321-795-0313. Nothing is stored on this website.</p>
+              <div class="cluster">
+                <a class="btn" data-mailto-link href="mailto:reviveexterior@gmail.com">Open the email</a>
+                <a class="btn btn--outline" data-sms-link href="sms:+13217950313">Text it instead</a>
+              </div>
+            </div>
+          </form>
         </div>
         <div class="section-head" style="margin-top:2.5rem">
           <h2 id="wash-photos-heading">Before and after</h2>

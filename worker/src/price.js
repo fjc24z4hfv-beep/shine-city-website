@@ -45,6 +45,54 @@ export function priceForSqft(sqft) {
   };
 }
 
+/* Wash & Shine. Driveway cleaning is $0.20 per sq ft for concrete or pavers,
+   with a $200 minimum. House soft wash uses the building footprint, one floor:
+   $0.20 per sq ft for 1 story. A 2-story house is that same footprint times
+   $0.20 times 1.5, which is $0.30 per sq ft, rounded to the nearest cent.
+   The house minimum is $250 either way. Each minimum is applied first. Then
+   20% comes off the combined total. Oil, rust, a pool cage, a fence, and a
+   roof wash are not in this price. This does not change priceForSqft. */
+
+export var WASH_DRIVEWAY_RATE_CENTS = 20;
+export var WASH_DRIVEWAY_MINIMUM_CENTS = 20000;
+export var WASH_HOUSE_RATE_CENTS = { 1: 20, 2: 30 };
+export var WASH_HOUSE_MINIMUM_CENTS = 25000;
+export var WASH_DISCOUNT_PERCENT = 20;
+
+function houseChargeCents(sqft, level) {
+  if (level === 1) return sqft * WASH_HOUSE_RATE_CENTS[1];
+  if (level === 2) return Math.round(sqft * 20 * 3 / 2);
+  return null;
+}
+
+export function priceWash(houseSqft, drivewaySqft, stories) {
+  var house = Math.round(Number(houseSqft));
+  var driveway = Math.round(Number(drivewaySqft));
+  var level = Number(stories);
+  var houseRate = WASH_HOUSE_RATE_CENTS[level];
+  var houseCents = houseChargeCents(house, level);
+  if (houseCents == null) return null;
+  if (!isFinite(house) || house <= 0 || house > MAX_SQFT) return null;
+  if (!isFinite(driveway) || driveway <= 0 || driveway > MAX_SQFT) return null;
+  if (houseCents < WASH_HOUSE_MINIMUM_CENTS) houseCents = WASH_HOUSE_MINIMUM_CENTS;
+  var drivewayCents = driveway * WASH_DRIVEWAY_RATE_CENTS;
+  if (drivewayCents < WASH_DRIVEWAY_MINIMUM_CENTS) drivewayCents = WASH_DRIVEWAY_MINIMUM_CENTS;
+  var regularCents = houseCents + drivewayCents;
+  var savingsCents = Math.round(regularCents * WASH_DISCOUNT_PERCENT / 100);
+  return {
+    houseSqft: house,
+    drivewaySqft: driveway,
+    stories: level,
+    houseRateCents: houseRate,
+    houseCents: houseCents,
+    drivewayRateCents: WASH_DRIVEWAY_RATE_CENTS,
+    drivewayCents: drivewayCents,
+    regularCents: regularCents,
+    savingsCents: savingsCents,
+    totalCents: regularCents - savingsCents
+  };
+}
+
 export function moneyFromCents(cents) {
   var abs = Math.abs(cents);
   var dollars = Math.floor(abs / 100);
