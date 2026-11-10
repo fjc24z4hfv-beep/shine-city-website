@@ -902,15 +902,12 @@ a:hover { color: var(--blue-dark); }
   .easy .btn { scroll-margin-bottom: calc(5rem + env(safe-area-inset-bottom)); }
 }
 @media (max-width: 699px) {
-  /* Fill the visible screen with the photo so the glossy pavers show
-     under the text, then meet Shine & Save. svh avoids the iOS 100vh jump. */
+  /* A short run of photo under the button, then a modest navy gap. */
   .hero {
-    min-height: calc(100vh - 7.25rem);
-    min-height: calc(100svh - 7.25rem);
-    padding-bottom: 1rem;
-    background-position: center 72%;
+    padding-bottom: 5rem;
+    background-position: center 78%;
   }
-  .package-promo { padding-top: 0.85rem; }
+  .package-promo { padding-top: 1.75rem; }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -1732,16 +1729,15 @@ a:hover { color: var(--blue-dark); }
   );
 }
 @media (max-width: 699px) {
-  /* Phones: dark behind the text, then clear quickly so the driveway shine shows */
+  /* Dark behind the headline, then clear over the pavers under the button. */
   .hero::after {
     background: linear-gradient(
       180deg,
-      rgba(17, 17, 17, 0.9) 0,
-      rgba(17, 17, 17, 0.82) 240px,
-      rgba(17, 17, 17, 0.73) 350px,
-      rgba(17, 17, 17, 0.36) 425px,
-      rgba(17, 17, 17, 0.06) 510px,
-      rgba(17, 17, 17, 0) 580px
+      rgba(17, 17, 17, 0.9) 0%,
+      rgba(17, 17, 17, 0.84) 42%,
+      rgba(17, 17, 17, 0.42) 62%,
+      rgba(17, 17, 17, 0.08) 76%,
+      rgba(17, 17, 17, 0) 84%
     );
   }
 }
