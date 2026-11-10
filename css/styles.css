@@ -1604,7 +1604,7 @@ a:hover { color: var(--blue-dark); }
 @media (min-width: 1100px) {
   .site-nav ul { gap: 0 0; }
   .site-nav a { font-size: 0.95rem; padding: 0.2rem 0.85rem; }
-  .site-nav li:not(.nav-estimate) + li:not(.nav-estimate) { border-left: 1px solid rgba(255, 255, 255, 0.28); }
+  .site-nav li:not(.nav-estimate):not(:first-child) { border-left: 1px solid rgba(255, 255, 255, 0.28); }
   .site-nav li a { min-height: 22px; }
   .site-nav .nav-estimate { margin-left: 0.85rem; }
   .site-nav .nav-estimate a { min-height: 44px; }
