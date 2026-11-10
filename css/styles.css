@@ -1436,7 +1436,7 @@ a:hover { color: var(--blue-dark); }
 .pkg-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 1.25rem;
+  gap: 2rem;
 }
 .pkg-tile {
   position: relative;
@@ -1656,7 +1656,7 @@ a:hover { color: var(--blue-dark); }
   .wash-quote .wash-stories legend { grid-column: 1 / -1; }
 }
 @media (min-width: 761px) {
-  .pkg-grid { grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+  .pkg-grid { grid-template-columns: 1fr 1fr; gap: 2rem; }
 }
 @media (prefers-reduced-motion: reduce) {
   .pkg-tile img { transition: none; }
@@ -1820,23 +1820,23 @@ a:hover { color: var(--blue-dark); }
 .site-nav a.nav-packages:hover .shine-save,
 .site-nav a.nav-packages[aria-current="page"] .shine-save { color: var(--brand); }
 @media (max-width: 1099px) {
-  .site-nav a.nav-packages .shine-save { font-size: 1.35rem; }
+  .site-nav a.nav-packages .shine-save { font-size: 1.75rem; }
 }
 @media (min-width: 1100px) and (max-width: 1279px) {
-  .header-inner { gap: 0.35rem; }
-  .brand img { width: 112px; }
-  .site-nav a { font-size: 0.82rem; padding-inline: 0.18rem; }
-  .site-nav .nav-estimate { margin-left: 0.15rem; }
-  .site-nav a.nav-packages { padding-inline: 0.12rem; }
-  .site-nav a.nav-packages .shine-save { font-size: 0.92rem; }
+  .header-inner { gap: 0.28rem; }
+  .brand img { width: 96px; }
+  .site-nav a { font-size: 0.78rem; padding-inline: 0.1rem; }
+  .site-nav .nav-estimate { margin-left: 0.7rem; }
+  .site-nav a.nav-packages { padding-inline: 0.08rem; }
+  .site-nav a.nav-packages .shine-save { font-size: 1.15rem; }
 }
 @media (min-width: 1280px) {
-  .header-inner { gap: 0.4rem; }
-  .brand img { width: 124px; }
-  .site-nav a { font-size: 0.92rem; padding-inline: 0.28rem; }
-  .site-nav .nav-estimate { margin-left: 0.2rem; }
-  .site-nav a.nav-packages { padding-inline: 0.16rem; }
-  .site-nav a.nav-packages .shine-save { font-size: 1rem; }
+  .header-inner { gap: 0.35rem; }
+  .brand img { width: 112px; }
+  .site-nav a { font-size: 0.86rem; padding-inline: 0.18rem; }
+  .site-nav .nav-estimate { margin-left: 0.85rem; }
+  .site-nav a.nav-packages { padding-inline: 0.12rem; }
+  .site-nav a.nav-packages .shine-save { font-size: 1.3rem; }
 }
 
 h1.shine-save,
