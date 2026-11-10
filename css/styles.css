@@ -1111,17 +1111,20 @@ a:hover { color: var(--blue-dark); }
 }
 /* Gallery pairs show the whole photo. A shared row height letterboxes a shorter frame; nothing is cropped. */
 .gallery-grid .pair--full .pair__grid,
-.recent-jobs .pair--full .pair__grid {
+.recent-jobs .pair--full .pair__grid,
+.package-photos--pairs .pair--full .pair__grid {
   align-items: stretch;
   gap: 0.45rem;
 }
 .gallery-grid .pair--matched .pair__grid,
-.recent-jobs .pair--matched .pair__grid {
+.recent-jobs .pair--matched .pair__grid,
+.package-photos--pairs .pair--matched .pair__grid {
   --tall: max(var(--bh) / var(--bw), var(--ah) / var(--aw));
   grid-template-columns: 1fr 1fr;
 }
 .gallery-grid .pair--full .shot,
-.recent-jobs .pair--full .shot {
+.recent-jobs .pair--full .shot,
+.package-photos--pairs .pair--full .shot {
   width: 100%;
   max-width: none;
   aspect-ratio: auto;
@@ -1129,12 +1132,14 @@ a:hover { color: var(--blue-dark); }
   background: #e7eef5;
 }
 .gallery-grid .pair--matched .shot,
-.recent-jobs .pair--matched .shot {
+.recent-jobs .pair--matched .shot,
+.package-photos--pairs .pair--matched .shot {
   position: relative;
   aspect-ratio: calc(1 / var(--tall));
 }
 .gallery-grid .pair--full .shot img,
-.recent-jobs .pair--full .shot img {
+.recent-jobs .pair--full .shot img,
+.package-photos--pairs .pair--full .shot img {
   position: static;
   width: 100%;
   height: auto;
@@ -1142,7 +1147,8 @@ a:hover { color: var(--blue-dark); }
   object-fit: contain;
 }
 .gallery-grid .pair--matched .shot img,
-.recent-jobs .pair--matched .shot img {
+.recent-jobs .pair--matched .shot img,
+.package-photos--pairs .pair--matched .shot img {
   position: absolute;
   inset: 0;
   width: 100%;
@@ -1318,7 +1324,8 @@ a:hover { color: var(--blue-dark); }
 .recent-jobs { margin: 0 0 2.25rem; }
 .recent-jobs > h2 { margin-bottom: 1rem; }
 .gallery-grid .shot__tag,
-.recent-jobs .shot__tag {
+.recent-jobs .shot__tag,
+.package-photos--pairs .shot__tag {
   top: 0.3rem;
   bottom: auto;
   left: 0.3rem;
@@ -1451,6 +1458,7 @@ a:hover { color: var(--blue-dark); }
   object-position: center center;
 }
 .pkg-tile--seal img { object-position: center 38%; }
+.pkg-tile--wash img { object-position: center center; }
 .pkg-tile::after {
   content: "";
   position: absolute;
@@ -1648,6 +1656,7 @@ a:hover { color: var(--blue-dark); }
   gap: 1.75rem;
   max-width: 40rem;
 }
+.package-photos--pairs { max-width: 55rem; }
 .package-photos .pair { margin: 0; }
 .package-photos .pair--solo .pair__grid {
   grid-template-columns: minmax(0, 1fr);
@@ -1685,7 +1694,7 @@ a:hover { color: var(--blue-dark); }
 @media (min-width: 1100px) {
   .site-nav ul { gap: 0 0; }
   .site-nav a { font-size: 0.95rem; padding: 0.2rem 0.85rem; }
-  .site-nav li:not(.nav-estimate) + li:not(.nav-estimate) { border-left: 1px solid rgba(255, 255, 255, 0.28); }
+  .site-nav li:not(.nav-estimate):not(:first-child) { border-left: 1px solid rgba(255, 255, 255, 0.28); }
   .site-nav li a { min-height: 22px; }
   .site-nav .nav-estimate { margin-left: 0.85rem; }
   .site-nav .nav-estimate a { min-height: 44px; }
@@ -1772,37 +1781,37 @@ a:hover { color: var(--blue-dark); }
   color: var(--brand);
 }
 
-/* Script name plus a regular "Packages" word, still one tab. */
+/* The whole tab is one script line: Shine & Save Packages. */
 .site-nav a.nav-packages {
-  gap: 0.32rem;
   align-items: center;
   white-space: nowrap;
 }
 .site-nav a.nav-packages .shine-save {
   font-weight: 700;
-  line-height: 1;
+  line-height: 1.15;
+  white-space: nowrap;
 }
 .site-nav a.nav-packages:hover { color: var(--brand); }
 .site-nav a.nav-packages:hover .shine-save,
 .site-nav a.nav-packages[aria-current="page"] .shine-save { color: var(--brand); }
 @media (max-width: 1099px) {
-  .site-nav a.nav-packages .shine-save { font-size: 1.45rem; }
+  .site-nav a.nav-packages .shine-save { font-size: 1.35rem; }
 }
 @media (min-width: 1100px) and (max-width: 1279px) {
   .header-inner { gap: 0.35rem; }
-  .brand img { width: 118px; }
-  .site-nav a { font-size: 0.84rem; padding-inline: 0.22rem; }
-  .site-nav .nav-estimate { margin-left: 0.2rem; }
-  .site-nav a.nav-packages { padding-inline: 0.16rem; gap: 0.18rem; }
-  .site-nav a.nav-packages .shine-save { font-size: 1rem; }
+  .brand img { width: 112px; }
+  .site-nav a { font-size: 0.82rem; padding-inline: 0.18rem; }
+  .site-nav .nav-estimate { margin-left: 0.15rem; }
+  .site-nav a.nav-packages { padding-inline: 0.12rem; }
+  .site-nav a.nav-packages .shine-save { font-size: 0.92rem; }
 }
 @media (min-width: 1280px) {
   .header-inner { gap: 0.4rem; }
-  .brand img { width: 128px; }
-  .site-nav a { font-size: 0.95rem; padding-inline: 0.32rem; }
-  .site-nav .nav-estimate { margin-left: 0.25rem; }
-  .site-nav a.nav-packages { padding-inline: 0.22rem; gap: 0.2rem; }
-  .site-nav a.nav-packages .shine-save { font-size: 1.08rem; }
+  .brand img { width: 124px; }
+  .site-nav a { font-size: 0.92rem; padding-inline: 0.28rem; }
+  .site-nav .nav-estimate { margin-left: 0.2rem; }
+  .site-nav a.nav-packages { padding-inline: 0.16rem; }
+  .site-nav a.nav-packages .shine-save { font-size: 1rem; }
 }
 
 h1.shine-save,
