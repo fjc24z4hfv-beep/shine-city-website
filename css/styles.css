@@ -1111,17 +1111,20 @@ a:hover { color: var(--blue-dark); }
 }
 /* Gallery pairs show the whole photo. A shared row height letterboxes a shorter frame; nothing is cropped. */
 .gallery-grid .pair--full .pair__grid,
-.recent-jobs .pair--full .pair__grid {
+.recent-jobs .pair--full .pair__grid,
+.package-photos--pairs .pair--full .pair__grid {
   align-items: stretch;
   gap: 0.45rem;
 }
 .gallery-grid .pair--matched .pair__grid,
-.recent-jobs .pair--matched .pair__grid {
+.recent-jobs .pair--matched .pair__grid,
+.package-photos--pairs .pair--matched .pair__grid {
   --tall: max(var(--bh) / var(--bw), var(--ah) / var(--aw));
   grid-template-columns: 1fr 1fr;
 }
 .gallery-grid .pair--full .shot,
-.recent-jobs .pair--full .shot {
+.recent-jobs .pair--full .shot,
+.package-photos--pairs .pair--full .shot {
   width: 100%;
   max-width: none;
   aspect-ratio: auto;
@@ -1129,12 +1132,14 @@ a:hover { color: var(--blue-dark); }
   background: #e7eef5;
 }
 .gallery-grid .pair--matched .shot,
-.recent-jobs .pair--matched .shot {
+.recent-jobs .pair--matched .shot,
+.package-photos--pairs .pair--matched .shot {
   position: relative;
   aspect-ratio: calc(1 / var(--tall));
 }
 .gallery-grid .pair--full .shot img,
-.recent-jobs .pair--full .shot img {
+.recent-jobs .pair--full .shot img,
+.package-photos--pairs .pair--full .shot img {
   position: static;
   width: 100%;
   height: auto;
@@ -1142,7 +1147,8 @@ a:hover { color: var(--blue-dark); }
   object-fit: contain;
 }
 .gallery-grid .pair--matched .shot img,
-.recent-jobs .pair--matched .shot img {
+.recent-jobs .pair--matched .shot img,
+.package-photos--pairs .pair--matched .shot img {
   position: absolute;
   inset: 0;
   width: 100%;
@@ -1318,7 +1324,8 @@ a:hover { color: var(--blue-dark); }
 .recent-jobs { margin: 0 0 2.25rem; }
 .recent-jobs > h2 { margin-bottom: 1rem; }
 .gallery-grid .shot__tag,
-.recent-jobs .shot__tag {
+.recent-jobs .shot__tag,
+.package-photos--pairs .shot__tag {
   top: 0.3rem;
   bottom: auto;
   left: 0.3rem;
@@ -1559,6 +1566,7 @@ a:hover { color: var(--blue-dark); }
   gap: 1.75rem;
   max-width: 40rem;
 }
+.package-photos--pairs { max-width: 55rem; }
 .package-photos .pair { margin: 0; }
 .package-photos .pair--solo .pair__grid {
   grid-template-columns: minmax(0, 1fr);
