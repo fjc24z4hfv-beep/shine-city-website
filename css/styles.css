@@ -272,8 +272,8 @@ a:hover { color: var(--blue-dark); }
 }
 .site-nav .nav-cta:hover { background: var(--blue-dark); color: var(--white); }
 @media (max-width: 1099px) {
-  .site-nav .nav-estimate { margin-bottom: 0.35rem; }
-  .site-nav .nav-cta { min-height: 52px; font-size: 1.05rem; }
+  /* The blue Instant Estimate button stays in the desktop header only. */
+  .site-nav .nav-estimate { display: none; }
 }
 
 /* Hero */
@@ -1714,7 +1714,7 @@ a:hover { color: var(--blue-dark); }
 /* Bolder, well-separated menu tabs */
 .site-nav a { font-weight: 800; letter-spacing: 0.01em; }
 @media (max-width: 1099px) {
-  .site-nav li:not(.nav-estimate) + li:not(.nav-estimate) { border-top: 1px solid rgba(255, 255, 255, 0.14); }
+  .site-nav li:not(.nav-estimate) ~ li:not(.nav-estimate) { border-top: 1px solid rgba(255, 255, 255, 0.14); }
 }
 @media (min-width: 1100px) {
   .site-nav ul { gap: 0 0; }
