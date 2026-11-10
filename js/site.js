@@ -377,6 +377,13 @@
     add("Longitude", "longitude");
     add("Satellite", "satellite_link");
     add("Measured sq ft", "measured_sqft");
+    add("Stories", "stories");
+    add("House sq ft", "house_sqft");
+    add("Driveway sq ft", "driveway_sqft");
+    add("House price", "house_price");
+    add("Driveway price", "driveway_price");
+    add("Regular price", "regular_price");
+    add("Wash & Shine savings", "wash_savings");
     add("Instant price", "instant_price");
     add("Confidence", "estimate_confidence");
     add("Estimate", "instant_estimate");
@@ -566,7 +573,11 @@
     }
     reply.value = fieldValue(form, "email");
     var next = form.querySelector("[name=_next]");
-    if (next) next.value = window.location.origin + "/pricing/?thanks=1#quote";
+    if (next && form.hasAttribute("data-wash-quote")) {
+      next.value = window.location.origin + "/driveway-pool-deck-package/?thanks=1#wash-quote";
+    } else if (next) {
+      next.value = window.location.origin + "/pricing/?thanks=1#quote";
+    }
     form.action = cfg.FORM_ENDPOINT;
     form.method = "post";
     form.enctype = "multipart/form-data";
@@ -652,13 +663,85 @@
     if (field) field.value = value == null ? "" : String(value);
   }
 
+  function areaPhrase(sqft, rateCents, cents) {
+    var straight = Math.round(Number(sqft)) * Number(rateCents);
+    if (Number(cents) > straight) {
+      return formatSqft(sqft) + " sq ft. " + moneyFromCents(cents) + " minimum";
+    }
+    return formatSqft(sqft) + " sq ft × " + moneyFromCents(rateCents) + " = " + moneyFromCents(cents);
+  }
+
+  function washLines(quote) {
+    var stories = Number(quote.stories) === 2 ? "2-story" : "1-story";
+    var house = areaPhrase(quote.houseSqft, quote.houseRateCents, quote.houseCents) + ", " + stories;
+    var driveway = areaPhrase(quote.drivewaySqft, quote.drivewayRateCents, quote.drivewayCents);
+    var regular = moneyFromCents(quote.regularCents);
+    var savings = moneyFromCents(quote.savingsCents);
+    var total = moneyFromCents(quote.totalCents);
+    return {
+      house: house,
+      driveway: driveway,
+      regular: regular,
+      savings: savings,
+      total: total,
+      sentence: "House: " + house + ". Driveway: " + driveway + ". Regular price: " + regular +
+        ". Wash & Shine 20% savings: " + savings + ". Total: " + total + ". Nick confirms every quote."
+    };
+  }
+
+  function fillWashBreakdown(form, quote) {
+    var box = form.querySelector("[data-wash-breakdown]");
+    if (!box) return;
+    if (!quote || !quote.wash) {
+      box.hidden = true;
+      return;
+    }
+    var lines = washLines(quote);
+    var house = box.querySelector("[data-wash-house]");
+    var driveway = box.querySelector("[data-wash-driveway]");
+    var regular = box.querySelector("[data-wash-regular]");
+    var savings = box.querySelector("[data-wash-savings]");
+    var total = box.querySelector("[data-wash-total]");
+    if (house) house.textContent = lines.house;
+    if (driveway) driveway.textContent = lines.driveway;
+    if (regular) regular.textContent = lines.regular;
+    if (savings) savings.textContent = lines.savings;
+    if (total) total.textContent = lines.total;
+    box.hidden = false;
+  }
+
   function estimateSentence(quote) {
     if (!quote) return "We'll review and send your quote.";
+    if (quote.wash) return washLines(quote).sentence;
     return "Instant estimate: about " + formatSqft(Math.round(quote.sqft)) + " sq ft, " +
       moneyFromCents(quote.priceCents) + ". Final price confirmed after our review.";
   }
 
   function applyEstimate(form, quote) {
+    if (quote && quote.wash) {
+      var lines = washLines(quote);
+      setHidden(form, "stories", quote.stories);
+      setHidden(form, "house_sqft", Math.round(quote.houseSqft));
+      setHidden(form, "driveway_sqft", Math.round(quote.drivewaySqft));
+      setHidden(form, "house_price", moneyFromCents(quote.houseCents));
+      setHidden(form, "driveway_price", moneyFromCents(quote.drivewayCents));
+      setHidden(form, "regular_price", lines.regular);
+      setHidden(form, "wash_savings", lines.savings);
+      setHidden(form, "instant_price", lines.total);
+      setHidden(form, "estimate_confidence", quote.confidence || "");
+      setHidden(form, "measured_sqft", "");
+      if (quote.formattedAddress) setHidden(form, "full_address", quote.formattedAddress);
+      if (quote.latitude != null && quote.latitude !== "") setHidden(form, "latitude", quote.latitude);
+      if (quote.longitude != null && quote.longitude !== "") setHidden(form, "longitude", quote.longitude);
+      if (quote.satelliteLink) setHidden(form, "satellite_link", quote.satelliteLink);
+      setHidden(form, "instant_estimate", lines.sentence);
+      form.querySelectorAll("[data-estimate-result]").forEach(function (el) {
+        el.textContent = lines.sentence;
+      });
+      fillWashBreakdown(form, quote);
+      return;
+    }
+    fillWashBreakdown(form, null);
     if (quote) {
       setHidden(form, "measured_sqft", Math.round(quote.sqft));
       setHidden(form, "instant_price", moneyFromCents(quote.priceCents));
@@ -671,6 +754,11 @@
       setHidden(form, "measured_sqft", "");
       setHidden(form, "instant_price", "");
       setHidden(form, "estimate_confidence", "");
+      if (form.hasAttribute("data-wash-quote")) {
+        ["house_sqft", "driveway_sqft", "house_price", "driveway_price", "regular_price", "wash_savings"].forEach(function (name) {
+          setHidden(form, name, "");
+        });
+      }
     }
     var sentence = estimateSentence(quote);
     setHidden(form, "instant_estimate", sentence);
@@ -686,6 +774,10 @@
     body.append("address", fieldValue(form, "full_address"));
     body.append("latitude", fieldValue(form, "latitude"));
     body.append("longitude", fieldValue(form, "longitude"));
+    if (form.hasAttribute("data-wash-quote")) {
+      body.append("package", "wash");
+      body.append("stories", fieldValue(form, "stories"));
+    }
     files.forEach(function (file) {
       body.append("photo", file, file.name || "photo.jpg");
     });
@@ -702,6 +794,34 @@
       return response.json();
     }).then(function (data) {
       if (!data || data.ok !== true) return null;
+      if (form.hasAttribute("data-wash-quote")) {
+        var houseSqft = Number(data.houseSqft);
+        var drivewaySqft = Number(data.drivewaySqft);
+        var regularCents = Number(data.regularCents);
+        var savingsCents = Number(data.savingsCents);
+        var totalCents = Number(data.totalCents);
+        if (!isFinite(houseSqft) || houseSqft <= 0 || !isFinite(drivewaySqft) || drivewaySqft <= 0) return null;
+        if (!isFinite(regularCents) || regularCents <= 0 || !isFinite(totalCents) || totalCents <= 0) return null;
+        if (!isFinite(savingsCents) || savingsCents < 0) return null;
+        return {
+          wash: true,
+          houseSqft: houseSqft,
+          drivewaySqft: drivewaySqft,
+          stories: Number(data.stories),
+          houseRateCents: Number(data.houseRateCents),
+          houseCents: Number(data.houseCents),
+          drivewayRateCents: Number(data.drivewayRateCents),
+          drivewayCents: Number(data.drivewayCents),
+          regularCents: regularCents,
+          savingsCents: savingsCents,
+          totalCents: totalCents,
+          confidence: data.confidence || "",
+          latitude: data.latitude,
+          longitude: data.longitude,
+          satelliteLink: data.satelliteLink || "",
+          formattedAddress: data.formattedAddress || ""
+        };
+      }
       var sqft = Number(data.sqft);
       var priceCents = Number(data.priceCents);
       if (!isFinite(sqft) || sqft <= 0 || !isFinite(priceCents) || priceCents <= 0) return null;
@@ -725,15 +845,18 @@
   function setSending(form, sending) {
     var button = form.querySelector("[type=submit]");
     if (!button) return;
+    if (!button.getAttribute("data-label")) button.setAttribute("data-label", button.textContent);
     button.disabled = sending;
-    button.textContent = sending ? "Sending…" : "Send quote request";
+    button.textContent = sending ? "Sending…" : button.getAttribute("data-label");
   }
 
   function bindQuoteForm(form) {
     var note = form.querySelector("[data-form-note]");
     var status = form.querySelector("[data-photo-status]");
     if (cfg.FORM_ENDPOINT && note) {
-      note.textContent = "Sending delivers this request, including photos, to reviveexterior@gmail.com. If that cannot be delivered, you can email or text the details. Photos are not attached to that backup. This website does not store the form.";
+      note.textContent = form.hasAttribute("data-wash-quote")
+        ? "Sending delivers this request, including photos, to reviveexterior@gmail.com. Nick confirms every quote. This website does not store the form."
+        : "Sending delivers this request, including photos, to reviveexterior@gmail.com. If that cannot be delivered, you can email or text the details. Photos are not attached to that backup. This website does not store the form.";
     }
     bindSizeEstimate(form);
     bindPhotos(form);
@@ -1016,7 +1139,8 @@
   global.ShineCity = {
     estimate: estimate,
     moneyFromCents: moneyFromCents,
-    compactRateText: compactRateText
+    compactRateText: compactRateText,
+    washLines: washLines
   };
 
   function renderProcessVideo() {

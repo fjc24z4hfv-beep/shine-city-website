@@ -1531,7 +1531,97 @@ a:hover { color: var(--blue-dark); }
 .pkg-tile img { transition: transform 0.6s ease; }
 .pkg-tile:focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; }
 #driveway-pool-deck-seal,
-#house-wash-driveway { scroll-margin-top: 6.5rem; }
+#house-wash-driveway,
+#wash-quote { scroll-margin-top: 6.5rem; }
+.wash-quote {
+  margin-top: 2.25rem;
+  background: #111;
+  color: #fff;
+  border-radius: 16px;
+  padding: 1.15rem 1rem 1.3rem;
+  color-scheme: dark;
+}
+.wash-quote h3 {
+  margin: 0 0 0.55rem;
+  color: #fff;
+  font-size: clamp(1.35rem, 2.6vw, 1.75rem);
+}
+.wash-quote p { color: rgba(255, 255, 255, 0.88); }
+.wash-quote .form-note,
+.wash-quote .photo-limit,
+.wash-quote .optional { color: rgba(255, 255, 255, 0.72); }
+.wash-quote .req { color: var(--brand); }
+.wash-quote .field input,
+.wash-quote .field textarea {
+  background: #1b1b1b;
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.22);
+}
+.wash-quote .form-confirm { color: #fff; }
+.wash-quote .estimate-live { background: #1b1b1b; color: #fff; }
+.wash-stories {
+  border: 0;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.55rem;
+}
+.wash-stories legend {
+  font-weight: 700;
+  margin-bottom: 0.35rem;
+}
+.wash-stories .wash-stories__choices,
+.wash-quote .wash-stories {
+  grid-template-columns: 1fr;
+}
+.wash-quote .wash-stories label {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  min-height: 48px;
+  margin: 0;
+  padding: 0.55rem 0.75rem;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 12px;
+  background: #1b1b1b;
+}
+.wash-quote .wash-stories input {
+  width: 1.15rem;
+  min-height: 0;
+  margin: 0;
+  accent-color: var(--brand);
+}
+.wash-quote .wash-stories label:has(input:checked) {
+  border-color: var(--brand);
+  box-shadow: inset 0 0 0 1px var(--brand);
+}
+.wash-breakdown {
+  margin: 1rem 0 0;
+  padding: 0.95rem 1rem 0.4rem;
+  border-radius: 14px;
+  background: #000;
+}
+.wash-breakdown__title { margin-bottom: 0.75rem; }
+.wash-breakdown dl { margin: 0; display: grid; gap: 0.55rem; }
+.wash-breakdown dl > div {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+}
+.wash-breakdown dt { color: rgba(255, 255, 255, 0.72); font-weight: 700; }
+.wash-breakdown dd { margin: 0; text-align: right; font-weight: 800; }
+.wash-breakdown__total {
+  padding-top: 0.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.16);
+  font-size: 1.2rem;
+}
+.wash-breakdown__total dd { color: var(--brand); }
+@media (min-width: 700px) {
+  .wash-quote { padding: 1.6rem 1.5rem 1.7rem; }
+  .wash-quote .wash-stories { grid-template-columns: 1fr 1fr; }
+  .wash-quote .wash-stories legend { grid-column: 1 / -1; }
+}
 @media (min-width: 761px) {
   .pkg-grid { grid-template-columns: 1fr 1fr; gap: 1.5rem; }
 }

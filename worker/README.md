@@ -124,3 +124,53 @@ A success body looks like:
 `priceCents` 140400 is $1,404.00, which is 720 sq ft at $1.95. The website then emails that result, the address, the satellite link, and the photos through FormSubmit.
 
 Any failure, including a missing Worker URL, returns the customer to "We'll review and send your quote." The email still goes out.
+
+A request with no `package` field, or with any value other than `wash`, is this paver sealing estimate. It does not apply a package discount.
+
+## Wash & Shine (`package=wash`)
+
+The same POST, with two extra fields:
+
+- `package` set to `wash`
+- `stories` set to `1` or `2`
+
+The vision model is asked for `{houseSqft, drivewaySqft, confidence}`. `houseSqft` is the building footprint, the roof outline counted as one floor. `drivewaySqft` is the driveway only, concrete or pavers. Oil stains, rust stains, a pool cage, a fence, and a roof wash are not measured and are not priced.
+
+The server prices both areas in `priceWash` in `src/price.js`:
+
+- Driveway cleaning: $0.20 per sq ft, $200 minimum
+- House soft wash on that footprint: $0.15 per sq ft for 1 story, $0.20 per sq ft for 2 stories, $250 minimum
+- Each minimum is applied first. Then 20% comes off the combined total.
+
+A 1,800 sq ft 1-story house is $270. A 600 sq ft driveway uses the $200 minimum. Together that is $470, and 20% off is $376.
+
+A success body looks like:
+
+```json
+{
+  "ok": true,
+  "houseSqft": 1800,
+  "drivewaySqft": 600,
+  "stories": 1,
+  "houseRateCents": 15,
+  "houseCents": 27000,
+  "drivewayRateCents": 20,
+  "drivewayCents": 20000,
+  "regularCents": 47000,
+  "savingsCents": 9400,
+  "totalCents": 37600,
+  "confidence": "medium",
+  "latitude": 28.25,
+  "longitude": -80.74,
+  "formattedAddress": "123 Example St, Viera, FL 32940, USA",
+  "satelliteLink": "https://www.google.com/maps?q=28.25,-80.74&t=k&z=20"
+}
+```
+
+Check the math locally with:
+
+```bash
+node src/price.test.mjs
+```
+
+Run that from this `worker` directory. It covers the $376 example, both minimums, a 2-story house, and the unchanged sealing prices.
