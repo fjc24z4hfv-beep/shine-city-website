@@ -139,10 +139,10 @@ The vision model is asked for `{houseSqft, drivewaySqft, confidence}`. `houseSqf
 The server prices both areas in `priceWash` in `src/price.js`:
 
 - Driveway cleaning: $0.20 per sq ft, $200 minimum
-- House soft wash on that footprint: $0.15 per sq ft for 1 story, $0.20 per sq ft for 2 stories, $250 minimum
+- House soft wash on that footprint: $0.15 per sq ft for 1 story. A 2-story house is the same footprint times $0.15 times 1.5, which is $0.225 per sq ft, rounded to the nearest cent. $250 minimum either way
 - Each minimum is applied first. Then 20% comes off the combined total.
 
-A 1,800 sq ft 1-story house is $270. A 600 sq ft driveway uses the $200 minimum. Together that is $470, and 20% off is $376.
+A 1,800 sq ft 1-story house is $270. A 600 sq ft driveway uses the $200 minimum. Together that is $470, and 20% off is $376. A 1,100 sq ft 2-story footprint is $247.50 before the house minimum, so that line is $250.
 
 A success body looks like:
 

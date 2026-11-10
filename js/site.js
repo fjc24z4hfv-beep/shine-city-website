@@ -663,12 +663,24 @@
     if (field) field.value = value == null ? "" : String(value);
   }
 
+  function straightCents(sqft, rateCents) {
+    var n = Math.round(Number(sqft));
+    var rate = Number(rateCents);
+    if (Math.abs(rate - 22.5) < 1e-6) return Math.round(n * 45 / 2);
+    return n * rate;
+  }
+
+  function rateLabel(rateCents) {
+    if (Math.abs(Number(rateCents) - 22.5) < 1e-6) return "$0.225";
+    return moneyFromCents(rateCents);
+  }
+
   function areaPhrase(sqft, rateCents, cents) {
-    var straight = Math.round(Number(sqft)) * Number(rateCents);
+    var straight = straightCents(sqft, rateCents);
     if (Number(cents) > straight) {
       return formatSqft(sqft) + " sq ft. " + moneyFromCents(cents) + " minimum";
     }
-    return formatSqft(sqft) + " sq ft × " + moneyFromCents(rateCents) + " = " + moneyFromCents(cents);
+    return formatSqft(sqft) + " sq ft × " + rateLabel(rateCents) + " = " + moneyFromCents(cents);
   }
 
   function washLines(quote) {

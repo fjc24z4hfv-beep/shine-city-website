@@ -13,12 +13,20 @@ assert.equal(example.houseRateCents, 15);
 assert.equal(example.drivewayRateCents, 20);
 
 var twoStory = priceWash(1800, 1500, 2);
-assert.equal(twoStory.houseCents, 36000);
+assert.equal(twoStory.houseCents, 40500);
 assert.equal(twoStory.drivewayCents, 30000);
-assert.equal(twoStory.houseRateCents, 20);
-assert.equal(twoStory.regularCents, 66000);
-assert.equal(twoStory.savingsCents, 13200);
-assert.equal(twoStory.totalCents, 52800);
+assert.equal(twoStory.houseRateCents, 22.5);
+assert.equal(twoStory.regularCents, 70500);
+assert.equal(twoStory.savingsCents, 14100);
+assert.equal(twoStory.totalCents, 56400);
+
+var twoStoryMinimum = priceWash(1100, 1000, 2);
+assert.equal(Math.round(1100 * 45 / 2), 24750);
+assert.equal(twoStoryMinimum.houseCents, 25000);
+assert.equal(twoStoryMinimum.houseRateCents, 22.5);
+
+var roundedFootprint = priceWash(2001, 1000, 2);
+assert.equal(roundedFootprint.houseCents, 45023);
 
 var minimums = priceWash(100, 50, 1);
 assert.equal(minimums.houseCents, 25000);
@@ -28,10 +36,10 @@ assert.equal(minimums.savingsCents, 9000);
 assert.equal(minimums.totalCents, 36000);
 
 var exactDrivewayMinimum = priceWash(2000, 1000, 2);
-assert.equal(exactDrivewayMinimum.houseCents, 40000);
+assert.equal(exactDrivewayMinimum.houseCents, 45000);
 assert.equal(exactDrivewayMinimum.drivewayCents, 20000);
-assert.equal(exactDrivewayMinimum.regularCents, 60000);
-assert.equal(exactDrivewayMinimum.totalCents, 48000);
+assert.equal(exactDrivewayMinimum.regularCents, 65000);
+assert.equal(exactDrivewayMinimum.totalCents, 52000);
 
 assert.equal(priceWash(1800, 600, 3), null);
 assert.equal(priceWash(1800, 600, 0), null);
