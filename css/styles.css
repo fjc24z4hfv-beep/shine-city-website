@@ -1676,6 +1676,18 @@ h2.shine-save {
   vertical-align: 0.05em;
 }
 .offer--featured { box-shadow: inset 0 4px 0 var(--brand); }
+.offer h2.shine-save {
+  margin: 0.15rem 0 0.1rem;
+  color: var(--brand);
+  font-size: clamp(2.1rem, 4vw, 2.75rem);
+  line-height: 1.05;
+}
+.offer__line {
+  margin: 0 0 0.85rem;
+  color: var(--ink);
+  font-weight: 800;
+  font-size: 1.05rem;
+}
 .section--white .offer__kicker { color: var(--blue-deep); }
 .offer h2 { margin-top: 0; }
 
