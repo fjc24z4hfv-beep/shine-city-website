@@ -341,12 +341,8 @@ a:hover { color: var(--blue-dark); }
 .hero h1,
 .hero .lede,
 .hero .eyebrow,
-.hero__serve,
-.hero__note {
+.hero__serve {
   text-shadow: 0 1px 2px rgba(17, 17, 17, 0.7);
-}
-.hero__note {
-  text-shadow: 0 1px 2px rgba(17, 17, 17, 0.95), 0 0 12px rgba(17, 17, 17, 0.85);
 }
 .hero__inner, .page-hero .container { position: relative; z-index: 1; }
 .hero { padding: 2.4rem 0 4.6rem; }
@@ -372,8 +368,6 @@ a:hover { color: var(--blue-dark); }
   font-weight: 700;
   max-width: 40rem;
 }
-.hero__note { margin: 1rem 0 0; color: #D6E4F5; font-size: 0.98rem; }
-.hero__actions { margin-top: 1.75rem; }
 .hero-cta { margin: 0.15rem 0 1.05rem; }
 .hero-cta .btn { width: 100%; }
 .page-hero .hero-cta { margin: 1rem 0 0.15rem; }
@@ -398,8 +392,6 @@ a:hover { color: var(--blue-dark); }
   margin-bottom: 1.35rem;
   background: var(--navy-deep);
 }
-.hero__note a { color: var(--brand); font-weight: 700; }
-.hero__note a:hover { color: var(--white); }
 .steps__go { margin-top: 0.8rem; }
 
 .crumbs ol {
@@ -846,7 +838,6 @@ a:hover { color: var(--blue-dark); }
 
 @media (max-width: 699px) {
   .hero .easy { display: none; }
-  .hero .hero-cta { margin-bottom: 14rem; }
   .price-tiers { display: block; }
   .price-tiers span { display: block; }
   .price-tiers span:not(:last-child)::after { content: none; }
@@ -854,16 +845,6 @@ a:hover { color: var(--blue-dark); }
   .hero h1 { font-size: 1.85rem; margin-bottom: 0.2rem; }
   .hero__serve { margin-bottom: 0.4rem; font-size: 0.95rem; }
   .hero .lede { font-size: 1.15rem; margin-bottom: 0.75rem; }
-  .hero__note { margin-top: 0.7rem; font-size: 0.92rem; }
-  .hero__actions.cluster {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0.6rem;
-  }
-  .hero__actions .btn { width: 100%; min-height: 46px; }
-  .hero__actions .btn--ghost { grid-column: 1 / -1; }
-  .tier--compact { padding: 0.75rem 0.85rem 0.85rem; }
-  .tier--compact .tier__rate span { font-size: 1.65rem; }
 }
 
 @media (min-width: 700px) {
@@ -921,8 +902,7 @@ a:hover { color: var(--blue-dark); }
 @media (max-width: 1099px) {
   /* Room under the hero buttons so the fixed Call/Text bar does not cover them. */
   .hero { padding-bottom: calc(1.35rem + 4.75rem + env(safe-area-inset-bottom)); }
-  .easy .btn,
-  .hero__actions { scroll-margin-bottom: calc(5rem + env(safe-area-inset-bottom)); }
+  .easy .btn { scroll-margin-bottom: calc(5rem + env(safe-area-inset-bottom)); }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -932,7 +912,7 @@ a:hover { color: var(--blue-dark); }
 }
 
 @media print {
-  .site-header, .sticky-bar, .nav-toggle, .hero__actions, .cluster { display: none; }
+  .site-header, .sticky-bar, .nav-toggle, .cluster { display: none; }
   body { padding-bottom: 0; background: white; color: black; }
   .hero, .page-hero, .section--navy, .site-footer { background: white; color: black; }
 }
@@ -940,22 +920,6 @@ a:hover { color: var(--blue-dark); }
 @media (forced-colors: active) {
   .btn, .card, .tier, .sticky-bar a { border: 1px solid ButtonText; }
 }
-
-/* Size tiers in the hero: stacked on a phone, three across once there is room. */
-.hero .tiers {
-  grid-template-columns: 1fr;
-  gap: 0.65rem;
-  max-width: 40rem;
-  margin: 0.15rem 0 0.35rem;
-}
-.hero .tier {
-  background: var(--white);
-  color: var(--ink);
-}
-.tier--compact { padding: 0.85rem 0.95rem 0.95rem; }
-.tier--compact .tier__title { font-size: 0.95rem; }
-.tier--compact .tier__rate { margin-bottom: 0; }
-.hero__note { max-width: 40rem; }
 
 .also-offered {
   margin-top: 1.25rem;
@@ -1371,12 +1335,9 @@ a:hover { color: var(--blue-dark); }
 
 @media (min-width: 700px) {
   .section { padding: 3.25rem 0; }
-  .hero .tiers { grid-template-columns: repeat(3, 1fr); max-width: 56rem; }
 }
 
 @media (max-width: 520px) {
-  .hero .tiers { gap: 0.45rem; }
-  .hero .tier__title { font-size: 0.82rem; }
   .pair__grid { gap: 0.35rem; }
 }
 

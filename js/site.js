@@ -136,15 +136,12 @@
 
   function renderTiers(root) {
     var pricing = cfg.pricing.paverSealing;
-    var compact = root.hasAttribute("data-pricing-compact");
     var html = tierModel().map(function (tier) {
-      var extra = compact ? "" :
-        '<p class="tier__includes">' + escapeHtml(pricing.name) + ": " + escapeHtml(pricing.includes) + ".</p>" +
-        '<p class="tier__detail">' + escapeHtml(tier.detail) + "</p>";
-      return '<article class="tier' + (compact ? " tier--compact" : "") + '">' +
+      return '<article class="tier">' +
         '<h3 class="tier__title">' + escapeHtml(tier.title) + "</h3>" +
         '<p class="tier__rate"><span>' + moneyFromCents(rateCents(tier.rate)) + "</span> per sq ft</p>" +
-        extra +
+        '<p class="tier__includes">' + escapeHtml(pricing.name) + ": " + escapeHtml(pricing.includes) + ".</p>" +
+        '<p class="tier__detail">' + escapeHtml(tier.detail) + "</p>" +
         "</article>";
     }).join("");
     root.innerHTML = html;
