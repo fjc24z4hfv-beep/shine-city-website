@@ -1653,6 +1653,18 @@ h2.shine-save {
   border-radius: 50%;
   background: var(--brand);
 }
+.package-benefits--light { margin: 1rem 0 0; }
+.package-benefits--light li { color: var(--ink); }
+.offer__kicker {
+  margin: 0 0 0.35rem;
+  color: var(--blue-deep);
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.section--white .offer__kicker { color: var(--blue-deep); }
+.offer h2 { margin-top: 0; }
 
 /* Paver sealing page header: porch weeds before / sealed after */
 .page-hero--ba {
