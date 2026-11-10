@@ -28,7 +28,10 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap">
-  <link rel="stylesheet" href="/css/styles.css?v=20261110q">
+  <link rel="stylesheet" href="/css/styles.css?v=20261110s">
+  <script>
+    document.documentElement.classList.toggle("quote-wash", /(?:^|[?&])package=wash(?:&|$)/i.test(location.search));
+  </script>
 
   <script type="application/ld+json" id="business-jsonld">
 {
@@ -501,15 +504,43 @@
       <div class="container" style="max-width:46rem">
       <div class="instant card" data-instant-quote>
         <h2 id="quote-heading">Get your instant estimate</h2>
-        <p>Get your price in seconds: enter your address, snap up to 6 photos, see your estimate. No waiting for someone to come out.</p>
-        <p class="price-tiers" data-price-compact><span>$1.95/sq ft up to 1,000 sq ft</span><span>$1.75/sq ft 1,000–2,000</span><span>$1.50/sq ft over 2,000</span><span>$750 minimum</span></p>
-        <p class="form-confirm">We'll review the address and photos and send the quote.</p>
         <form id="instant-quote" data-quote-form data-photos-required action="https://formsubmit.co/reviveexterior@gmail.com" method="post" enctype="multipart/form-data">
+          <fieldset class="pkg-pick" data-package-pick>
+            <legend>Choose a package</legend>
+            <label class="pkg-pick__opt">
+              <input type="radio" name="estimate_package" value="seal" checked>
+              <span class="pkg-pick__name shine-save">Shine &amp; Seal</span>
+              <span class="pkg-pick__desc">Driveway + Pool Deck Sealing</span>
+            </label>
+            <label class="pkg-pick__opt">
+              <input type="radio" name="estimate_package" value="wash">
+              <span class="pkg-pick__name shine-save">Wash &amp; Shine</span>
+              <span class="pkg-pick__desc">House Wash + Driveway Cleaning</span>
+            </label>
+          </fieldset>
+          <script>
+            (function () {
+              if (!document.documentElement.classList.contains("quote-wash")) return;
+              var form = document.getElementById("instant-quote");
+              var radio = form && form.querySelector('input[name="estimate_package"][value="wash"]');
+              if (radio) radio.checked = true;
+              if (form) form.setAttribute("data-wash-quote", "");
+            })();
+          </script>
+          <p class="pkg-intro pkg-intro--seal">Get your price in seconds: enter your address, snap up to 6 photos, see your estimate. No waiting for someone to come out.</p>
+          <p class="price-tiers" data-price-compact><span>$1.95/sq ft up to 1,000 sq ft</span><span>$1.75/sq ft 1,000–2,000</span><span>$1.50/sq ft over 2,000</span><span>$750 minimum</span></p>
+          <p class="pkg-intro pkg-intro--wash">Add your address and a few photos, and you'll see your Wash &amp; Shine total with 20% off. Nick confirms every quote.</p>
+          <p class="form-confirm pkg-confirm--seal">We'll review the address and photos and send the quote.</p>
           <div class="form-grid">
             <div class="field full">
               <label for="iq-address">Property address <span class="req">(required)</span></label>
               <input id="iq-address" name="full_address" type="text" autocomplete="street-address" required minlength="5" placeholder="Street, city, ZIP">
             </div>
+            <fieldset class="field full quote-stories" disabled>
+              <legend>Home <span class="req">(required)</span></legend>
+              <label><input type="radio" name="stories" value="1"> 1-story</label>
+              <label><input type="radio" name="stories" value="2"> 2-story</label>
+            </fieldset>
             <div class="field">
               <label for="iq-name">Name <span class="req">(required)</span></label>
               <input id="iq-name" name="name" type="text" autocomplete="name" required minlength="2">
@@ -525,7 +556,8 @@
             <div class="field full">
               <label for="iq-photos">Photos <span class="req">(required)</span> <span class="photo-limit">Up to 6 photos</span></label>
               <input id="iq-photos" data-photos name="attachment" type="file" accept="image/*" multiple required>
-              <p class="form-note">From different angles, including one of the whole driveway or patio. Large images are reduced in your browser before they are sent.</p>
+              <p class="form-note" data-seal-only>From different angles, including one of the whole driveway or patio. Large images are reduced in your browser before they are sent.</p>
+              <p class="form-note" data-wash-only>Include the house and the driveway. Large images are reduced in your browser before they are sent.</p>
               <div class="photo-preview" data-photo-preview></div>
               <p class="form-note" data-photo-status role="status"></p>
             </div>
@@ -542,6 +574,12 @@
               <input type="hidden" name="longitude" value="">
               <input type="hidden" name="satellite_link" value="">
               <input type="hidden" name="measured_sqft" value="">
+              <input type="hidden" name="house_sqft" value="">
+              <input type="hidden" name="driveway_sqft" value="">
+              <input type="hidden" name="house_price" value="">
+              <input type="hidden" name="driveway_price" value="">
+              <input type="hidden" name="regular_price" value="">
+              <input type="hidden" name="wash_savings" value="">
               <input type="hidden" name="instant_price" value="">
               <input type="hidden" name="estimate_confidence" value="">
               <input type="hidden" name="instant_estimate" value="">
@@ -553,6 +591,17 @@
               <button class="btn" type="submit">Send quote request</button>
               <p class="form-note" data-form-note>Sending opens an email to reviveexterior@gmail.com. You can text the same request instead. This website does not store the form.</p>
             </div>
+          </div>
+          <div class="wash-breakdown" data-wash-breakdown hidden>
+            <h3 class="wash-breakdown__title">Your Wash &amp; Shine estimate</h3>
+            <dl>
+              <div><dt>House</dt><dd data-wash-house></dd></div>
+              <div><dt>Driveway</dt><dd data-wash-driveway></dd></div>
+              <div><dt>Regular price</dt><dd data-wash-regular></dd></div>
+              <div><dt>Wash &amp; Shine 20% savings</dt><dd data-wash-savings></dd></div>
+              <div class="wash-breakdown__total"><dt>Total</dt><dd data-wash-total></dd></div>
+            </dl>
+            <p class="form-confirm">Nick confirms every quote.</p>
           </div>
           <div class="form-result" data-form-thanks hidden>
             <h3>Thanks, we have your quote request</h3>
@@ -631,7 +680,7 @@
     <a href="sms:+13217950313">Text</a>
   </div>
   <script src="/js/site-config.js"></script>
-  <script src="/js/site.js"></script>
+  <script src="/js/site.js?v=20261110s"></script>
 
 </body>
 </html>

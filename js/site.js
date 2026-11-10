@@ -850,13 +850,58 @@
     button.textContent = sending ? "Sending…" : button.getAttribute("data-label");
   }
 
+  function quoteNote(wash) {
+    return wash
+      ? "Sending delivers this request, including photos, to reviveexterior@gmail.com. Nick confirms every quote. This website does not store the form."
+      : "Sending delivers this request, including photos, to reviveexterior@gmail.com. If that cannot be delivered, you can email or text the details. Photos are not attached to that backup. This website does not store the form.";
+  }
+
+  function bindPackagePick(form) {
+    var pick = form.querySelector("[data-package-pick]");
+    if (!pick) return false;
+    var stories = form.querySelector(".quote-stories");
+
+    function apply(value, updateUrl) {
+      var wash = value === "wash";
+      form.toggleAttribute("data-wash-quote", wash);
+      document.documentElement.classList.toggle("quote-wash", wash);
+      if (stories) stories.disabled = !wash;
+      Array.prototype.forEach.call(form.querySelectorAll('[name="stories"]'), function (input) {
+        if (input.type !== "radio") return;
+        input.required = wash;
+        if (!wash) input.checked = false;
+      });
+      setHidden(form, "service", wash ? "Wash & Shine" : "Paver sealing");
+      setHidden(form, "_subject", wash ? "Shine City Wash & Shine quote request" : "Shine City quote request");
+      var note = form.querySelector("[data-form-note]");
+      if (cfg.FORM_ENDPOINT && note) note.textContent = quoteNote(wash);
+      fillWashBreakdown(form, null);
+      if (!updateUrl || !global.history || !global.history.replaceState) return;
+      var url = new URL(global.location.href);
+      url.searchParams.set("package", wash ? "wash" : "seal");
+      global.history.replaceState(null, "", url.pathname + url.search + url.hash);
+    }
+
+    var initial = "seal";
+    try {
+      var param = new URLSearchParams(global.location.search).get("package");
+      if (param && param.toLowerCase() === "wash") initial = "wash";
+    } catch (err) { /* Keep Shine & Seal when the query cannot be read. */ }
+    apply(initial, false);
+    Array.prototype.forEach.call(pick.querySelectorAll('input[name="estimate_package"]'), function (radio) {
+      radio.addEventListener("change", function () {
+        if (radio.checked) apply(radio.value === "wash" ? "wash" : "seal", true);
+      });
+    });
+    return true;
+  }
+
   function bindQuoteForm(form) {
+    var picked = bindPackagePick(form);
     var note = form.querySelector("[data-form-note]");
     var status = form.querySelector("[data-photo-status]");
-    if (cfg.FORM_ENDPOINT && note) {
-      note.textContent = form.hasAttribute("data-wash-quote")
-        ? "Sending delivers this request, including photos, to reviveexterior@gmail.com. Nick confirms every quote. This website does not store the form."
-        : "Sending delivers this request, including photos, to reviveexterior@gmail.com. If that cannot be delivered, you can email or text the details. Photos are not attached to that backup. This website does not store the form.";
+    if (!picked && cfg.FORM_ENDPOINT && note) {
+      note.textContent = quoteNote(form.hasAttribute("data-wash-quote"));
     }
     bindSizeEstimate(form);
     bindPhotos(form);
