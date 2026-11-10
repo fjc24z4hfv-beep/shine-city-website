@@ -31,11 +31,16 @@ assert.equal(priceWash("nope", 600, 1), null);
 
 var seal = priceForSqft(720);
 assert.equal(seal.sqft, 720);
-assert.equal(seal.rateCents, 195);
-assert.equal(seal.totalCents, 140400);
+assert.equal(seal.rateCents, 175);
+assert.equal(seal.totalCents, 126000);
 assert.equal(priceForSqft(300).totalCents, 75000);
-assert.equal(priceForSqft(1000).totalCents, 195000);
-assert.equal(priceForSqft(1500).totalCents, 262500);
-assert.equal(priceForSqft(2500).totalCents, 375000);
+assert.equal(priceForSqft(800).totalCents, 140000);
+assert.equal(priceForSqft(1000).totalCents, 175000);
+assert.equal(priceForSqft(1001).totalCents, 175000);
+assert.equal(priceForSqft(1500).totalCents, 225000);
+assert.equal(priceForSqft(2000).totalCents, 300000);
+assert.equal(priceForSqft(2001).totalCents, 300000);
+assert.equal(priceForSqft(2500).totalCents, 325000);
+assert.equal(priceForSqft(2500).rateCents, 130);
 
 console.log("price tests passed");

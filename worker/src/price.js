@@ -1,19 +1,19 @@
 /* Paver sealing rates. Keep these in step with js/site-config.js.
    The whole job uses one tier rate. It is not split across tiers.
-   Up to 1,000 sq ft is $1.95. A 1,000 sq ft job is $1,950.
-   Over 1,000 through 2,000 sq ft is $1.75. A 1,500 sq ft job is $2,625.
-   Over 2,000 sq ft is $1.50. A 2,500 sq ft job is $3,750.
+   Up to 1,000 sq ft is $1.75. A 1,000 sq ft job is $1,750.
+   Over 1,000 through 2,000 sq ft is $1.50. A 1,500 sq ft job is $2,250.
+   Over 2,000 sq ft is $1.30. A 2,500 sq ft job is $3,250.
    A price never drops below the largest job in the tier below:
-   over 1,000 through 2,000, at least 1,000 × $1.95;
-   over 2,000, at least 2,000 × $1.75.
+   over 1,000 through 2,000, at least 1,000 × $1.75;
+   over 2,000, at least 2,000 × $1.50.
    Then the job is at least $750.
    maxSqFt is inclusive. The last tier has no maxSqFt.
    There is no flat promotional price. */
 
 export var TIERS = [
-  { maxSqFt: 1000, rateCents: 195 },
-  { maxSqFt: 2000, rateCents: 175 },
-  { maxSqFt: null, rateCents: 150 }
+  { maxSqFt: 1000, rateCents: 175 },
+  { maxSqFt: 2000, rateCents: 150 },
+  { maxSqFt: null, rateCents: 130 }
 ];
 export var MINIMUM_CENTS = 75000;
 export var MAX_SQFT = 50000;
