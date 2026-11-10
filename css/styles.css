@@ -1451,6 +1451,7 @@ a:hover { color: var(--blue-dark); }
   object-position: center center;
 }
 .pkg-tile--seal img { object-position: center 38%; }
+.pkg-tile--wash img { object-position: center center; }
 .pkg-tile::after {
   content: "";
   position: absolute;
