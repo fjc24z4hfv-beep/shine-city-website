@@ -1421,38 +1421,123 @@ a:hover { color: var(--blue-dark); }
   background: var(--navy-deep);
   color: var(--white);
 }
-.package-promo__card {
+.package-promo__title {
+  margin: 0 0 1.35rem;
+  color: var(--white);
+  font-size: clamp(1.7rem, 3vw, 2.3rem);
+}
+.pkg-grid {
   display: grid;
+  grid-template-columns: 1fr;
   gap: 1.25rem;
-  align-items: center;
 }
-.package-promo__photo {
+.pkg-tile {
+  position: relative;
   display: block;
-  border-radius: 16px;
+  aspect-ratio: 1300 / 1012;
   overflow: hidden;
-  aspect-ratio: 4 / 3;
-  background: #1a1a1a;
+  background: #111;
+  color: var(--white);
+  text-decoration: none;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 16px;
 }
-.package-promo__photo img {
+.pkg-tile img {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center 92%;
+  object-position: center center;
 }
-.package-promo h2 { margin: 0.2rem 0 0.15rem; }
-.package-promo p { margin: 0 0 1rem; color: #E7F0FA; max-width: 36rem; }
-.package-promo p.package-promo__sub {
-  margin: 0 0 0.7rem;
-  font-family: var(--font);
+.pkg-tile--seal img { object-position: center 38%; }
+.pkg-tile::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at center, rgba(0, 0, 0, 0.62) 0%, rgba(0, 0, 0, 0.42) 58%, rgba(0, 0, 0, 0.28) 100%);
+}
+.pkg-tile__tag {
+  position: absolute;
+  top: 0.85rem;
+  left: 0.85rem;
+  z-index: 2;
+  padding: 0.18rem 0.6rem;
+  border-radius: 999px;
+  background: var(--brand);
+  color: var(--white);
+  font-size: 0.72rem;
   font-weight: 800;
-  font-size: 1.22rem;
-  line-height: 1.25;
-  color: #fff;
+  letter-spacing: 0.04em;
 }
-.package-promo .btn { width: 100%; }
-@media (min-width: 700px) {
-  .package-promo__card { grid-template-columns: minmax(0, 22rem) minmax(0, 1fr); gap: 2rem; }
-  .package-promo .btn { width: auto; min-width: 16rem; }
+.pkg-tile__text {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 1.4rem 1rem 1.2rem;
+  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.55);
+}
+.pkg-tile__name {
+  color: var(--brand);
+  font-size: clamp(2.15rem, 4vw, 3.1rem);
+  line-height: 1;
+}
+.pkg-tile__desc {
+  margin-top: 0.45rem;
+  color: rgba(255, 255, 255, 0.88);
+  font-size: clamp(0.72rem, 1.2vw, 0.86rem);
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.pkg-tile__offer {
+  margin-top: 0.55rem;
+  color: var(--white);
+  font-size: clamp(1.9rem, 3.4vw, 2.7rem);
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  line-height: 1;
+}
+.pkg-tile__note {
+  margin-top: 0.4rem;
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+.pkg-tile__cta {
+  margin-top: 1rem;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0.45rem 1rem;
+  border-radius: 999px;
+  background: var(--brand);
+  color: var(--white);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.pkg-tile:hover img,
+.pkg-tile:focus-visible img { transform: scale(1.04); }
+.pkg-tile img { transition: transform 0.6s ease; }
+.pkg-tile:focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; }
+#driveway-pool-deck-seal,
+#house-wash-driveway { scroll-margin-top: 6.5rem; }
+@media (min-width: 761px) {
+  .pkg-grid { grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pkg-tile img { transition: none; }
+  .pkg-tile:hover img { transform: none; }
 }
 .package-trust {
   display: flex;
@@ -1527,6 +1612,20 @@ a:hover { color: var(--blue-dark); }
 @media (max-width: 1099px) { .site-nav a:not(.nav-cta) { font-size: 1.1rem; } }
 @media (min-width: 1280px) { .site-nav a { font-size: 1.04rem; padding-inline: 0.68rem; } .site-nav .nav-estimate { margin-left: 0.6rem; } }
 @media (min-width: 1100px) and (max-width: 1279px) { .site-nav a { font-size: 0.93rem; padding-inline: 0.4rem; } .site-nav .nav-estimate { margin-left: 0.4rem; } }
+/* Longer Shine & Save Packages tab: keep the row on one line. */
+@media (min-width: 1100px) {
+  .header-inner { gap: 0.45rem; }
+  .brand img { width: 132px; }
+  .site-nav a { padding-inline: 0.32rem; }
+  .site-nav .nav-estimate { margin-left: 0.28rem; }
+  .site-nav a.nav-packages { padding-inline: 0.22rem; gap: 0.22rem; }
+  .site-nav a.nav-packages .shine-save { font-size: 1.08rem; }
+}
+@media (min-width: 1280px) {
+  .brand img { width: 140px; }
+  .site-nav a { font-size: 0.98rem; padding-inline: 0.38rem; }
+  .site-nav a.nav-packages .shine-save { font-size: 1.16rem; }
+}
 /* Homepage hero: stronger black haze at the top, fading to clear over the pavers */
 .hero::after {
   background: linear-gradient(
@@ -1572,36 +1671,48 @@ a:hover { color: var(--blue-dark); }
 }
 
 /* Every Shine & Save label sits on the black header, hero, card, or footer. */
-.site-nav a.shine-save,
+.site-nav a .shine-save,
 .site-footer a.shine-save,
 .package-promo .shine-save,
 .page-hero .shine-save {
   color: var(--brand);
 }
 
-.site-nav a.shine-save:hover,
-.site-nav a.shine-save[aria-current="page"],
 .site-footer a.shine-save:hover {
   color: var(--brand);
 }
 
-/* About 30% larger than the other tabs, still centered on their row.
-   Tighter side padding keeps the header on one line. */
-.site-nav a.shine-save {
-  font-weight: 700;
-  font-style: normal;
-  letter-spacing: 0;
-  line-height: 1;
-  align-self: center;
+/* Script name plus a regular "Packages" word, still one tab. */
+.site-nav a.nav-packages {
+  gap: 0.32rem;
+  align-items: center;
+  white-space: nowrap;
 }
+.site-nav a.nav-packages .shine-save {
+  font-weight: 700;
+  line-height: 1;
+}
+.site-nav a.nav-packages:hover { color: var(--brand); }
+.site-nav a.nav-packages:hover .shine-save,
+.site-nav a.nav-packages[aria-current="page"] .shine-save { color: var(--brand); }
 @media (max-width: 1099px) {
-  .site-nav a.shine-save { font-size: 1.43rem; }
+  .site-nav a.nav-packages .shine-save { font-size: 1.45rem; }
 }
 @media (min-width: 1100px) and (max-width: 1279px) {
-  .site-nav a.shine-save { font-size: 1.21rem; padding-inline: 0.22rem; }
+  .header-inner { gap: 0.35rem; }
+  .brand img { width: 118px; }
+  .site-nav a { font-size: 0.84rem; padding-inline: 0.22rem; }
+  .site-nav .nav-estimate { margin-left: 0.2rem; }
+  .site-nav a.nav-packages { padding-inline: 0.16rem; gap: 0.18rem; }
+  .site-nav a.nav-packages .shine-save { font-size: 1rem; }
 }
 @media (min-width: 1280px) {
-  .site-nav a.shine-save { font-size: 1.35rem; padding-inline: 0.4rem; }
+  .header-inner { gap: 0.4rem; }
+  .brand img { width: 128px; }
+  .site-nav a { font-size: 0.95rem; padding-inline: 0.32rem; }
+  .site-nav .nav-estimate { margin-left: 0.25rem; }
+  .site-nav a.nav-packages { padding-inline: 0.22rem; gap: 0.2rem; }
+  .site-nav a.nav-packages .shine-save { font-size: 1.08rem; }
 }
 
 h1.shine-save,
@@ -1653,6 +1764,43 @@ h2.shine-save {
   border-radius: 50%;
   background: var(--brand);
 }
+.package-benefits--light { margin: 1rem 0 0; }
+.package-benefits--light li { color: var(--ink); }
+.offer__kicker {
+  margin: 0 0 0.35rem;
+  color: var(--blue-deep);
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.offer__tag {
+  display: inline-block;
+  margin-right: 0.55rem;
+  padding: 0.12rem 0.55rem;
+  border-radius: 999px;
+  background: var(--brand);
+  color: var(--white);
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  text-transform: none;
+  vertical-align: 0.05em;
+}
+.offer--featured { box-shadow: inset 0 4px 0 var(--brand); }
+.offer h2.shine-save {
+  margin: 0.15rem 0 0.1rem;
+  color: var(--brand);
+  font-size: clamp(2.1rem, 4vw, 2.75rem);
+  line-height: 1.05;
+}
+.offer__line {
+  margin: 0 0 0.85rem;
+  color: var(--ink);
+  font-weight: 800;
+  font-size: 1.05rem;
+}
+.section--white .offer__kicker { color: var(--blue-deep); }
+.offer h2 { margin-top: 0; }
 
 /* Paver sealing page header: porch weeds before / sealed after */
 .page-hero--ba {
