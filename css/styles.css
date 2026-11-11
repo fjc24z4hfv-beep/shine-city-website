@@ -341,7 +341,7 @@ a:hover { color: var(--blue-dark); }
 .hero .lede,
 .hero .eyebrow,
 .hero__serve {
-  text-shadow: 0 1px 2px rgba(17, 17, 17, 0.7);
+  text-shadow: 0 1px 2px rgba(17, 17, 17, 0.95), 0 2px 12px rgba(17, 17, 17, 0.65);
 }
 .hero__inner, .page-hero .container { position: relative; z-index: 1; }
 .hero { padding: 2.4rem 0 4.6rem; }
@@ -1529,7 +1529,8 @@ a:hover { color: var(--blue-dark); }
 .pkg-tile:focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; }
 #driveway-pool-deck-seal,
 #house-wash-driveway,
-#wash-quote { scroll-margin-top: 6.5rem; }
+#wash-quote,
+#seal-quote { scroll-margin-top: 6.5rem; }
 .wash-quote {
   margin-top: 2.25rem;
   background: #111;
@@ -1714,31 +1715,15 @@ a:hover { color: var(--blue-dark); }
   .site-nav a { font-size: 0.98rem; padding-inline: 0.38rem; }
   .site-nav a.nav-packages .shine-save { font-size: 1.16rem; }
 }
-/* Homepage hero: stronger black haze at the top, fading to clear over the pavers */
+/* Black from the top of the hero, gone by the middle. The lower half stays clear. */
 .hero::after {
   background: linear-gradient(
     180deg,
-    rgba(17, 17, 17, 0.9) 0%,
-    rgba(17, 17, 17, 0.78) 22%,
-    rgba(17, 17, 17, 0.55) 42%,
-    rgba(17, 17, 17, 0.25) 66%,
-    rgba(17, 17, 17, 0.06) 88%,
-    rgba(17, 17, 17, 0) 100%
+    rgba(17, 17, 17, 0.88) 0%,
+    rgba(17, 17, 17, 0.5) 28%,
+    rgba(17, 17, 17, 0.12) 42%,
+    rgba(17, 17, 17, 0) 50%
   );
-}
-@media (max-width: 699px) {
-  /* Phones: dark behind the text, then clear quickly so the driveway shine shows */
-  .hero::after {
-    background: linear-gradient(
-      180deg,
-      rgba(17, 17, 17, 0.9) 0,
-      rgba(17, 17, 17, 0.82) 240px,
-      rgba(17, 17, 17, 0.73) 350px,
-      rgba(17, 17, 17, 0.36) 425px,
-      rgba(17, 17, 17, 0.06) 510px,
-      rgba(17, 17, 17, 0) 580px
-    );
-  }
 }
 
 /* Shine & Save. One weight of Oleo Script Bold, self-hosted. */
