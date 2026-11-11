@@ -311,13 +311,15 @@ a:hover { color: var(--blue-dark); }
      Restore it by using that path here. */
   background-image: url("/images/hero/sealed-front-driveway.jpg");
   background-repeat: no-repeat;
-  /* Cover the whole hero. A short phone hero used to leave the lower part
-     as plain navy when the photo was only 60% of a much taller box. */
-  background-size: cover;
-  background-position: 32% 38%;
+  /* Same phone crop as before the price cards were removed: the photo is
+     shifted up so the headline sits on the garage, and 30% across so the
+     glossy patch on the left of the driveway stays in frame. */
+  background-size: auto calc(100% + 4rem);
+  background-position: 30% -4rem;
 }
 @media (min-width: 700px) {
   .hero {
+    background-size: cover;
     background-position: center 46%;
     /* Near 3:2, so a typical desktop hero keeps the roof, garage, and driveway. */
     min-height: min(66.67vw, 56rem);
@@ -900,6 +902,10 @@ a:hover { color: var(--blue-dark); }
   /* Room under the hero buttons so the fixed Call/Text bar does not cover them. */
   .hero { padding-bottom: calc(1.35rem + 4.75rem + env(safe-area-inset-bottom)); }
   .easy .btn { scroll-margin-bottom: calc(5rem + env(safe-area-inset-bottom)); }
+}
+@media (max-width: 699px) {
+  /* Match the pre-price-card photo height, then a normal gap into Shine & Save. */
+  .hero { min-height: 46rem; }
 }
 
 @media (prefers-reduced-motion: reduce) {
