@@ -1529,7 +1529,8 @@ a:hover { color: var(--blue-dark); }
 .pkg-tile:focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; }
 #driveway-pool-deck-seal,
 #house-wash-driveway,
-#wash-quote { scroll-margin-top: 6.5rem; }
+#wash-quote,
+#seal-quote { scroll-margin-top: 6.5rem; }
 .wash-quote {
   margin-top: 2.25rem;
   background: #111;

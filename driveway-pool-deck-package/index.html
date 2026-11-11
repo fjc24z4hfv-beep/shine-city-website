@@ -162,8 +162,85 @@
           <li>Sealed pavers that resist stains and fading and keep their color</li>
         </ul>
         <div class="cluster" style="margin-top:1.25rem">
-          <a class="btn" href="/pricing/?package=seal#quote">Get your instant estimate</a>
+          <a class="btn" href="#seal-quote">Get your instant estimate</a>
           <a class="btn btn--outline" href="tel:+13217950313">Call (321) 795-0313</a>
+        </div>
+        <div class="wash-quote" id="seal-quote">
+          <h3>Get your Shine &amp; Seal instant estimate</h3>
+          <p>Add your address and a few photos of the driveway and the pool deck, and you'll see your Shine &amp; Seal estimate. Nick confirms every quote.</p>
+          <form id="seal-quote-form" data-quote-form data-photos-required data-seal-quote action="https://formsubmit.co/reviveexterior@gmail.com" method="post" enctype="multipart/form-data">
+            <div class="form-grid">
+              <div class="field full">
+                <label for="sq-address">Property address <span class="req">(required)</span></label>
+                <input id="sq-address" name="full_address" type="text" autocomplete="street-address" required minlength="5" placeholder="Street, city, ZIP">
+              </div>
+              <div class="field full">
+                <label for="sq-photos">Photos <span class="req">(required)</span> <span class="photo-limit">Up to 6 photos</span></label>
+                <input id="sq-photos" data-photos name="attachment" type="file" accept="image/*" multiple required>
+                <p class="form-note">Include the driveway and the pool deck. Large images are reduced in your browser before they are sent.</p>
+                <div class="photo-preview" data-photo-preview></div>
+                <p class="form-note" data-photo-status role="status"></p>
+              </div>
+              <div class="field">
+                <label for="sq-name">Name <span class="req">(required)</span></label>
+                <input id="sq-name" name="name" type="text" autocomplete="name" required minlength="2">
+              </div>
+              <div class="field">
+                <label for="sq-phone">Phone <span class="req">(required)</span></label>
+                <input id="sq-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" required minlength="7">
+              </div>
+              <div class="field full">
+                <label for="sq-email">Email <span class="req">(required)</span></label>
+                <input id="sq-email" name="email" type="email" autocomplete="email" inputmode="email" required>
+              </div>
+              <div class="field full">
+                <label for="sq-note">Short note <span class="optional">(optional)</span></label>
+                <textarea id="sq-note" name="note" maxlength="1000" rows="3"></textarea>
+              </div>
+              <div class="full">
+                <p class="hp" aria-hidden="true">
+                  <label for="sq-company">Company</label>
+                  <input id="sq-company" name="_honey" type="text" tabindex="-1" autocomplete="off">
+                </p>
+                <input type="hidden" name="latitude" value="">
+                <input type="hidden" name="longitude" value="">
+                <input type="hidden" name="satellite_link" value="">
+                <input type="hidden" name="measured_sqft" value="">
+                <input type="hidden" name="instant_price" value="">
+                <input type="hidden" name="estimate_confidence" value="">
+                <input type="hidden" name="instant_estimate" value="">
+                <input type="hidden" name="service" value="Paver sealing">
+                <input type="hidden" name="_subject" value="Shine City quote request">
+                <input type="hidden" name="_template" value="table">
+                <input type="hidden" name="_captcha" value="false">
+                <input type="hidden" name="_next" value="https://shinecitypaversealing.com/driveway-pool-deck-package/?thanks=1#seal-quote">
+                <button class="btn" type="submit">Send quote request</button>
+                <p class="form-note" data-form-note>Sending delivers this request, including photos, to reviveexterior@gmail.com. Nick confirms every quote.</p>
+              </div>
+            </div>
+            <div class="wash-breakdown" data-seal-breakdown hidden>
+              <h3 class="wash-breakdown__title">Your Shine &amp; Seal estimate</h3>
+              <dl>
+                <div><dt>Area</dt><dd data-seal-sqft></dd></div>
+                <div class="wash-breakdown__total"><dt>Estimate</dt><dd data-seal-total></dd></div>
+              </dl>
+              <p class="form-confirm">Nick confirms every quote.</p>
+            </div>
+            <div class="form-result" data-form-thanks hidden>
+              <h3>Thanks, we have your quote request</h3>
+              <p class="estimate-live" data-estimate-result>We'll review and send your quote.</p>
+              <p>Nick confirms every quote. Nothing is stored on this website.</p>
+            </div>
+            <div class="form-result" data-form-result hidden>
+              <h3>We could not deliver the form from the website</h3>
+              <p class="estimate-live" data-estimate-result>We'll review and send your quote.</p>
+              <p>Your email app should open with the details addressed to reviveexterior@gmail.com. Photos were not attached this way. Please text photos of the driveway and pool deck to 321-795-0313. Nothing is stored on this website.</p>
+              <div class="cluster">
+                <a class="btn" data-mailto-link href="mailto:reviveexterior@gmail.com">Open the email</a>
+                <a class="btn btn--outline" data-sms-link href="sms:+13217950313">Text it instead</a>
+              </div>
+            </div>
+          </form>
         </div>
         <div class="section-head" style="margin-top:2.5rem">
           <h2 id="photos-heading">Before and after</h2>

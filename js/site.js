@@ -572,6 +572,8 @@
     var next = form.querySelector("[name=_next]");
     if (next && form.hasAttribute("data-wash-quote")) {
       next.value = window.location.origin + "/driveway-pool-deck-package/?thanks=1#wash-quote";
+    } else if (next && form.hasAttribute("data-seal-quote")) {
+      next.value = window.location.origin + "/driveway-pool-deck-package/?thanks=1#seal-quote";
     } else if (next) {
       next.value = window.location.origin + "/pricing/?thanks=1#quote";
     }
@@ -707,6 +709,20 @@
     box.hidden = false;
   }
 
+  function fillSealBreakdown(form, quote) {
+    var box = form.querySelector("[data-seal-breakdown]");
+    if (!box) return;
+    if (!quote || quote.wash) {
+      box.hidden = true;
+      return;
+    }
+    var sqft = box.querySelector("[data-seal-sqft]");
+    var total = box.querySelector("[data-seal-total]");
+    if (sqft) sqft.textContent = formatSqft(Math.round(quote.sqft)) + " sq ft";
+    if (total) total.textContent = moneyFromCents(quote.priceCents);
+    box.hidden = false;
+  }
+
   function estimateSentence(quote) {
     if (!quote) return "We'll review and send your quote.";
     if (quote.wash) return washLines(quote).sentence;
@@ -736,9 +752,11 @@
         el.textContent = lines.sentence;
       });
       fillWashBreakdown(form, quote);
+      fillSealBreakdown(form, null);
       return;
     }
     fillWashBreakdown(form, null);
+    fillSealBreakdown(form, quote);
     if (quote) {
       setHidden(form, "measured_sqft", Math.round(quote.sqft));
       setHidden(form, "instant_price", moneyFromCents(quote.priceCents));
@@ -774,6 +792,8 @@
     if (form.hasAttribute("data-wash-quote")) {
       body.append("package", "wash");
       body.append("stories", fieldValue(form, "stories"));
+    } else if (form.hasAttribute("data-seal-quote")) {
+      body.append("package", "seal");
     }
     files.forEach(function (file) {
       body.append("photo", file, file.name || "photo.jpg");
@@ -898,7 +918,7 @@
     var note = form.querySelector("[data-form-note]");
     var status = form.querySelector("[data-photo-status]");
     if (!picked && cfg.FORM_ENDPOINT && note) {
-      note.textContent = quoteNote(form.hasAttribute("data-wash-quote"));
+      note.textContent = quoteNote(form.hasAttribute("data-wash-quote") || form.hasAttribute("data-seal-quote"));
     }
     bindSizeEstimate(form);
     bindPhotos(form);
