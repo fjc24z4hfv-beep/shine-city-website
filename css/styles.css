@@ -309,16 +309,18 @@ a:hover { color: var(--blue-dark); }
   background-color: var(--navy-deep);
   /* Previous homepage hero, file kept in the repo: /images/hero/sealed-paver-driveway-palm.jpg
      Restore it by using that path here. */
-  background-image: url("/images/hero/sealed-paver-driveway-palm.jpg");
+  background-image: url("/images/hero/sealed-front-driveway.jpg");
   background-repeat: no-repeat;
-  /* Cover the whole hero, including the space under the button, and keep
-     the glossy pavers in frame. Desktop nudges the frame in the next rule. */
-  background-size: cover;
-  background-position: center 62%;
+  /* Same phone crop as before the price cards were removed: the photo is
+     shifted up so the headline sits on the garage, and 30% across so the
+     glossy patch on the left of the driveway stays in frame. */
+  background-size: auto calc(100% + 4rem);
+  background-position: 30% -4rem;
 }
 @media (min-width: 700px) {
   .hero {
-    background-position: center 48%;
+    background-size: cover;
+    background-position: center 46%;
     /* Near 3:2, so a typical desktop hero keeps the roof, garage, and driveway. */
     min-height: min(66.67vw, 56rem);
   }
@@ -902,12 +904,8 @@ a:hover { color: var(--blue-dark); }
   .easy .btn { scroll-margin-bottom: calc(5rem + env(safe-area-inset-bottom)); }
 }
 @media (max-width: 699px) {
-  /* A short run of photo under the button, then a modest navy gap. */
-  .hero {
-    padding-bottom: 5rem;
-    background-position: center 78%;
-  }
-  .package-promo { padding-top: 1.75rem; }
+  /* Match the pre-price-card photo height, then a normal gap into Shine & Save. */
+  .hero { min-height: 46rem; }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -1729,15 +1727,16 @@ a:hover { color: var(--blue-dark); }
   );
 }
 @media (max-width: 699px) {
-  /* Dark behind the headline, then clear over the pavers under the button. */
+  /* Phones: dark behind the text, then clear quickly so the driveway shine shows */
   .hero::after {
     background: linear-gradient(
       180deg,
-      rgba(17, 17, 17, 0.9) 0%,
-      rgba(17, 17, 17, 0.84) 42%,
-      rgba(17, 17, 17, 0.42) 62%,
-      rgba(17, 17, 17, 0.08) 76%,
-      rgba(17, 17, 17, 0) 84%
+      rgba(17, 17, 17, 0.9) 0,
+      rgba(17, 17, 17, 0.82) 240px,
+      rgba(17, 17, 17, 0.73) 350px,
+      rgba(17, 17, 17, 0.36) 425px,
+      rgba(17, 17, 17, 0.06) 510px,
+      rgba(17, 17, 17, 0) 580px
     );
   }
 }
