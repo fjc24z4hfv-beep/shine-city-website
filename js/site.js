@@ -258,7 +258,7 @@
     try {
       var data = JSON.parse(el.textContent);
       data.areaServed = buildAreaServed();
-      data.makesOffer = buildOffers();
+      if (data.makesOffer) data.makesOffer = buildOffers();
       el.textContent = JSON.stringify(data);
     } catch (err) {
       /* Leave the static JSON-LD in place if it cannot be parsed. */
