@@ -1738,14 +1738,22 @@ html[data-hero="b"] .hero__photo {
   height: 100%;
   max-width: none;
   object-fit: cover;
-  /* Low in the frame, so the sealed pavers fill the clear lower half. */
-  object-position: center 84%;
+  object-position: center 50%;
 }
-/* The closer photo is mostly deck. Sit a little higher on desktop so the pool stays in frame. */
-html[data-hero="b"] .hero__photo { object-position: center 62%; }
-@media (max-width: 699px) {
-  html[data-hero="a"] .hero__photo,
-  html[data-hero="b"] .hero__photo { object-position: center 72%; }
+/* Desktop crops a portrait photo. Hold the glass house and the sealed deck in the same frame. */
+@media (min-width: 700px) {
+  html[data-hero="a"] .hero__photo { object-position: center 30%; }
+  html[data-hero="b"] .hero__photo { object-position: center 25%; }
+}
+/* Fade only behind the headline. The house and deck stay clear. */
+html[data-hero="a"] .hero::after,
+html[data-hero="b"] .hero::after {
+  background: linear-gradient(
+    180deg,
+    rgba(17, 17, 17, 0.9) 0%,
+    rgba(17, 17, 17, 0.78) 14%,
+    rgba(17, 17, 17, 0) 24%
+  );
 }
 
 /* Shine & Save. One weight of Oleo Script Bold, self-hosted. */
