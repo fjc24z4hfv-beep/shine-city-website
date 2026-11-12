@@ -1135,6 +1135,34 @@ a:hover { color: var(--blue-dark); }
   height: auto;
   object-fit: contain;
 }
+/* Tall stacked poster. The whole frame stays visible, including a corner logo. */
+.job-photos .pair--stack .pair__grid {
+  grid-template-columns: minmax(0, 1fr);
+  justify-content: stretch;
+}
+.job-photos .pair--stack .shot {
+  max-width: none;
+  width: 100%;
+  aspect-ratio: auto;
+}
+.job-photos .pair--stack .shot img {
+  position: static;
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+  object-fit: contain;
+}
+.recent-jobs .pool-job {
+  display: grid;
+  gap: 1.6rem;
+  align-items: start;
+}
+@media (min-width: 800px) {
+  .recent-jobs .pool-job {
+    grid-template-columns: minmax(0, 1.65fr) minmax(14rem, 0.72fr);
+    gap: 1.25rem;
+  }
+}
 /* Two stacked driveway posters: side by side on desktop, full frame either way. */
 .poster-row {
   display: grid;
