@@ -307,35 +307,51 @@ a:hover { color: var(--blue-dark); }
 }
 .hero {
   background-color: var(--navy-deep);
-  /* Previous homepage hero, file kept in the repo: /images/hero/sealed-paver-driveway-palm.jpg
-     Restore it by using that path here. */
-  background-image: url("/images/hero/sealed-front-driveway.jpg");
-  background-repeat: no-repeat;
-  /* Same phone crop as before the price cards were removed: the photo is
-     shifted up so the headline sits on the garage, and 30% across so the
-     glossy patch on the left of the driveway stays in frame. */
-  background-size: auto calc(100% + 4rem);
-  background-position: 30% -4rem;
+  background-image: none;
+}
+.hero__photo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  object-fit: cover;
+  object-position: center 50%;
 }
 @media (min-width: 700px) {
   .hero {
-    background-size: cover;
-    background-position: center 46%;
-    /* Near 3:2, so a typical desktop hero keeps the roof, garage, and driveway. */
     min-height: min(66.67vw, 56rem);
   }
+  .hero__photo { object-position: center 30%; }
 }
 .hero::before { display: none; }
 .hero::after {
-  /* Darker behind the headline; lighter over the driveway so the sealed shine stays visible. */
   background: linear-gradient(
     180deg,
-    rgba(17, 17, 17, 0.74) 0%,
-    rgba(17, 17, 17, 0.5) 20%,
-    rgba(17, 17, 17, 0.26) 58%,
-    rgba(17, 17, 17, 0.12) 80%,
-    rgba(17, 17, 17, 0.04) 100%
+    rgba(17, 17, 17, 0.9) 0%,
+    rgba(17, 17, 17, 0.78) 14%,
+    rgba(17, 17, 17, 0) 24%
   );
+}
+.hero__copy {
+  position: relative;
+  max-width: 42rem;
+  padding: 30px;
+}
+.hero__copy .lede { margin-bottom: 0; }
+.hero__copy::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  border-radius: 16px;
+  background: rgba(17, 17, 17, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  pointer-events: none;
+}
+@media (min-width: 1024px) {
+  .hero { min-height: min(66.67vw, 56rem); }
+  .hero__photo { object-position: center 30%; }
 }
 .hero h1,
 .hero .lede,
@@ -373,9 +389,9 @@ a:hover { color: var(--blue-dark); }
 .easy {
   margin-top: 1.1rem;
   max-width: 40rem;
-  padding: 0.95rem 1rem 1rem;
+  padding: 30px;
   border-radius: 16px;
-  background: rgba(17, 17, 17, 0.62);
+  background: rgba(17, 17, 17, 0.75);
   border: 1px solid rgba(255, 255, 255, 0.28);
 }
 .easy__title {
@@ -906,6 +922,37 @@ a:hover { color: var(--blue-dark); }
 @media (max-width: 699px) {
   /* Match the pre-price-card photo height, then a normal gap into Shine & Save. */
   .hero { min-height: 46rem; }
+}
+/* Phone hero through 1023px: the 375px text column, with the left grass cropped out. */
+@media (max-width: 1023px) {
+  .hero {
+    min-height: 46rem;
+    padding: 1.2rem 0 calc(1.35rem + 4.75rem + env(safe-area-inset-bottom));
+  }
+  .hero .easy { display: none; }
+  .hero h1 { font-size: 1.85rem; margin-bottom: 0.2rem; }
+  .hero__serve { margin-bottom: 0.4rem; font-size: 0.95rem; }
+  .hero .lede { font-size: 1.15rem; margin-bottom: 0.75rem; }
+  .hero .container {
+    width: min(21.4375rem, calc(100% - 2rem));
+    margin-left: 1rem;
+    margin-right: auto;
+  }
+  .hero-cta .btn { width: 100%; min-width: 0; }
+  .hero__copy { padding: 22px; }
+  .hero__copy .lede { margin-bottom: 0; }
+  .hero__photo {
+    top: 0;
+    right: auto;
+    bottom: auto;
+    left: -9.6rem;
+    width: calc(100% + 18rem);
+    height: 112%;
+    max-width: none;
+    object-fit: cover;
+    object-position: left 22%;
+    transform: none;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -1715,17 +1762,6 @@ a:hover { color: var(--blue-dark); }
   .site-nav a { font-size: 0.98rem; padding-inline: 0.38rem; }
   .site-nav a.nav-packages .shine-save { font-size: 1.16rem; }
 }
-/* Black from the top of the hero, gone by the middle. The lower half stays clear. */
-.hero::after {
-  background: linear-gradient(
-    180deg,
-    rgba(17, 17, 17, 0.88) 0%,
-    rgba(17, 17, 17, 0.5) 28%,
-    rgba(17, 17, 17, 0.12) 42%,
-    rgba(17, 17, 17, 0) 50%
-  );
-}
-
 /* Shine & Save. One weight of Oleo Script Bold, self-hosted. */
 @font-face {
   font-family: "Oleo Script";
