@@ -324,6 +324,10 @@ a:hover { color: var(--blue-dark); }
   }
   .hero__photo { object-position: center 30%; }
 }
+@media (min-width: 1024px) {
+  .hero { min-height: min(82vw, 68rem); }
+  .hero__photo { object-position: center 72%; }
+}
 .hero::before { display: none; }
 .hero::after {
   /* Dark only behind the headline. The glass house and sealed deck stay clear. */
