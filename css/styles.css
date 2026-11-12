@@ -354,21 +354,6 @@ a:hover { color: var(--blue-dark); }
   .hero { min-height: min(66.67vw, 56rem); }
   .hero__photo { object-position: center 30%; }
 }
-/* Phones and tablets: crop out the grass and gravel in the bottom-left. */
-@media (max-width: 699px) {
-  .hero__photo {
-    object-position: 78% 14%;
-    transform: scale(1.32);
-    transform-origin: 78% 14%;
-  }
-}
-@media (min-width: 700px) and (max-width: 1023px) {
-  .hero__photo {
-    object-position: 90% 30%;
-    transform: scale(1.24);
-    transform-origin: 90% 30%;
-  }
-}
 .hero h1,
 .hero .lede,
 .hero .eyebrow,
@@ -938,6 +923,35 @@ a:hover { color: var(--blue-dark); }
 @media (max-width: 699px) {
   /* Match the pre-price-card photo height, then a normal gap into Shine & Save. */
   .hero { min-height: 46rem; }
+}
+/* Phone hero through 1023px: the 375px text column, with the left grass cropped out. */
+@media (max-width: 1023px) {
+  .hero {
+    min-height: 46rem;
+    padding: 1.2rem 0 calc(1.35rem + 4.75rem + env(safe-area-inset-bottom));
+  }
+  .hero .easy { display: none; }
+  .hero h1 { font-size: 1.85rem; margin-bottom: 0.2rem; }
+  .hero__serve { margin-bottom: 0.4rem; font-size: 0.95rem; }
+  .hero .lede { font-size: 1.15rem; margin-bottom: 0.75rem; }
+  .hero .container {
+    width: min(21.4375rem, calc(100% - 2rem));
+    margin-left: 1rem;
+    margin-right: auto;
+  }
+  .hero-cta .btn { width: 100%; min-width: 0; }
+  .hero__photo {
+    top: 0;
+    right: auto;
+    bottom: auto;
+    left: -9.6rem;
+    width: calc(100% + 18rem);
+    height: 112%;
+    max-width: none;
+    object-fit: cover;
+    object-position: left 22%;
+    transform: none;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
