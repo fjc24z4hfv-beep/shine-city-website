@@ -347,16 +347,6 @@ a:hover { color: var(--blue-dark); }
       rgba(17, 17, 17, 0) 24%
     );
   }
-  .hero__copy {
-    max-width: none;
-    padding: 0;
-    border: 0;
-    border-radius: 0;
-    background: none;
-  }
-  .hero__copy .hero__serve { margin: 0 0 0.7rem; }
-  .hero__copy .lede { margin-bottom: 1rem; }
-  .hero__copy + .hero-cta { margin-top: 0.15rem; }
 }
 .hero h1,
 .hero .lede,
