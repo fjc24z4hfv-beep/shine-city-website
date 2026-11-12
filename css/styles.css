@@ -354,6 +354,21 @@ a:hover { color: var(--blue-dark); }
   .hero { min-height: min(66.67vw, 56rem); }
   .hero__photo { object-position: center 30%; }
 }
+/* Phones and tablets: crop out the grass and gravel in the bottom-left. */
+@media (max-width: 699px) {
+  .hero__photo {
+    object-position: 78% 14%;
+    transform: scale(1.32);
+    transform-origin: 78% 14%;
+  }
+}
+@media (min-width: 700px) and (max-width: 1023px) {
+  .hero__photo {
+    object-position: 90% 30%;
+    transform: scale(1.24);
+    transform-origin: 90% 30%;
+  }
+}
 .hero h1,
 .hero .lede,
 .hero .eyebrow,
