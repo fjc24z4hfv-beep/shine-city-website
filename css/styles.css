@@ -307,34 +307,31 @@ a:hover { color: var(--blue-dark); }
 }
 .hero {
   background-color: var(--navy-deep);
-  /* Previous homepage hero, file kept in the repo: /images/hero/sealed-paver-driveway-palm.jpg
-     Restore it by using that path here. */
-  background-image: url("/images/hero/sealed-front-driveway.jpg");
-  background-repeat: no-repeat;
-  /* Same phone crop as before the price cards were removed: the photo is
-     shifted up so the headline sits on the garage, and 30% across so the
-     glossy patch on the left of the driveway stays in frame. */
-  background-size: auto calc(100% + 4rem);
-  background-position: 30% -4rem;
+  background-image: none;
+}
+.hero__photo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  object-fit: cover;
+  object-position: center 50%;
 }
 @media (min-width: 700px) {
   .hero {
-    background-size: cover;
-    background-position: center 46%;
-    /* Near 3:2, so a typical desktop hero keeps the roof, garage, and driveway. */
     min-height: min(66.67vw, 56rem);
   }
+  .hero__photo { object-position: center 30%; }
 }
 .hero::before { display: none; }
 .hero::after {
-  /* Darker behind the headline; lighter over the driveway so the sealed shine stays visible. */
+  /* Dark only behind the headline. The glass house and sealed deck stay clear. */
   background: linear-gradient(
     180deg,
-    rgba(17, 17, 17, 0.74) 0%,
-    rgba(17, 17, 17, 0.5) 20%,
-    rgba(17, 17, 17, 0.26) 58%,
-    rgba(17, 17, 17, 0.12) 80%,
-    rgba(17, 17, 17, 0.04) 100%
+    rgba(17, 17, 17, 0.9) 0%,
+    rgba(17, 17, 17, 0.78) 14%,
+    rgba(17, 17, 17, 0) 24%
   );
 }
 .hero h1,
@@ -1715,47 +1712,6 @@ a:hover { color: var(--blue-dark); }
   .site-nav a { font-size: 0.98rem; padding-inline: 0.38rem; }
   .site-nav a.nav-packages .shine-save { font-size: 1.16rem; }
 }
-/* Black from the top of the hero, gone by the middle. The lower half stays clear. */
-.hero::after {
-  background: linear-gradient(
-    180deg,
-    rgba(17, 17, 17, 0.88) 0%,
-    rgba(17, 17, 17, 0.5) 28%,
-    rgba(17, 17, 17, 0.12) 42%,
-    rgba(17, 17, 17, 0) 50%
-  );
-}
-/* Preview heroes: ?hero=a and ?hero=b. The default driveway photo stays until one is chosen. */
-.hero__photo { display: none; }
-html[data-hero="a"] .hero,
-html[data-hero="b"] .hero { background-image: none; }
-html[data-hero="a"] .hero__photo,
-html[data-hero="b"] .hero__photo {
-  display: block;
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  max-width: none;
-  object-fit: cover;
-  object-position: center 50%;
-}
-/* Desktop crops a portrait photo. Hold the glass house and the sealed deck in the same frame. */
-@media (min-width: 700px) {
-  html[data-hero="a"] .hero__photo { object-position: center 30%; }
-  html[data-hero="b"] .hero__photo { object-position: center 25%; }
-}
-/* Fade only behind the headline. The house and deck stay clear. */
-html[data-hero="a"] .hero::after,
-html[data-hero="b"] .hero::after {
-  background: linear-gradient(
-    180deg,
-    rgba(17, 17, 17, 0.9) 0%,
-    rgba(17, 17, 17, 0.78) 14%,
-    rgba(17, 17, 17, 0) 24%
-  );
-}
-
 /* Shine & Save. One weight of Oleo Script Bold, self-hosted. */
 @font-face {
   font-family: "Oleo Script";
