@@ -336,7 +336,9 @@ a:hover { color: var(--blue-dark); }
   background: rgba(17, 17, 17, 0.62);
   border: 1px solid rgba(255, 255, 255, 0.28);
 }
-.hero__copy .hero-cta { margin-bottom: 0; }
+.hero__copy .hero__serve { margin-bottom: 0.45rem; }
+.hero__copy .lede { margin-bottom: 0; }
+.hero__copy + .hero-cta { margin-top: 0.85rem; }
 .hero h1,
 .hero .lede,
 .hero .eyebrow,
