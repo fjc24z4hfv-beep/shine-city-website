@@ -1719,9 +1719,9 @@ a:hover { color: var(--blue-dark); }
 .hero::after {
   background: linear-gradient(
     180deg,
-    rgba(17, 17, 17, 0.88) 0%,
-    rgba(17, 17, 17, 0.5) 28%,
-    rgba(17, 17, 17, 0.12) 42%,
+    rgba(17, 17, 17, 0.9) 0%,
+    rgba(17, 17, 17, 0.75) 28%,
+    rgba(17, 17, 17, 0.45) 42%,
     rgba(17, 17, 17, 0) 50%
   );
 }
