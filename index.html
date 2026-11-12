@@ -28,7 +28,13 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap">
-  <link rel="stylesheet" href="/css/styles.css?v=20261110z">
+  <script>
+    (function () {
+      var choice = new URLSearchParams(location.search).get("hero");
+      if (choice === "a" || choice === "b") document.documentElement.setAttribute("data-hero", choice);
+    })();
+  </script>
+  <link rel="stylesheet" href="/css/styles.css?v=20261112a">
 
   <script type="application/ld+json" id="business-jsonld">
 
@@ -400,8 +406,39 @@
   <main id="main">
 
     <section class="hero" id="pricing">
+      <img class="hero__photo" alt="" width="1600" height="2000" decoding="async">
+      <script>
+        (function () {
+          var options = {
+            a: {
+              src: "/images/hero/pool-deck-after-1.jpg",
+              srcset: "/images/hero/pool-deck-after-1-800.jpg 800w, /images/hero/pool-deck-after-1.jpg 1600w",
+              width: 1600,
+              height: 2000,
+              caption: "Photo of a sealed light paver pool deck beside a pool and a glass house in Orlando."
+            },
+            b: {
+              src: "/images/hero/pool-deck-after-2.jpg",
+              srcset: "/images/hero/pool-deck-after-2-800.jpg 800w, /images/hero/pool-deck-after-2.jpg 1400w",
+              width: 1400,
+              height: 2133,
+              caption: "Photo of a closer view of a sealed light paver pool deck in Orlando."
+            }
+          };
+          var pick = options[document.documentElement.getAttribute("data-hero")];
+          if (!pick) return;
+          var img = document.querySelector(".hero__photo");
+          img.src = pick.src;
+          img.srcset = pick.srcset;
+          img.sizes = "100vw";
+          img.width = pick.width;
+          img.height = pick.height;
+          var caption = document.querySelector("[data-hero-caption]");
+          if (caption) caption.textContent = pick.caption;
+        })();
+      </script>
       <div class="container hero__inner">
-        <p class="visually-hidden">Photo of a glossy sealed paver driveway in front of a garage, with the roofline in view.</p>
+        <p class="visually-hidden" data-hero-caption>Photo of a glossy sealed paver driveway in front of a garage, with the roofline in view.</p>
         <!-- TAGLINE PROPOSAL, pending owner sign-off: "Seal the shine in." -->
         <p class="eyebrow">Seal the shine in.</p>
         <h1>Paver sealing for Orlando &amp; Central Florida</h1>
@@ -660,9 +697,9 @@
     <a href="tel:+13217950313">Call</a>
     <a href="sms:+13217950313">Text</a>
   </div>
-  <script src="/js/site-config.js?v=20261110z"></script>
-  <script src="/js/site.js?v=20261110z"></script>
-  <script src="/js/gallery.js?v=20261110z"></script>
+  <script src="/js/site-config.js?v=20261112a"></script>
+  <script src="/js/site.js?v=20261112a"></script>
+  <script src="/js/gallery.js?v=20261112a"></script>
 
 </body>
 </html>

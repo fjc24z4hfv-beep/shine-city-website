@@ -1725,6 +1725,28 @@ a:hover { color: var(--blue-dark); }
     rgba(17, 17, 17, 0) 50%
   );
 }
+/* Preview heroes: ?hero=a and ?hero=b. The default driveway photo stays until one is chosen. */
+.hero__photo { display: none; }
+html[data-hero="a"] .hero,
+html[data-hero="b"] .hero { background-image: none; }
+html[data-hero="a"] .hero__photo,
+html[data-hero="b"] .hero__photo {
+  display: block;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  object-fit: cover;
+  /* Low in the frame, so the sealed pavers fill the clear lower half. */
+  object-position: center 84%;
+}
+/* The closer photo is mostly deck. Sit a little higher on desktop so the pool stays in frame. */
+html[data-hero="b"] .hero__photo { object-position: center 62%; }
+@media (max-width: 699px) {
+  html[data-hero="a"] .hero__photo,
+  html[data-hero="b"] .hero__photo { object-position: center 72%; }
+}
 
 /* Shine & Save. One weight of Oleo Script Bold, self-hosted. */
 @font-face {
