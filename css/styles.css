@@ -328,16 +328,15 @@ a:hover { color: var(--blue-dark); }
   .hero { min-height: min(82vw, 68rem); }
   .hero__photo { object-position: center 72%; }
 }
-.hero::before { display: none; }
-.hero::after {
-  /* Dark only behind the headline. The glass house and sealed deck stay clear. */
-  background: linear-gradient(
-    180deg,
-    rgba(17, 17, 17, 0.9) 0%,
-    rgba(17, 17, 17, 0.78) 14%,
-    rgba(17, 17, 17, 0) 24%
-  );
+.hero::before, .hero::after { display: none; }
+.hero__copy {
+  max-width: 40rem;
+  padding: 0.95rem 1rem 1rem;
+  border-radius: 16px;
+  background: rgba(17, 17, 17, 0.62);
+  border: 1px solid rgba(255, 255, 255, 0.28);
 }
+.hero__copy .hero-cta { margin-bottom: 0; }
 .hero h1,
 .hero .lede,
 .hero .eyebrow,
