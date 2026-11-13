@@ -1086,14 +1086,42 @@ a:hover { color: var(--blue-dark); }
   color: var(--muted);
   font-size: 0.95rem;
 }
-.deck-reel { margin: 0; }
+.deck-reel {
+  /* Phone header is the 140px logo plus 0.45rem padding top and bottom.
+     The sticky bar is 0.55rem padding, a 48px button, and the safe area. */
+  --deck-header-h: calc(140px * 708 / 957 + 0.9rem);
+  --deck-bar-h: calc(1.1rem + 48px + env(safe-area-inset-bottom));
+  --deck-max-h: calc(100svh - var(--deck-header-h) - var(--deck-bar-h) - 16px);
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 .deck-reel video {
   display: block;
-  width: 100%;
+  width: min(100%, calc(var(--deck-max-h) * 9 / 16));
   height: auto;
-  max-width: 100%;
+  max-height: var(--deck-max-h);
+  aspect-ratio: 9 / 16;
+  object-fit: contain;
   border-radius: 16px;
   background: #111;
+}
+@media (max-width: 1099px) {
+  .deck-reel {
+    width: calc(100vw - 16px);
+    max-width: none;
+    margin-left: calc(50% - 50vw + 8px);
+  }
+}
+@media (min-width: 1100px) {
+  .deck-reel {
+    --deck-bar-h: 0px;
+    --deck-header-h: calc(96px * 708 / 957 + 0.9rem);
+  }
+}
+@media (min-width: 1280px) {
+  .deck-reel { --deck-header-h: calc(112px * 708 / 957 + 0.9rem); }
 }
 .benefits {
   display: grid;
