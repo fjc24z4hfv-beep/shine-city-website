@@ -1273,11 +1273,10 @@ a:hover { color: var(--blue-dark); }
   object-position: center center;
 }
 .driveway-compare figcaption { text-align: center; }
-/* Wide fire pit photo stays inside the driveway card frame. Cover would cut the pills and logo. */
-.job-photos .pair--firepit .shot { background: var(--paper); }
-.job-photos .pair--firepit .shot img { object-fit: contain; }
 @media (min-width: 700px) {
   .job-photos .driveway-compare .shot { aspect-ratio: 2160 / 960; }
+  /* This card stays the stacked frame, same as the phone house card. */
+  .job-photos .driveway-compare.pair--firepit .shot { aspect-ratio: 1080 / 1920; }
 }
 .feature-list { max-width: 52rem; }
 
