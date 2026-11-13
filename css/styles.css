@@ -1080,10 +1080,20 @@ a:hover { color: var(--blue-dark); }
   padding: 0.25rem 0.55rem;
 }
 .pair figcaption,
-.compare + figcaption {
+.compare + figcaption,
+.deck-reel figcaption {
   margin-top: 0.45rem;
   color: var(--muted);
   font-size: 0.95rem;
+}
+.deck-reel { margin: 0; }
+.deck-reel video {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+  border-radius: 16px;
+  background: #111;
 }
 .benefits {
   display: grid;
