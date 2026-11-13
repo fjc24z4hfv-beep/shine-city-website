@@ -1247,6 +1247,12 @@ a:hover { color: var(--blue-dark); }
   width: 100%;
 }
 .package-photos + .package-photos { margin-top: 1.75rem; }
+/* Gallery only: glass house poster on phones, side-by-side pair from 800px. */
+#recent-sealing .nick-wide { display: none; }
+@media (min-width: 800px) {
+  #recent-sealing .nick-poster { display: none; }
+  #recent-sealing .nick-wide { display: block; }
+}
 @media (min-width: 800px) {
   .job-photos .poster-row,
   .package-photos--posters .poster-row {
