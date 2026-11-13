@@ -2063,17 +2063,7 @@ h2.shine-save {
   text-transform: uppercase;
 }
 .ba-tag--before { display: none; left: 0.7rem; top: auto; bottom: 0.5rem; }
-.ba-tag--after { left: calc(50% + 0.7rem); background: #4EA5E8; }
-.ba-hero__logo {
-  position: absolute;
-  z-index: 3;
-  left: calc(50% + 0.45rem);
-  bottom: 0.35rem;
-  width: 3.6rem;
-  aspect-ratio: 957 / 708;
-  background: url("/assets/logo.png") center / contain no-repeat;
-  filter: drop-shadow(0 0 2px #fff) drop-shadow(0 0 5px #fff) drop-shadow(0 0 8px #fff);
-}
+.ba-tag--after { left: calc(50% + 0.7rem); top: auto; bottom: 0.5rem; background: #4EA5E8; }
 .ba-hero__inset {
   position: absolute;
   left: 1rem;
@@ -2102,7 +2092,7 @@ h2.shine-save {
   .page-hero--ba .lede { margin-bottom: 0; }
   .ba-hero__inset { display: none; }
   .ba-tag--before { display: block; left: 0.7rem; top: auto; bottom: 0.55rem; }
-  .ba-tag--after { left: calc(50% + 0.7rem); top: 0.7rem; }
+  .ba-tag--after { left: calc(50% + 0.7rem); top: auto; bottom: 0.55rem; }
 }
 /* Phones: same 50/50 split, short enough that the next section sits near the top. */
 @media (max-width: 760px) {
@@ -2122,8 +2112,7 @@ h2.shine-save {
   .ba-hero__inset { display: none; }
   .ba-tag { font-size: 0.62rem; padding: 0.16rem 0.4rem; top: 0.35rem; bottom: auto; }
   .ba-tag--before { display: block; left: 0.4rem; right: auto; top: auto; bottom: 0.3rem; }
-  .ba-tag--after { left: calc(50% + 0.4rem); right: auto; }
-  .ba-hero__logo { width: 2.7rem; left: calc(50% + 0.3rem); bottom: 0.25rem; }
+  .ba-tag--after { left: calc(50% + 0.4rem); right: auto; top: auto; bottom: 0.3rem; }
 }
 .ba-lede-short { display: none; }
 
