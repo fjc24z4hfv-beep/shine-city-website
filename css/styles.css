@@ -1182,6 +1182,34 @@ a:hover { color: var(--blue-dark); }
   height: auto;
   object-fit: contain;
 }
+/* Tall stacked poster. The whole frame stays visible, including the corner logo.
+   Full width of the column on phones; a readable width on desktop. */
+.job-photos .pair--stack .pair__grid,
+.package-photos .pair--stack .pair__grid {
+  grid-template-columns: minmax(0, 1fr);
+  justify-content: stretch;
+}
+.job-photos .pair--stack .shot,
+.package-photos .pair--stack .shot {
+  max-width: none;
+  width: 100%;
+  aspect-ratio: auto;
+}
+.job-photos .pair--stack .shot img,
+.package-photos .pair--stack .shot img {
+  position: static;
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+  object-fit: contain;
+}
+@media (min-width: 800px) {
+  .job-photos .pair--stack,
+  .package-photos .pair--stack {
+    justify-self: center;
+    width: min(100%, 26rem);
+  }
+}
 /* Two stacked driveway posters: side by side on desktop, full frame either way. */
 .poster-row {
   display: grid;
@@ -1201,6 +1229,28 @@ a:hover { color: var(--blue-dark); }
     grid-template-columns: 1fr 1fr;
     align-items: start;
     gap: 1.5rem;
+  }
+}
+/* Pool deck posters stay stacked on phones and share one width, side by side, on desktop. */
+.job-photos .poster-row,
+.package-photos--posters .poster-row {
+  grid-template-columns: minmax(0, 1fr);
+  width: 100%;
+}
+.package-photos + .package-photos { margin-top: 1.75rem; }
+@media (min-width: 800px) {
+  .job-photos .poster-row,
+  .package-photos--posters .poster-row {
+    grid-template-columns: repeat(2, minmax(0, 26rem));
+    justify-content: start;
+    align-items: start;
+    gap: 1.25rem;
+    width: min(100%, calc(52rem + 1.25rem));
+  }
+  .job-photos .poster-row .pair--stack,
+  .package-photos--posters .poster-row .pair--stack {
+    justify-self: stretch;
+    width: 100%;
   }
 }
 /* Driveway comparisons: full-width side by side from 700px, the tall stack below that. */
@@ -1693,6 +1743,7 @@ a:hover { color: var(--blue-dark); }
   gap: 1.75rem;
   max-width: 40rem;
 }
+.package-photos.package-photos--posters { max-width: calc(52rem + 1.25rem); }
 .package-photos--pairs { max-width: 55rem; }
 .package-photos .pair { margin: 0; }
 .package-photos .pair--solo .pair__grid {
