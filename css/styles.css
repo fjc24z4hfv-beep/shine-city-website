@@ -1242,6 +1242,7 @@ a:hover { color: var(--blue-dark); }
 .seal-results {
   display: grid;
   gap: 1.5rem;
+  margin-top: 2.5rem;
 }
 .seal-results__posters {
   display: grid;
