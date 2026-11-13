@@ -1238,6 +1238,40 @@ a:hover { color: var(--blue-dark); }
   width: 100%;
 }
 .package-photos + .package-photos { margin-top: 1.75rem; }
+/* Shine & Seal results: posters stack on phones, sit side by side from 800px. The wide photo stays full width. */
+.seal-results {
+  display: grid;
+  gap: 1.5rem;
+}
+.seal-results__posters {
+  display: grid;
+  gap: 1.25rem;
+}
+.seal-results .pair { margin: 0; }
+.seal-results .pair__grid {
+  grid-template-columns: minmax(0, 1fr);
+  justify-content: stretch;
+}
+.seal-results .shot {
+  width: 100%;
+  max-width: none;
+  aspect-ratio: auto;
+}
+.seal-results .shot img {
+  position: static;
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+  object-fit: contain;
+}
+.seal-results figcaption { text-align: center; }
+@media (min-width: 800px) {
+  .seal-results__posters {
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
+    gap: 1.5rem;
+  }
+}
 @media (min-width: 800px) {
   .job-photos .poster-row,
   .package-photos--posters .poster-row {
