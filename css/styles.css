@@ -995,6 +995,15 @@ a:hover { color: var(--blue-dark); }
   border: 0;
   background: #000;
 }
+.seal-reel { width: 100%; margin-top: 1.75rem; }
+.seal-reel video {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+  border-radius: 14px;
+  background: #111;
+}
 .video-placeholder {
   margin: 0;
   padding: 1.25rem;
