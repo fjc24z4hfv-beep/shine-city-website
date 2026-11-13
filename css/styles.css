@@ -1590,6 +1590,9 @@ a:hover { color: var(--blue-dark); }
   letter-spacing: 0.14em;
   text-transform: uppercase;
 }
+@media (max-width: 520px) {
+  .pkg-tile__desc .desc-line { display: block; }
+}
 .pkg-tile__offer {
   margin-top: 0.55rem;
   color: var(--white);
