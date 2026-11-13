@@ -70,8 +70,8 @@
   }
 
   function stageLabel(stage) {
-    if (stage === "before") return "Before";
-    if (stage === "after") return "After cleaning";
+    if (stage === "before") return "BEFORE";
+    if (stage === "after") return "AFTER";
     if (stage === "during") return "During cleaning";
     if (stage === "combined") return "Before and after";
     return stage || "";
@@ -126,7 +126,8 @@
 
   function shotButton(item) {
     var size = displaySize(item);
-    return '<button type="button" class="shot" data-full="' + esc(BASE + item.filename) +
+    var kind = item.stage === "before" ? " shot--before" : item.stage === "after" ? " shot--after" : "";
+    return '<button type="button" class="shot' + kind + '" data-full="' + esc(BASE + item.filename) +
       '" data-alt="' + esc(item.alt) + '" data-w="' + item.width + '" data-h="' + item.height + '">' +
       '<img src="' + esc(BASE + item.thumbnail) + '" alt="' + esc(item.alt) +
       '" width="' + size.width + '" height="' + size.height + '" loading="lazy" decoding="async">' +
@@ -185,8 +186,9 @@
     var cap = esc(caption(group));
     var buttons = (before && after ? [before, after] : group.items).map(shotButton).join("");
     var matched = before && after ? " pair--matched" : "";
+    var ba = before && after ? " pair--ba" : "";
     var native = group.service === "pool deck" ? " pair--native" : "";
-    return '<figure class="pair pair--split pair--full' + matched + native + '" data-service="' + esc(group.service) + '" data-job="' + esc(group.job) + '">' +
+    return '<figure class="pair pair--split pair--full' + ba + matched + native + '" data-service="' + esc(group.service) + '" data-job="' + esc(group.job) + '">' +
       '<div class="pair__grid"' + pairStyle(before, after) + ">" + buttons + "</div><figcaption>" + cap + "</figcaption></figure>";
   }
 

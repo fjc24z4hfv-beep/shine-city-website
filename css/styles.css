@@ -1253,30 +1253,82 @@ a:hover { color: var(--blue-dark); }
     width: 100%;
   }
 }
-/* Driveway comparisons: full-width side by side from 700px, the tall stack below that. */
-.job-photos .driveway-compare .pair__grid {
+/* Before/after cards: stacked on phones, one rounded frame, a thin white line between the photos. */
+.pair--ba > .pair__grid {
+  gap: 3px;
+  background: #fff;
+  border-radius: 16px;
+  overflow: hidden;
+}
+.pair--ba .shot { border-radius: 0; }
+.job-photos .pair--ba > .pair__grid,
+.lead-pair .pair--ba > .pair__grid,
+.gallery-grid .pair--ba > .pair__grid,
+.recent-jobs .pair--ba > .pair__grid,
+.package-photos .pair--ba > .pair__grid,
+.package-photos--pairs .pair--ba > .pair__grid,
+.wash-section .pair--ba > .pair__grid {
   grid-template-columns: minmax(0, 1fr);
-  justify-content: stretch;
+  gap: 3px;
 }
-.job-photos .driveway-compare .shot {
+.job-photos .pair--natural .shot,
+.package-photos .pair--natural .shot,
+.recent-jobs .pair--natural .shot {
+  aspect-ratio: auto;
   max-width: none;
   width: 100%;
-  aspect-ratio: 1080 / 1920;
+  background: transparent;
 }
-.job-photos .driveway-compare .shot img {
-  position: absolute;
-  inset: 0;
+.job-photos .pair--natural .shot img,
+.package-photos .pair--natural .shot img,
+.recent-jobs .pair--natural .shot img {
+  position: static;
   width: 100%;
-  height: 100%;
-  max-width: none;
+  height: auto;
+  max-width: 100%;
   object-fit: contain;
-  object-position: center center;
 }
-.driveway-compare figcaption { text-align: center; }
-@media (min-width: 700px) {
-  .job-photos .driveway-compare .shot { aspect-ratio: 2160 / 960; }
-  /* This card stays the stacked frame, same as the phone house card. */
-  .job-photos .driveway-compare.pair--firepit .shot { aspect-ratio: 1080 / 1920; }
+.pair--natural > .pair__grid { align-items: start; }
+.shot--before > .shot__tag,
+.shot--after > .shot__tag {
+  top: 0.5rem;
+  bottom: auto;
+  left: 0.5rem;
+  z-index: 2;
+  max-width: none;
+  background: #111;
+  color: #fff;
+  border-radius: 999px;
+  padding: 0.28rem 0.62rem;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+.shot--after > .shot__tag { background: #4EA5E8; }
+.shot--after::after {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  left: 0.45rem;
+  bottom: 0.35rem;
+  width: 4.6rem;
+  aspect-ratio: 957 / 708;
+  background: url("/assets/logo.png") center / contain no-repeat;
+  filter: drop-shadow(0 0 2px #fff) drop-shadow(0 0 5px #fff) drop-shadow(0 0 8px #fff);
+  pointer-events: none;
+}
+@media (min-width: 800px) {
+  .job-photos .pair--split.pair--ba > .pair__grid,
+  .lead-pair .pair--split.pair--ba > .pair__grid,
+  .gallery-grid .pair--split.pair--ba > .pair__grid,
+  .recent-jobs .pair--split.pair--ba > .pair__grid,
+  .package-photos .pair--split.pair--ba > .pair__grid,
+  .package-photos--pairs .pair--split.pair--ba > .pair__grid,
+  .wash-section .pair--split.pair--ba > .pair__grid {
+    grid-template-columns: 1fr 1fr;
+  }
 }
 .feature-list { max-width: 52rem; }
 
@@ -1998,19 +2050,30 @@ h2.shine-save {
 }
 .ba-tag {
   position: absolute;
-  bottom: 1rem;
-  padding: 0.3rem 0.65rem;
-  border-radius: 6px;
-  background: rgba(17,17,17,0.78);
+  top: 0.55rem;
+  bottom: auto;
+  z-index: 3;
+  padding: 0.28rem 0.62rem;
+  border-radius: 999px;
+  background: #111;
   color: #fff;
-  font-size: 0.75rem;
+  font-size: 0.72rem;
   font-weight: 800;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
-  border-bottom: 3px solid var(--brand);
 }
-.ba-tag--before { display: none; left: 1rem; }
-.ba-tag--after { right: 1rem; }
+.ba-tag--before { display: none; left: 0.7rem; top: auto; bottom: 0.5rem; }
+.ba-tag--after { left: calc(50% + 0.7rem); background: #4EA5E8; }
+.ba-hero__logo {
+  position: absolute;
+  z-index: 3;
+  left: calc(50% + 0.45rem);
+  bottom: 0.35rem;
+  width: 3.6rem;
+  aspect-ratio: 957 / 708;
+  background: url("/assets/logo.png") center / contain no-repeat;
+  filter: drop-shadow(0 0 2px #fff) drop-shadow(0 0 5px #fff) drop-shadow(0 0 8px #fff);
+}
 .ba-hero__inset {
   position: absolute;
   left: 1rem;
@@ -2038,8 +2101,8 @@ h2.shine-save {
   .page-hero--ba h1 { margin-bottom: 0.28rem; }
   .page-hero--ba .lede { margin-bottom: 0; }
   .ba-hero__inset { display: none; }
-  .ba-tag--before { display: block; left: calc(50% - 7.5rem); }
-  .ba-tag--after { right: auto; left: calc(50% + 1rem); }
+  .ba-tag--before { display: block; left: 0.7rem; top: auto; bottom: 0.55rem; }
+  .ba-tag--after { left: calc(50% + 0.7rem); top: 0.7rem; }
 }
 /* Phones: same 50/50 split, short enough that the next section sits near the top. */
 @media (max-width: 760px) {
@@ -2057,9 +2120,10 @@ h2.shine-save {
   .page-hero--ba .ba-lede-full { display: none; }
   .page-hero--ba .ba-lede-short { display: inline; }
   .ba-hero__inset { display: none; }
-  .ba-tag { font-size: 0.62rem; padding: 0.15rem 0.38rem; bottom: 0.35rem; }
-  .ba-tag--before { display: block; left: 0.5rem; right: auto; }
-  .ba-tag--after { left: auto; right: 0.5rem; }
+  .ba-tag { font-size: 0.62rem; padding: 0.16rem 0.4rem; top: 0.35rem; bottom: auto; }
+  .ba-tag--before { display: block; left: 0.4rem; right: auto; top: auto; bottom: 0.3rem; }
+  .ba-tag--after { left: calc(50% + 0.4rem); right: auto; }
+  .ba-hero__logo { width: 2.7rem; left: calc(50% + 0.3rem); bottom: 0.25rem; }
 }
 .ba-lede-short { display: none; }
 
