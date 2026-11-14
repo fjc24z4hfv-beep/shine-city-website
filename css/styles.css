@@ -1913,17 +1913,29 @@ a:hover { color: var(--blue-dark); }
   .site-nav a { font-size: 0.98rem; padding-inline: 0.38rem; }
   .site-nav a.nav-packages .shine-save { font-size: 1.16rem; }
 }
-/* Shine & Save. One weight of Oleo Script Bold, self-hosted. */
+/* Shine & Save. One file of Oleo Script Bold, self-hosted.
+   Registered at 700 and 800 so a heading weight does not skip the file
+   and paint a generic cursive fallback on iPhone. */
 @font-face {
   font-family: "Oleo Script";
   src: url("/fonts/oleo-script-bold.woff2") format("woff2");
   font-weight: 700;
   font-style: normal;
-  font-display: swap;
+  font-display: block;
+}
+@font-face {
+  font-family: "Oleo Script";
+  src: url("/fonts/oleo-script-bold.woff2") format("woff2");
+  font-weight: 800;
+  font-style: normal;
+  font-display: block;
 }
 
-.shine-save {
-  font-family: "Oleo Script", "Segoe Script", cursive;
+.shine-save,
+h1.shine-save,
+h2.shine-save,
+.pkg-tile__name.shine-save {
+  font-family: "Oleo Script", "Plus Jakarta Sans", sans-serif;
   font-weight: 700;
   font-style: normal;
   font-synthesis: none;
