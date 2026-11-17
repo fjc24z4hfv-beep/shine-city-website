@@ -351,8 +351,8 @@ a:hover { color: var(--blue-dark); }
 @media (min-width: 1024px) {
   /* Stay inside a short desktop window so the deck edge is not below the fold. */
   .hero { min-height: min(66.67vw, 56rem, calc(100svh - 7.5rem)); }
-  /* More deck than 30%, without dropping the pool and house. */
-  .hero__photo { object-position: center 65%; }
+  /* Mid-frame: pool and house stay in view, gravel in the corner stays out. */
+  .hero__photo { object-position: center 50%; }
 }
 .hero h1,
 .hero .lede,
