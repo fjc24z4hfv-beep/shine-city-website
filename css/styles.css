@@ -1379,6 +1379,34 @@ a:hover { color: var(--blue-dark); }
     grid-template-columns: 1fr 1fr;
   }
 }
+/* Two-image pairs share the after photo's frame, so cover does not cut a logo on that photo. */
+.pair--ba.pair--split > .pair__grid { align-items: stretch; }
+.job-photos .pair--ba.pair--split .shot,
+.lead-pair .pair--ba.pair--split .shot,
+.recent-jobs .pair--ba.pair--split .shot,
+.gallery-grid .pair--ba.pair--split .shot,
+.package-photos .pair--ba.pair--split .shot,
+.package-photos--pairs .pair--ba.pair--split .shot,
+.wash-section .pair--ba.pair--split .shot {
+  aspect-ratio: var(--aw) / var(--ah);
+  width: 100%;
+  height: auto;
+}
+.job-photos .pair--ba.pair--split .shot img,
+.lead-pair .pair--ba.pair--split .shot img,
+.recent-jobs .pair--ba.pair--split .shot img,
+.gallery-grid .pair--ba.pair--split .shot img,
+.package-photos .pair--ba.pair--split .shot img,
+.package-photos--pairs .pair--ba.pair--split .shot img,
+.wash-section .pair--ba.pair--split .shot img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  object-fit: cover;
+  object-position: center center;
+}
 .feature-list { max-width: 52rem; }
 
 .compare {
