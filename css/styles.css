@@ -1372,6 +1372,18 @@ a:hover { color: var(--blue-dark); }
   .wash-section .pair--split.pair--ba > .pair__grid {
     grid-template-columns: 1fr 1fr;
   }
+  /* Driveway pair: both halves match the after photo, so cover does not cut its logo. */
+  .package-photos .pair--driveway.pair--natural > .pair__grid { align-items: stretch; }
+  .package-photos .pair--driveway.pair--natural .shot { aspect-ratio: 1920 / 1280; }
+  .package-photos .pair--driveway.pair--natural .shot img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    object-fit: cover;
+    object-position: center center;
+  }
 }
 .feature-list { max-width: 52rem; }
 
